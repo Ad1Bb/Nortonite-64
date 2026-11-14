@@ -1,0 +1,275 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Nortonite 64 · ustawienia (makieta 07)
+        Lista sekcji w panelu przy prawej krawędzi, treść sekcji w ramce po lewej.
+        Aktywna sekcja: ► i żółty tekst (rozpoznawana po nazwie klasy otwartej sekcji:
+        SelectedSectionView.DependencyObjectType.Name).
+        Treść sekcji tworzy Playnite; motyw stylizuje jej elementy.
+    -->
+    <Style x:Key="SettingsMenuBorder" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource NortniteBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="TextElement.FontFamily" Value="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}" />
+        <Setter Property="TextElement.FontSize" Value="33" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Setter Property="BorderThickness" Value="3,0,3,0" />
+    </Style>
+
+    <Style x:Key="SettingsSectionBorder" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource NortniteBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="BorderThickness" Value="3" />
+        <Setter Property="TextElement.FontFamily" Value="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}" />
+        <Setter Property="TextElement.FontSize" Value="33" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Setter Property="Margin" Value="0,0,30,0" />
+        <Setter Property="Padding" Value="15" />
+    </Style>
+
+    <Style x:Key="SettingsMenuButton" TargetType="ButtonEx">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Padding" Value="15,9,15,9" />
+        <Setter Property="MinHeight" Value="60" />
+        <Setter Property="FontSize" Value="33" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template" Value="{DynamicResource NortniteRowButtonTemplate}" />
+        <Setter Property="Margin" Value="15,1.5,15,1.5" />
+        <Style.Triggers>
+            <!-- Gdy sekcja jest otwarta, Playnite wyłącza menu: bez przyciemnienia, aktywna pozycja zostaje widoczna -->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="1" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <DataTemplate x:Key="SettingsMenuHeaderTemplate">
+        <Border Style="{StaticResource NortniteWindowHeader}" Padding="24,33,24,21" Margin="0,0,0,15">
+            <TextBlock Text="{DynamicResource LOCNortniteSettingsTitle}" TextTrimming="CharacterEllipsis" />
+        </Border>
+    </DataTemplate>
+
+    <!-- Ikona i etykieta pozycji menu ustawień: przy aktywnej sekcji ► i żółty tekst
+         (DockPanel szablonu dostaje Tag="active"). -->
+    <Style x:Key="SettingsMenuIcon" TargetType="TextBlock">
+        <Setter Property="Width" Value="33" />
+        <Setter Property="Margin" Value="0,0,12,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteDimBrush}" />
+        <Setter Property="Text" Value="{Binding Tag, RelativeSource={RelativeSource Self}}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=DockPanel}}" Value="active">
+                <Setter Property="Text" Value="►" />
+                <Setter Property="Foreground" Value="{DynamicResource NortniteAccentBrush}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsFocused, RelativeSource={RelativeSource AncestorType=ButtonBase}}" Value="True">
+                <Setter Property="Text" Value="►" />
+                <Setter Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="SettingsMenuLabel" TargetType="TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=DockPanel}}" Value="active">
+                <Setter Property="Foreground" Value="{DynamicResource NortniteAccentBrush}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <DataTemplate x:Key="SettingsMenuGeneralButtonTemplate">
+        <DockPanel>
+            <DockPanel.Style>
+                <Style TargetType="DockPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.SelectedSectionView.DependencyObjectType.Name, RelativeSource={RelativeSource AncestorType=Window}}" Value="General">
+                            <Setter Property="Tag" Value="active" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
+            <TextBlock Style="{StaticResource SettingsMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource SettingsMenuLabel}" Text="{DynamicResource LOCSettingsFSSectionGeneral}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="SettingsMenuVisualsButtonTemplate">
+        <DockPanel>
+            <DockPanel.Style>
+                <Style TargetType="DockPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.SelectedSectionView.DependencyObjectType.Name, RelativeSource={RelativeSource AncestorType=Window}}" Value="Visuals">
+                            <Setter Property="Tag" Value="active" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
+            <TextBlock Style="{StaticResource SettingsMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource SettingsMenuLabel}" Text="{DynamicResource LOCSettingsFSSectionVisuals}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="SettingsMenuAudioButtonTemplate">
+        <DockPanel>
+            <DockPanel.Style>
+                <Style TargetType="DockPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.SelectedSectionView.DependencyObjectType.Name, RelativeSource={RelativeSource AncestorType=Window}}" Value="Audio">
+                            <Setter Property="Tag" Value="active" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
+            <TextBlock Style="{StaticResource SettingsMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource SettingsMenuLabel}" Text="{DynamicResource LOCSettingsFSSectionAudio}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="SettingsMenuLayoutButtonTemplate">
+        <DockPanel>
+            <DockPanel.Style>
+                <Style TargetType="DockPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.SelectedSectionView.DependencyObjectType.Name, RelativeSource={RelativeSource AncestorType=Window}}" Value="Layout">
+                            <Setter Property="Tag" Value="active" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
+            <TextBlock Style="{StaticResource SettingsMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource SettingsMenuLabel}" Text="{DynamicResource LOCSettingsFSSectionLayout}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="SettingsMenuMenusButtonTemplate">
+        <DockPanel>
+            <DockPanel.Style>
+                <Style TargetType="DockPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.SelectedSectionView.DependencyObjectType.Name, RelativeSource={RelativeSource AncestorType=Window}}" Value="Menus">
+                            <Setter Property="Tag" Value="active" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
+            <TextBlock Style="{StaticResource SettingsMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource SettingsMenuLabel}" Text="{DynamicResource LOCSettingsFSSectionMenus}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="SettingsMenuInputButtonTemplate">
+        <DockPanel>
+            <DockPanel.Style>
+                <Style TargetType="DockPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.SelectedSectionView.DependencyObjectType.Name, RelativeSource={RelativeSource AncestorType=Window}}" Value="Input">
+                            <Setter Property="Tag" Value="active" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
+            <TextBlock Style="{StaticResource SettingsMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource SettingsMenuLabel}" Text="{DynamicResource LOCSettingsFSSection}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <!-- ===== Elementy treści sekcji ===== -->
+    <Thickness x:Key="SettingsSectionItemSpacing">0,4.5,0,4.5</Thickness>
+
+    <Style x:Key="SettingsSectionSlider" TargetType="SliderEx" BasedOn="{StaticResource {x:Type SliderEx}}">
+        <Setter Property="Width" Value="420" />
+        <Setter Property="Margin" Value="{DynamicResource SettingsSectionItemSpacing}" />
+    </Style>
+
+    <!-- Wiersz "etykieta …… [■]"; fokus: odwrócenie + żółta obwódka -->
+    <Style x:Key="SettingsSectionCheckbox" TargetType="CheckBoxEx">
+        <Setter Property="Margin" Value="{DynamicResource SettingsSectionItemSpacing}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Padding" Value="12,6,12,6" />
+        <Setter Property="MinHeight" Value="51" />
+        <Setter Property="FontSize" Value="{DynamicResource NortniteFontSize}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Grid>
+                        <Border x:Name="Bd" Margin="3" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <Grid x:Name="Inner"
+                                  TextElement.Foreground="{TemplateBinding Foreground}"
+                                  TextElement.FontSize="{TemplateBinding FontSize}"
+                                  TextElement.FontFamily="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter Grid.Column="0" VerticalAlignment="Center" RecognizesAccessKey="True" />
+                                <Line x:Name="Leader" Grid.Column="1" Style="{StaticResource NortniteDotLeader}" />
+                                <StackPanel x:Name="Box" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center"
+                                            TextElement.Foreground="{DynamicResource NortniteBrightBrush}">
+                                    <TextBlock Text="[" VerticalAlignment="Center" />
+                                    <Grid Width="21" Height="21" Margin="2,0,2,0" VerticalAlignment="Center">
+                                        <Rectangle x:Name="Mark" Width="15" Height="15"
+                                                   Fill="{DynamicResource NortniteBrightBrush}" Visibility="Hidden" />
+                                    </Grid>
+                                    <TextBlock Text="]" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                        <!-- obwódka wewnątrz kontrolki (tło wcięte o 3), bo wiersze na pełną szerokość ucina kontener z przycinaniem (np. okno Theme Options) -->
+                        <Border x:Name="FocusRing" Margin="0" BorderThickness="3"
+                                BorderBrush="{DynamicResource NortniteAccentBrush}" Visibility="Collapsed" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Mark" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource NortniteBarBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="Box" Property="TextElement.Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="Mark" Property="Fill" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="Leader" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SettingsSectionCombobox" TargetType="ComboBoxEx" BasedOn="{StaticResource {x:Type ComboBoxEx}}">
+        <Setter Property="MinWidth" Value="300" />
+        <Setter Property="Margin" Value="{DynamicResource SettingsSectionItemSpacing}" />
+    </Style>
+
+    <!-- Etykieta wiersza z suwakiem/listą: żółta, gdy element w tym wierszu (DockPanel) ma fokus -->
+    <Style x:Key="SettingsSectionText" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBaseStyle}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="12,0,12,0" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource AncestorType=DockPanel}}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource NortniteAccentBrush}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

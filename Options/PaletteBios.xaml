@@ -1,0 +1,66 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Nortonite 64 · paleta BIOS (preset Theme Options, options.yaml).
+         Nadpisuje role kolorów z Constants.xaml. Wczytywana tylko przez dodatek Theme Options. -->
+    <!-- Role: kolory -->
+    <Color x:Key="NortniteBackgroundColor">#FFAAAAAA</Color>                  <!-- tło ekranu, paneli, okien, wypełnienie zwykłych przycisków -->
+    <Color x:Key="NortniteForegroundColor">#FF0000AA</Color>                  <!-- etykiety, ramki, linie, nagłówki kolumn poza akcentem, tekst zwykłych przycisków, suwak przewijania -->
+    <Color x:Key="NortniteBrightColor">#FF000000</Color>                      <!-- wartości, nazwy gier na liście, treść komunikatów -->
+    <Color x:Key="NortniteAccentColor">#FF7A0000</Color>                      <!-- tytuły, nagłówki kolumn, etykieta HLTB, wypełnione segmenty pasków, obwódka fokusu -->
+    <Color x:Key="NortniteBarColor">#FF0000AA</Color>                         <!-- belka menu, tytuł aktywnego panelu, zaznaczony wiersz listy, aktywny preset -->
+    <Color x:Key="NortniteBarForegroundColor">#FFFFFFFF</Color>               <!-- tekst na tle Bar -->
+    <Color x:Key="NortniteDimColor">#FF5F5F5F</Color>                         <!-- kropki "etykieta …… wartość", puste segmenty pasków, jasne kratki toru przewijania, linie ozdobne -->
+    <Color x:Key="NortniteButtonShadowColor">#FF555555</Color>                <!-- twardy cień przycisków -->
+    <Color x:Key="NortniteFocusFillColor">#FFFFFFFF</Color>                   <!-- tło zaznaczonego przycisku -->
+    <Color x:Key="NortniteFocusForegroundColor">#FF000000</Color>             <!-- tekst zaznaczonego przycisku -->
+    <Color x:Key="NortniteCommandBackgroundColor">#FF000000</Color>           <!-- tło wiersza poleceń i belki przycisków pada -->
+    <Color x:Key="NortniteCommandForegroundColor">#FFAAAAAA</Color>           <!-- tekst wiersza poleceń, kursor -->
+    <Color x:Key="NortnitePadBackgroundColor">#FF555555</Color>               <!-- tło symbolu przycisku pada -->
+    <Color x:Key="NortnitePadForegroundColor">#FFFFFFFF</Color>               <!-- symbol przycisku pada -->
+    <Color x:Key="NortniteErrorColor">#FF7A0000</Color>                       <!-- etykieta [ BŁĄD ] w powiadomieniach -->
+    <Color x:Key="NortniteOverlayColor">#73000000</Color>                     <!-- przyciemnienie pod oknami (czarny z kryciem) -->
+    <!-- Role: pędzle (kolor wpisany wprost, bo pędzel w zasobach nie śledzi zmiany koloru) -->
+    <SolidColorBrush x:Key="NortniteBackgroundBrush" Color="#FFAAAAAA" />
+    <SolidColorBrush x:Key="NortniteForegroundBrush" Color="#FF0000AA" />
+    <SolidColorBrush x:Key="NortniteBrightBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="NortniteAccentBrush" Color="#FF7A0000" />
+    <SolidColorBrush x:Key="NortniteBarBrush" Color="#FF0000AA" />
+    <SolidColorBrush x:Key="NortniteBarForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="NortniteDimBrush" Color="#FF5F5F5F" />
+    <SolidColorBrush x:Key="NortniteButtonShadowBrush" Color="#FF555555" />
+    <SolidColorBrush x:Key="NortniteFocusFillBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="NortniteFocusForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="NortniteCommandBackgroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="NortniteCommandForegroundBrush" Color="#FFAAAAAA" />
+    <SolidColorBrush x:Key="NortnitePadBackgroundBrush" Color="#FF555555" />
+    <SolidColorBrush x:Key="NortnitePadForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="NortniteErrorBrush" Color="#FF7A0000" />
+    <SolidColorBrush x:Key="NortniteOverlayBrush" Color="#73000000" />
+    <!-- Klucze motywu domyślnego Playnite przemapowane na role -->
+    <Color x:Key="BlackColor">#FF000000</Color>
+    <Color x:Key="WhiteColor">#FF000000</Color>
+    <Color x:Key="GlyphColor">#FF7A0000</Color>
+    <Color x:Key="GlyphLightColor">#FF7A0000</Color>
+    <Color x:Key="SelectionLightColor">#FF0000AA</Color>
+    <Color x:Key="OverlayColor">#73000000</Color>
+    <Color x:Key="ControlBackgroundColor">#FFAAAAAA</Color>
+    <Color x:Key="ControlBackgroundColorDark">#FFAAAAAA</Color>
+    <Color x:Key="TextColor">#FF0000AA</Color>
+    <Color x:Key="TextColorDark">#FF5F5F5F</Color>
+    <SolidColorBrush x:Key="TextBrush" Color="#FF0000AA" />
+    <SolidColorBrush x:Key="TextBrushDark" Color="#FF5F5F5F" />
+    <SolidColorBrush x:Key="GlyphBrush" Color="#FF7A0000" />
+    <SolidColorBrush x:Key="GlyphLightBrush" Color="#FF7A0000" />
+    <SolidColorBrush x:Key="ControlBackgroundBrush" Color="#FFAAAAAA" />
+    <SolidColorBrush x:Key="ControlBackgroundDarkBrush" Color="#FFAAAAAA" />
+    <SolidColorBrush x:Key="SelectionLightBrush" Color="#FF0000AA" />
+    <SolidColorBrush x:Key="OverlayBrush" Color="#73000000" />
+    <SolidColorBrush x:Key="CheckBoxCheckMarkBkBrush" Color="#FFAAAAAA" />
+    <SolidColorBrush x:Key="MainBackgourndBrush" Color="#FFAAAAAA" />
+    <SolidColorBrush x:Key="TopBarBackgroundBrush" Color="#FF0000AA" />
+    <SolidColorBrush x:Key="BottomBarBackgroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="OverlayMenuBackgroundBrush" Color="#FFAAAAAA" />
+    <SolidColorBrush x:Key="SelectionBrush" Color="#FF7A0000" />
+    <SolidColorBrush x:Key="GameDetailsBackgroundBrush" Color="#FFAAAAAA" />
+    <SolidColorBrush x:Key="WarningBrush" Color="#FF7A0000" />
+</ResourceDictionary>

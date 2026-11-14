@@ -1,0 +1,153 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Nortonite 64: lista rozwijana jako wiersz "etykieta …… wartość ►".
+         Etykieta pochodzi z AutomationProperties.Name (Playnite ustawia ją
+         dla list w panelu filtrów); bez niej zostaje sama wartość z ►. -->
+    <Style TargetType="ComboBox">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteBrightBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Padding" Value="12,6,12,6" />
+        <Setter Property="MinHeight" Value="48" />
+        <Setter Property="HorizontalContentAlignment" Value="Right" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="{DynamicResource NortniteFontSize}" />
+        <Setter Property="MaxDropDownHeight" Value="600" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <ToggleButton x:Name="ToggleButton" Focusable="False" ClickMode="Press"
+                                      IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                    <Border Background="Transparent" />
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
+
+                        <Border x:Name="Bd" Margin="3" Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}" IsHitTestVisible="False">
+                            <Grid x:Name="Inner"
+                                  TextElement.Foreground="{DynamicResource NortniteForegroundBrush}"
+                                  TextElement.FontSize="{TemplateBinding FontSize}"
+                                  TextElement.FontFamily="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Name="Label" Grid.Column="0" VerticalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis" MaxWidth="400"
+                                           Text="{Binding (AutomationProperties.Name), RelativeSource={RelativeSource TemplatedParent}}" />
+                                <Line x:Name="Leader" Grid.Column="1" Style="{StaticResource NortniteDotLeader}" />
+                                <ContentPresenter x:Name="Value" Grid.Column="2" VerticalAlignment="Center"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  TextElement.Foreground="{TemplateBinding Foreground}"
+                                                  Content="{TemplateBinding SelectionBoxItem}"
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" />
+                                <TextBlock Grid.Column="3" Text=" ►" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <!-- obwódka wewnątrz kontrolki (tło wcięte o 3), bo wiersze na pełną szerokość ucina kontener z przycinaniem (np. okno Theme Options) -->
+                        <Border x:Name="FocusRing" Margin="0" IsHitTestVisible="False"
+                                BorderBrush="{DynamicResource NortniteAccentBrush}"
+                                BorderThickness="3" Visibility="Collapsed" />
+
+                        <Popup x:Name="Popup" IsOpen="{TemplateBinding IsDropDownOpen}"
+                               Placement="Bottom" Focusable="False" AllowsTransparency="True">
+                            <Grid MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                  MinWidth="{TemplateBinding ActualWidth}"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                <Border BorderBrush="{DynamicResource NortniteForegroundBrush}"
+                                        Background="{DynamicResource NortniteBackgroundBrush}"
+                                        BorderThickness="2">
+                                    <Border BorderBrush="{DynamicResource NortniteForegroundBrush}"
+                                            BorderThickness="2" Margin="2" Padding="6">
+                                        <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                                      VerticalScrollBarVisibility="Auto">
+                                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                        </ScrollViewer>
+                                    </Border>
+                                </Border>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding (AutomationProperties.Name), RelativeSource={RelativeSource Self}}" Value="">
+                            <Setter TargetName="Label" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="Leader" Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding (AutomationProperties.Name), RelativeSource={RelativeSource Self}}" Value="{x:Null}">
+                            <Setter TargetName="Label" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="Leader" Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource NortniteBarBrush}" />
+                            <Setter TargetName="Inner" Property="TextElement.Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="Value" Property="TextElement.Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="Leader" Property="Stroke" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Padding" Value="12,6,12,6" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="{DynamicResource NortniteFontSize}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                    <Grid>
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter x:Name="Cp"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              TextElement.Foreground="{TemplateBinding Foreground}"
+                                              TextElement.FontSize="{TemplateBinding FontSize}"
+                                              TextElement.FontFamily="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}" />
+                        </Border>
+                        <Border x:Name="FocusRing" BorderBrush="{DynamicResource NortniteAccentBrush}"
+                                BorderThickness="3" Visibility="Collapsed" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Cp" Property="TextElement.Foreground" Value="{DynamicResource NortniteAccentBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource NortniteBarBrush}" />
+                            <Setter TargetName="Cp" Property="TextElement.Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ComboBoxEx" BasedOn="{StaticResource {x:Type ComboBox}}">
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,10 @@
+# Fonts copied from the Playnite default theme by Toolbox. Not used by Nortonite 64
+# (its own fonts live in Resources/Fonts) and not packed into the .pthm either.
+/Fonts/
+
+# Default theme background music copied by Toolbox (7 MB). Not part of the theme
+# and not packed into the .pthm.
+/Audio/background.mp3
+
+# Theme packages are published as release assets, not in the repository
+*.pthm

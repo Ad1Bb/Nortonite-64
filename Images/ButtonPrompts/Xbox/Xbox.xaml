@@ -1,0 +1,78 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Nortonite 64: symbole przycisków pada (Xbox) w palecie motywu: szare pole, biały znak.
+         Wariant PlayStation Playnite zawsze wczytuje z motywu domyślnego. -->
+
+    <DataTemplate x:Key="ButtonPromptA">
+        <Viewbox>
+            <ContentControl Tag="A" Height="39" Style="{StaticResource NortnitePadKey}" />
+        </Viewbox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ButtonPromptB">
+        <Viewbox>
+            <ContentControl Tag="B" Height="39" Style="{StaticResource NortnitePadKey}" />
+        </Viewbox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ButtonPromptX">
+        <Viewbox>
+            <ContentControl Tag="X" Height="39" Style="{StaticResource NortnitePadKey}" />
+        </Viewbox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ButtonPromptY">
+        <Viewbox>
+            <ContentControl Tag="Y" Height="39" Style="{StaticResource NortnitePadKey}" />
+        </Viewbox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ButtonPromptLB">
+        <Viewbox>
+            <ContentControl Tag="LB" Height="39" Style="{StaticResource NortnitePadKey}" />
+        </Viewbox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ButtonPromptRB">
+        <Viewbox>
+            <ContentControl Tag="RB" Height="39" Style="{StaticResource NortnitePadKey}" />
+        </Viewbox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ButtonPromptLT">
+        <Viewbox>
+            <ContentControl Tag="LT" Height="39" Style="{StaticResource NortnitePadKey}" />
+        </Viewbox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ButtonPromptRT">
+        <Viewbox>
+            <ContentControl Tag="RT" Height="39" Style="{StaticResource NortnitePadKey}" />
+        </Viewbox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ButtonPromptBack">
+        <Viewbox>
+            <ContentControl Tag="Back" Height="39" Style="{StaticResource NortnitePadKey}" />
+        </Viewbox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ButtonPromptStart">
+        <Viewbox>
+            <ContentControl Tag="Start" Height="39" Style="{StaticResource NortnitePadKey}" />
+        </Viewbox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ButtonPromptLS">
+        <Viewbox>
+            <ContentControl Tag="L3" Height="39" Style="{StaticResource NortnitePadKey}" />
+        </Viewbox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ButtonPromptRS">
+        <Viewbox>
+            <ContentControl Tag="R3" Height="39" Style="{StaticResource NortnitePadKey}" />
+        </Viewbox>
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,100 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Nortonite 64 · wybór elementów (makieta 09)
+        Okno o szerokości 500 (ustala Playnite): nagłówek na turkusowej belce,
+        lista [■]/[ ], stopka z przyciskami poprzedzonymi symbolem pada.
+    -->
+
+    <!-- Wybór jednej pozycji: wiersz z białym tekstem -->
+    <Style x:Key="ItemSelectionButton" TargetType="ButtonEx">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Padding" Value="15,9,15,9" />
+        <Setter Property="MinHeight" Value="60" />
+        <Setter Property="FontSize" Value="33" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template" Value="{DynamicResource NortniteRowButtonTemplate}" />
+        <Setter Property="Margin" Value="15,1.5,9,1.5" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Style="{StaticResource NortniteMenuLabelSystem}" Text="{Binding}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Wybór wielu pozycji: [■] biały tekst -->
+    <Style x:Key="ItemSelectionCheckBox" TargetType="CheckBoxEx" BasedOn="{StaticResource {x:Type CheckBoxEx}}">
+        <Setter Property="Margin" Value="15,1.5,9,1.5" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Style="{StaticResource NortniteMenuLabelSystem}" Text="{Binding}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ItemSelectionBorder" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource NortniteBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="BorderThickness" Value="3" />
+        <Setter Property="TextElement.FontFamily" Value="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}" />
+        <Setter Property="TextElement.FontSize" Value="33" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Setter Property="Padding" Value="0,0,0,0" />
+    </Style>
+
+    <Style x:Key="ItemSelectionFooterBorder" TargetType="Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource NortniteDimBrush}" />
+        <Setter Property="BorderThickness" Value="0,3,0,0" />
+        <Setter Property="Padding" Value="15,15,15,18" />
+        <Setter Property="Margin" Value="0,9,0,0" />
+    </Style>
+
+    <!-- Przyciski stopki: obrysowane, symbol pada + tekst, wyrównane do lewej.
+         Playnite wyłącza im fokus (obsługa przyciskami pada Start i Y). -->
+    <Style x:Key="ItemSelectionFooterButton" TargetType="ButtonEx">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Margin" Value="0,4.5,0,4.5" />
+        <Setter Property="MinHeight" Value="57" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ButtonEx">
+                    <Border x:Name="Bd" Background="Transparent" BorderThickness="3"
+                            BorderBrush="{DynamicResource NortniteForegroundBrush}" Padding="15,6,15,6">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource NortniteAccentBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ItemSelectionHeaderText" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBaseStyle}">
+        <Setter Property="FontSize" Value="36" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource NortniteBarBrush}" />
+        <Setter Property="Padding" Value="21,12,21,12" />
+        <Setter Property="Margin" Value="0,0,0,15" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
+</ResourceDictionary>

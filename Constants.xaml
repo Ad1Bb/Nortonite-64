@@ -1,0 +1,1168 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:html="clr-namespace:TheArtOfDev.HtmlRenderer.WPF;assembly=HtmlRenderer.WPF"
+                    mc:Ignorable="d">
+
+    <!-- ============================================================
+         Nortonite 64 · paleta (role kolorów)
+         Wszystkie kolory motywu są zdefiniowane wyłącznie tutaj, jako role.
+         Widoki, style i szablony używają tylko pędzli ról przez DynamicResource,
+         nigdy konkretnych kolorów. Tu jest paleta NORTON (domyślna); pozostałe
+         palety są w Options\Palette*.xaml (dodatek Theme Options) i nadpisują
+         te same klucze: kolory, pędzle i klucze motywu domyślnego.
+         ============================================================ -->
+    <!-- Role: kolory -->
+    <Color x:Key="NortniteBackgroundColor">#FF0000AA</Color>                  <!-- tło ekranu, paneli, okien, wypełnienie zwykłych przycisków -->
+    <Color x:Key="NortniteForegroundColor">#FF55FFFF</Color>                  <!-- etykiety, ramki, linie, nagłówki kolumn poza akcentem, tekst zwykłych przycisków, suwak przewijania -->
+    <Color x:Key="NortniteBrightColor">#FFFFFFFF</Color>                      <!-- wartości, nazwy gier na liście, treść komunikatów -->
+    <Color x:Key="NortniteAccentColor">#FFFFFF55</Color>                      <!-- tytuły, nagłówki kolumn, etykieta HLTB, wypełnione segmenty pasków, obwódka fokusu -->
+    <Color x:Key="NortniteBarColor">#FF00AAAA</Color>                         <!-- belka menu, tytuł aktywnego panelu, zaznaczony wiersz listy, aktywny preset -->
+    <Color x:Key="NortniteBarForegroundColor">#FF000000</Color>               <!-- tekst na tle Bar -->
+    <Color x:Key="NortniteDimColor">#FF00AAAA</Color>                         <!-- kropki "etykieta …… wartość", puste segmenty pasków, jasne kratki toru przewijania, linie ozdobne -->
+    <Color x:Key="NortniteButtonShadowColor">#FF00AAAA</Color>                <!-- twardy cień przycisków -->
+    <Color x:Key="NortniteFocusFillColor">#FF55FFFF</Color>                   <!-- tło zaznaczonego przycisku -->
+    <Color x:Key="NortniteFocusForegroundColor">#FF000000</Color>             <!-- tekst zaznaczonego przycisku -->
+    <Color x:Key="NortniteCommandBackgroundColor">#FF000000</Color>           <!-- tło wiersza poleceń i belki przycisków pada -->
+    <Color x:Key="NortniteCommandForegroundColor">#FFAAAAAA</Color>           <!-- tekst wiersza poleceń, kursor -->
+    <Color x:Key="NortnitePadBackgroundColor">#FF555555</Color>               <!-- tło symbolu przycisku pada -->
+    <Color x:Key="NortnitePadForegroundColor">#FFFFFFFF</Color>               <!-- symbol przycisku pada -->
+    <Color x:Key="NortniteErrorColor">#FFFF5555</Color>                       <!-- etykieta [ BŁĄD ] w powiadomieniach -->
+    <Color x:Key="NortniteOverlayColor">#99000000</Color>                     <!-- przyciemnienie pod oknami (czarny z kryciem) -->
+    <!-- Role: pędzle (kolor wpisany wprost, bo pędzel w zasobach nie śledzi zmiany koloru) -->
+    <SolidColorBrush x:Key="NortniteBackgroundBrush" Color="#FF0000AA" />
+    <SolidColorBrush x:Key="NortniteForegroundBrush" Color="#FF55FFFF" />
+    <SolidColorBrush x:Key="NortniteBrightBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="NortniteAccentBrush" Color="#FFFFFF55" />
+    <SolidColorBrush x:Key="NortniteBarBrush" Color="#FF00AAAA" />
+    <SolidColorBrush x:Key="NortniteBarForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="NortniteDimBrush" Color="#FF00AAAA" />
+    <SolidColorBrush x:Key="NortniteButtonShadowBrush" Color="#FF00AAAA" />
+    <SolidColorBrush x:Key="NortniteFocusFillBrush" Color="#FF55FFFF" />
+    <SolidColorBrush x:Key="NortniteFocusForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="NortniteCommandBackgroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="NortniteCommandForegroundBrush" Color="#FFAAAAAA" />
+    <SolidColorBrush x:Key="NortnitePadBackgroundBrush" Color="#FF555555" />
+    <SolidColorBrush x:Key="NortnitePadForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="NortniteErrorBrush" Color="#FFFF5555" />
+    <SolidColorBrush x:Key="NortniteOverlayBrush" Color="#99000000" />
+    <!-- Klucze motywu domyślnego Playnite przemapowane na role -->
+    <Color x:Key="BlackColor">#FF000000</Color>
+    <Color x:Key="WhiteColor">#FFFFFFFF</Color>
+    <Color x:Key="GlyphColor">#FFFFFF55</Color>
+    <Color x:Key="GlyphLightColor">#FFFFFF55</Color>
+    <Color x:Key="SelectionLightColor">#FF00AAAA</Color>
+    <Color x:Key="OverlayColor">#99000000</Color>
+    <Color x:Key="ControlBackgroundColor">#FF0000AA</Color>
+    <Color x:Key="ControlBackgroundColorDark">#FF0000AA</Color>
+    <Color x:Key="TextColor">#FF55FFFF</Color>
+    <Color x:Key="TextColorDark">#FF00AAAA</Color>
+    <SolidColorBrush x:Key="TextBrush" Color="#FF55FFFF" />
+    <SolidColorBrush x:Key="TextBrushDark" Color="#FF00AAAA" />
+    <SolidColorBrush x:Key="GlyphBrush" Color="#FFFFFF55" />
+    <SolidColorBrush x:Key="GlyphLightBrush" Color="#FFFFFF55" />
+    <SolidColorBrush x:Key="ControlBackgroundBrush" Color="#FF0000AA" />
+    <SolidColorBrush x:Key="ControlBackgroundDarkBrush" Color="#FF0000AA" />
+    <SolidColorBrush x:Key="SelectionLightBrush" Color="#FF00AAAA" />
+    <SolidColorBrush x:Key="OverlayBrush" Color="#99000000" />
+    <SolidColorBrush x:Key="CheckBoxCheckMarkBkBrush" Color="#FF0000AA" />
+    <SolidColorBrush x:Key="MainBackgourndBrush" Color="#FF0000AA" />
+    <SolidColorBrush x:Key="TopBarBackgroundBrush" Color="#FF00AAAA" />
+    <SolidColorBrush x:Key="BottomBarBackgroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="OverlayMenuBackgroundBrush" Color="#FF0000AA" />
+    <SolidColorBrush x:Key="SelectionBrush" Color="#FFFFFF55" />
+    <SolidColorBrush x:Key="GameDetailsBackgroundBrush" Color="#FF0000AA" />
+    <SolidColorBrush x:Key="WarningBrush" Color="#FFFF5555" />
+
+    <!-- ============================================================
+         Rozmiary (jednostki projektowe: wysokość widoku = 1080)
+         Makiety 1280×720 × 1,5.
+         FontSize i FontSizeSmall nadpisuje Playnite z ustawień
+         użytkownika, dlatego motyw ma własne klucze.
+         ============================================================ -->
+    <sys:Double x:Key="FontSizeSmall">18</sys:Double>
+    <sys:Double x:Key="FontSize">22</sys:Double>
+
+    <sys:Double x:Key="NortniteFontSize">31.5</sys:Double>
+    <sys:Double x:Key="NortniteFontSizeBar">33</sys:Double>
+    <sys:Double x:Key="NortniteFontSizeSmall">22.5</sys:Double>
+    <sys:Double x:Key="NortniteFontSizeTitle">33</sys:Double>
+    <!-- Lista gier, wielkość "Normalna" (opcja motywu "Wielkość listy gier"; presety
+         Options\ListSize*.xaml podmieniają te cztery zasoby: wiersz, font i szerokości kolumn). -->
+    <sys:Double x:Key="NortniteListRowHeight">45</sys:Double>
+    <sys:Double x:Key="NortniteListFontSize">31.5</sys:Double>
+
+    <!-- Kolumny listy gier: Nazwa (*) │ Biblioteka albo Platforma │ Czas.
+         Jedno źródło szerokości dla nagłówka (Views/Main.xaml)
+         i wierszy (DerivedStyles/ListGameItemTemplate.xaml). -->
+    <GridLength x:Key="NortniteListColGap">12</GridLength>
+    <!-- Druga kolumna: 12 znaków ("PC (Windows)", "Amazon Games", 151 px). Leży w kolumnie Auto
+         z odstępem 12 jako marginesem, więc po ukryciu (opcja "Druga kolumna listy") znika
+         razem z odstępem, a nazwa gry dostaje to miejsce. -->
+    <sys:Double x:Key="NortniteListColPlatformWidth">153</sys:Double>
+    <!-- Czas: mieści najdłuższy zwięzły zapis we wszystkich językach (np. "999г 59хв", 117 px) -->
+    <GridLength x:Key="NortniteListColTime">120</GridLength>
+    <!-- Druga kolumna: co pokazuje (opcja "Druga kolumna listy", presety Options\ListColumn*.xaml).
+         Domyślnie biblioteka (Steam, GOG, …; gry dodane ręcznie: "Playnite"). -->
+    <Visibility x:Key="NortniteListLibraryVisibility">Visible</Visibility>
+    <Visibility x:Key="NortniteListPlatformVisibility">Collapsed</Visibility>
+    <!-- Wcięcie kolumn: 12 od krawędzi listy z lewej i z prawej, w wierszu i w nagłówku
+         (Views/Main.xaml). Wiersze leżą w panelu z marginesem 3 na obwódkę fokusu,
+         więc ich własne wcięcie (ListGameItemStyle, Padding) to 9. -->
+    <Thickness x:Key="NortniteListRowPadding">9,0,9,0</Thickness>
+
+    <sys:Double x:Key="FilterPanelWidth">300</sys:Double>
+    <GridLength x:Key="ProgressWindowWidth">640</GridLength>
+
+    <!-- ============================================================
+         Fonty
+         Plik-znacznik "#Nortnite UI, Consolas" w Resources/Fonts pozwala
+         ThemeFile przejść File.Exists, a WPF czyta zapis
+         <folder>\#Rodzina, Consolas jako font z folderu motywu
+         z Consolas jako ostatnim zapasem.
+         Uchwytem jest TextBlock.Text: ThemeFile wpisuje tam pełną ścieżkę
+         (albo null, gdy pliku brak, co nie przerywa wczytywania motywu),
+         a wiązania zamieniają ją na FontFamily. Bez ścieżki: Consolas.
+         Uwaga: HtmlTextView nie nadaje się na uchwyt, bo jego konstruktor
+         rzuca wyjątek podczas wczytywania motywu (styl LoadMoreButton).
+         ============================================================ -->
+    <TextBlock x:Key="NortniteFontHolder"
+               Text="{ThemeFile 'Resources/Fonts/#Nortnite UI, Consolas'}" />
+    <TextBlock x:Key="NortniteTitleFontHolder"
+               Text="{ThemeFile 'Resources/Fonts/#Press Start 2P, Consolas'}" />
+
+    <!-- Font opisów gry (HtmlTextView / HtmlRenderer).
+         HtmlRenderer używa tylko fontów zainstalowanych w Windows albo zarejestrowanych
+         przez HtmlRender.AddFontFamily. Ten ObjectDataProvider rejestruje font złożony
+         "Nortnite UI" z folderu motywu; DescriptionView.html używa go po nazwie.
+         Ścieżki nie ma tu na sztywno: Consolas to tylko wartość startowa.
+         Właściwy font (ta sama ścieżka co NortniteFontHolder, czyli folder motywu
+         w dowolnej instalacji Playnite) wpisuje ukryty ListBox w Views/Main.xaml
+         i Views/GameDetails.xaml: jego SelectedValue (FontFamily jedynego elementu)
+         trafia wiązaniem OneWayToSource do MethodParameters[0], a zmiana parametru
+         ponownie wywołuje AddFontFamily. Gdy coś zawiedzie, opis używa Consolas,
+         a błąd ODP nie przerywa działania. -->
+    <ObjectDataProvider x:Key="NortniteHtmlFontRegistration"
+                        ObjectType="{x:Type html:HtmlRender}" MethodName="AddFontFamily">
+        <ObjectDataProvider.MethodParameters>
+            <FontFamily>Consolas</FontFamily>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+
+    <Style x:Key="TextBlockBaseStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{DynamicResource NortniteFontSize}" />
+        <Setter Property="FontFamily" Value="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+    </Style>
+
+    <Style x:Key="NortniteTextStyle" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBaseStyle}">
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+
+    <!-- Tekst listy gier (wiersze i nagłówek kolumn): font z opcji "Wielkość listy gier" -->
+    <Style x:Key="NortniteListTextStyle" TargetType="TextBlock" BasedOn="{StaticResource NortniteTextStyle}">
+        <Setter Property="FontSize" Value="{DynamicResource NortniteListFontSize}" />
+    </Style>
+
+    <!-- Pozycja wiersza czasów HowLongToBeat ("Fabuła 52h"): etykieta w kolorze akcentu,
+         gdy pasek tego celu jest widoczny. Tag = pasek celu (Binding ElementName=…). -->
+    <Style x:Key="NortniteHltbTimeText" TargetType="TextBlock" BasedOn="{StaticResource NortniteTextStyle}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Tag.Visibility, RelativeSource={RelativeSource Self}}" Value="Visible">
+                <Setter Property="Foreground" Value="{DynamicResource NortniteAccentBrush}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="NortniteTitleTextStyle" TargetType="TextBlock">        <Setter Property="FontSize" Value="{DynamicResource NortniteFontSizeTitle}" />
+        <Setter Property="FontFamily" Value="{Binding Path=Resources[NortniteTitleFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteAccentBrush}" />
+        <Setter Property="LineHeight" Value="43" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+
+    <!-- ============================================================
+         Panel z podwójną ramką i tytułem wpisanym w górną krawędź
+         (HeaderedContentControl: Header = tytuł, Content = zawartość)
+         ============================================================ -->
+    <Style x:Key="NortnitePanelStyle" TargetType="HeaderedContentControl">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Background" Value="{DynamicResource NortniteBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="Padding" Value="15,21,12,12" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="HeaderedContentControl">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="2">
+                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="2" Margin="2">
+                                <ContentPresenter Margin="{TemplateBinding Padding}" />
+                            </Border>
+                        </Border>
+                        <!-- Panel nakładany na listę gier (filtry, podfiltry: Tag="Overlay") zakrywa pas
+                             nad górną ramką, żeby spod jego tytułu nie wystawał szerszy tytuł listy. -->
+                        <Border x:Name="TopCover" Visibility="Collapsed" VerticalAlignment="Top"
+                                Height="17" Margin="0,-17,0,0" Background="{TemplateBinding Background}" />
+                        <Border x:Name="HeaderChip"
+                                Background="{DynamicResource NortniteBarBrush}"
+                                HorizontalAlignment="Center" VerticalAlignment="Top"
+                                Padding="15,0,15,0" Margin="40,-17,40,0">
+                            <ContentPresenter ContentSource="Header"
+                                              TextElement.Foreground="{DynamicResource NortniteBarForegroundBrush}"
+                                              TextElement.FontFamily="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}"
+                                              TextElement.FontSize="{DynamicResource NortniteFontSize}" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Header" Value="{x:Null}">
+                            <Setter TargetName="HeaderChip" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Tag" Value="Overlay">
+                            <Setter TargetName="TopCover" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Panel, który nigdy nie przyjmuje fokusu (np. C:\>VOL pod okładką):
+         tytuł niepodświetlony, turkusowy tekst na tle panelu, bez turkusowego pola. -->
+    <Style x:Key="NortnitePanelInactiveStyle" TargetType="HeaderedContentControl">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Background" Value="{DynamicResource NortniteBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="Padding" Value="15,21,12,12" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="HeaderedContentControl">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="2">
+                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="2" Margin="2">
+                                <ContentPresenter Margin="{TemplateBinding Padding}" />
+                            </Border>
+                        </Border>
+                        <Border x:Name="HeaderChip"
+                                Background="{TemplateBinding Background}"
+                                HorizontalAlignment="Center" VerticalAlignment="Top"
+                                Padding="15,0,15,0" Margin="40,-17,40,0">
+                            <ContentPresenter ContentSource="Header"
+                                              TextElement.Foreground="{DynamicResource NortniteForegroundBrush}"
+                                              TextElement.FontFamily="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}"
+                                              TextElement.FontSize="{DynamicResource NortniteFontSize}" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Header" Value="{x:Null}">
+                            <Setter TargetName="HeaderChip" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ============================================================
+         Przyciski w nawiasach: [ TEKST ]
+         Treść przycisku to tekst; szablon dodaje nawiasy i wielkie litery.
+         ============================================================ -->
+    <!-- ============================================================
+         Opcje motywu (dodatek Theme Options, plik options.yaml obok theme.yaml)
+         Tu są wartości domyślne: motyw działa na nich bez dodatku.
+         Cel paska HowLongToBeat: w widokach są trzy nałożone paski (fabuła,
+         fabuła + dodatki, 100%) i widać ten, którego zasób Visibility jest Visible.
+         Presety z Options/HltbTarget*.xaml podmieniają te zasoby (DynamicResource,
+         więc zmiana działa od razu). Etykieta wybranego celu w wierszu czasów
+         jest w kolorze akcentu (styl NortniteHltbTimeText).
+         ============================================================ -->
+    <Visibility x:Key="NortniteHltbMainVisibility">Visible</Visibility>
+    <Visibility x:Key="NortniteHltbExtraVisibility">Collapsed</Visibility>
+    <Visibility x:Key="NortniteHltbCompletionistVisibility">Collapsed</Visibility>
+
+    <!-- Pozostałe opcje motywu jako presety Theme Options z plikami Options\*.xaml.
+         Nie jako zmienne (pola wyboru): dodatek Theme Options 0.33 nie zapisuje powrotu
+         ostatniej zmienionej zmiennej do wartości domyślnej (zostaje stara wartość, także
+         po restarcie). Presety tego błędu nie mają. Poniżej stany domyślne. -->
+    <!-- Pasek pod danymi gry (panel INFO i szczegóły): Hltb (domyślnie), Community, Critic albo None.
+         Presety Theme Options Options\Bar*.xaml podmieniają ten zasób. Co faktycznie widać,
+         ustala styl NortniteBarModeStyle niżej (z zastępstwem, gdy brak danych). -->
+    <sys:String x:Key="NortniteBarSource">Hltb</sys:String>
+    <!-- Wybór paska z zastępstwem, etap 2 (etap 1 jest w widokach: Main.xaml i GameDetails.xaml,
+         bo rozszerzenia PluginStatus/PluginSettings działają tylko w szablonach widoków, a w tym
+         słowniku blokowałyby wczytanie motywu). Ukryty TextBlock: Tag = wynik etapu 1
+         (Hltb, HltbMissing = wybrano HLTB, ale brak dodatku lub danych gry, Community, Critic, None),
+         DataContext = gra; Text = co pokazać: Hltb, Community, Critic albo None.
+           HowLongToBeat: bez dodatku lub danych → ocena graczy → ocena krytyków → nic.
+           Ocena graczy: bez niej → ocena krytyków → nic. Ocena krytyków: bez niej → ocena graczy → nic.
+         Wyzwalacze idą od najsłabszego: przy kilku spełnionych wygrywa ostatni. -->
+    <Style x:Key="NortniteBarModeStyle" TargetType="TextBlock">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Setter Property="Text" Value="None" />
+        <Style.Triggers>
+            <!-- HowLongToBeat (dane są) -->
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Hltb">
+                <Setter Property="Text" Value="Hltb" />
+            </DataTrigger>
+            <!-- HowLongToBeat bez dodatku lub danych: najpierw ocena graczy -->
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="HltbMissing">
+                <Setter Property="Text" Value="Community" />
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="HltbMissing" />
+                    <Condition Binding="{Binding CommunityScore}" Value="{x:Null}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Text" Value="Critic" />
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="HltbMissing" />
+                    <Condition Binding="{Binding CommunityScore}" Value="{x:Null}" />
+                    <Condition Binding="{Binding CriticScore}" Value="{x:Null}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Text" Value="None" />
+            </MultiDataTrigger>
+            <!-- Ocena graczy -->
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Community">
+                <Setter Property="Text" Value="Community" />
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Community" />
+                    <Condition Binding="{Binding CommunityScore}" Value="{x:Null}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Text" Value="Critic" />
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Community" />
+                    <Condition Binding="{Binding CommunityScore}" Value="{x:Null}" />
+                    <Condition Binding="{Binding CriticScore}" Value="{x:Null}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Text" Value="None" />
+            </MultiDataTrigger>
+            <!-- Ocena krytyków -->
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Critic">
+                <Setter Property="Text" Value="Critic" />
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Critic" />
+                    <Condition Binding="{Binding CriticScore}" Value="{x:Null}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Text" Value="Community" />
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Critic" />
+                    <Condition Binding="{Binding CriticScore}" Value="{x:Null}" />
+                    <Condition Binding="{Binding CommunityScore}" Value="{x:Null}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Text" Value="None" />
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+    <!-- Ekran uruchamiania gry (GameStatus): 1 = widoczny, 0 = przezroczysty. Playnite pokazuje go
+         zawsze, więc "ukryty" znaczy tylko niewidoczny (fokus i [ Zamknij ] zostają).
+         Na stałe ukryty: opcja Ukryj/Pokazuj jest wyłączona w options.yaml (zakomentowana grupa
+         NortniteLaunchScreen); po jej przywróceniu preset "Pokazuj" (Options\LaunchScreenOn.xaml) ustawia 1. -->
+    <sys:Double x:Key="NortniteGameStatusOpacity">0</sys:Double>
+    <Visibility x:Key="NortniteCmdRealPathVisibility">Visible</Visibility>
+    <Visibility x:Key="NortniteCmdPresetOnlyVisibility">Collapsed</Visibility>
+    <Visibility x:Key="NortniteCursorBlinkVisibility">Visible</Visibility>
+    <Visibility x:Key="NortniteCursorSteadyVisibility">Collapsed</Visibility>
+
+    <!-- WAŻNE: Playnite wczytuje każdy plik motywu najpierw osobno, gdy scalony jest
+         tylko motyw domyślny. Inne pliki nie mogą więc używać StaticResource/BasedOn
+         z kluczami Nortnite… poza szablonami. Wspólne szablony są tu jako ControlTemplate
+         i inne pliki podpinają je przez DynamicResource. -->
+    <!-- Przyciski jak w oknach dialogowych Norton Commandera: płaski prostokąt
+         z twardym cieniem w prawo i w dół (jedyny wyjątek od zasady "bez cieni").
+         Przesunięcie cienia (jednostki 1920×1080). Zmiana tej jednej wartości
+         przesuwa cień, rezerwuje na niego miejsce i ustala przesunięcie wciśniętego
+         przycisku we wszystkich przyciskach w nawiasach. -->
+    <sys:Double x:Key="NortniteButtonShadowSize">15</sys:Double>
+
+    <!-- Układ szablonu (bez łączenia komórek siatki, które WPF rozlicza błędnie):
+         - Root: kolumny [*][Auto], wiersze [*][Auto]. Komórkę (1,1) wypełnia odstępnik
+           S×S (S = NortniteButtonShadowSize), więc przycisk sam rezerwuje miejsce na cień:
+           nie ucina go ramka panelu, a odstęp między przyciskami rośnie o S.
+         - Shadow: w komórce (0,0), czyli dokładnie pod licem i tej samej wielkości,
+           przesunięty o S w prawo i w dół (TranslateTransform, bez wpływu na układ).
+         - Mover: w komórce (0,0); zawiera lico (Face) i wewnętrzny odstępnik S×S,
+           domyślnie zwinięty. Wciśnięcie rozwija wewnętrzny odstępnik i zwija zewnętrzny,
+           więc lico przesuwa się w miejsce cienia, a rozmiar przycisku się nie zmienia.
+         Stany: fokus = tło FocusFill, tekst FocusForeground, obwódka Accent 4 px od lica
+         (wypełnione tło oznacza wyłącznie fokus, także dla [ GRAJ ] / [ INSTALUJ ]);
+         wciśnięty = lico w miejscu cienia, cień schowany.
+         Kolory stanu fokusu są ustawiane na samym przycisku (wyzwalacz szablonu),
+         więc wyzwalacze stylu mogą je nadpisać. -->
+    <ControlTemplate x:Key="NortniteBracketButtonTemplate" TargetType="ButtonEx">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border x:Name="Shadow" Background="{DynamicResource NortniteButtonShadowBrush}">
+                <Border.RenderTransform>
+                    <TranslateTransform X="{DynamicResource NortniteButtonShadowSize}" Y="{DynamicResource NortniteButtonShadowSize}" />
+                </Border.RenderTransform>
+            </Border>
+            <Rectangle x:Name="OuterSpacer" Grid.Column="1" Grid.Row="1"
+                       Width="{DynamicResource NortniteButtonShadowSize}" Height="{DynamicResource NortniteButtonShadowSize}" />
+            <Grid x:Name="Mover">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Rectangle x:Name="InnerSpacer" Visibility="Collapsed"
+                           Width="{DynamicResource NortniteButtonShadowSize}" Height="{DynamicResource NortniteButtonShadowSize}" />
+                <Grid x:Name="Face" Grid.Column="1" Grid.Row="1"
+                      MinWidth="{TemplateBinding MinWidth}" MinHeight="{TemplateBinding MinHeight}">
+                    <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <TextBlock x:Name="Txt" Style="{StaticResource NortniteTextStyle}"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="Center">
+                            <Run Text="[ " /><Run Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringToUpperCaseConverter}, Mode=OneWay}" /><Run Text=" ]" />
+                        </TextBlock>
+                    </Border>
+                    <Border x:Name="FocusRing" BorderBrush="{DynamicResource NortniteAccentBrush}"
+                            BorderThickness="3" Margin="-7" Visibility="Collapsed" />
+                </Grid>
+            </Grid>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="Background" Value="{DynamicResource NortniteFocusFillBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource NortniteFocusForegroundBrush}" />
+                <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="InnerSpacer" Property="Visibility" Value="Visible" />
+                <Setter TargetName="OuterSpacer" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="Shadow" Property="Visibility" Value="Hidden" />
+            </Trigger>
+            <!-- Pad (i Enter) wywołuje akcję od razu, bez stanu IsPressed, więc wciśnięcie
+                 pokazuje krótki błysk na zdarzeniu Click. Animacja nie opóźnia akcji. -->
+            <EventTrigger RoutedEvent="ButtonBase.Click">
+                <BeginStoryboard>
+                    <Storyboard FillBehavior="Stop" Duration="0:0:0.15">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerSpacer" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OuterSpacer" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Shadow" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="NortniteBracketButton" TargetType="ButtonEx">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Background" Value="{DynamicResource NortniteBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="FontSize" Value="{DynamicResource NortniteFontSizeBar}" />
+        <Setter Property="MinHeight" Value="63" />
+        <Setter Property="Padding" Value="18,0,18,0" />
+        <Setter Property="Margin" Value="0,0,15,0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Template" Value="{StaticResource NortniteBracketButtonTemplate}" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Wiersz menu/listy bez nawiasów (menu, nawigacja w panelach).
+         Fokus: odwrócenie + żółta obwódka. -->
+    <ControlTemplate x:Key="NortniteRowButtonTemplate" TargetType="ButtonEx">
+        <Grid>
+            <Border x:Name="Bd" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                <ContentPresenter x:Name="Cp"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  TextElement.Foreground="{TemplateBinding Foreground}"
+                                  TextElement.FontSize="{TemplateBinding FontSize}"
+                                  TextElement.FontFamily="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}"
+                                  RecognizesAccessKey="True" />
+            </Border>
+            <!-- Wiersze menu Playnite leżą w ScrollViewerze, który przycina treść, i mają
+                 odstęp 1,5 px w pionie: obwódka wystaje w pionie tylko o tyle, żeby górna
+                 krawędź pierwszego wiersza nie była ucięta (w bok 3 px mieści się w marginesie 15) -->
+            <Border x:Name="FocusRing" Margin="-3,-1.5,-3,-1.5"
+                    BorderBrush="{DynamicResource NortniteAccentBrush}"
+                    BorderThickness="3" Visibility="Collapsed" />
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource NortniteBarBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- ============================================================
+         Symbole przycisków pada (pikselowe, w palecie motywu)
+         Tag: A, B, X, Y, LB, RB, LBRB, R3, Start, Back.
+         Wariant zależy od ustawienia Fullscreen.ButtonPrompts.
+         ============================================================ -->
+    <Geometry x:Key="NortnitePixelMenu">M0,0h7v1h-7z M0,3h7v1h-7z M0,6h7v1h-7z</Geometry>
+    <Geometry x:Key="NortnitePixelView">M0,0h5v1h-5z M0,4h5v1h-5z M0,1h1v3h-1z M4,1h1v3h-1z M2,2h5v1h-5z M2,6h5v1h-5z M2,3h1v3h-1z M6,3h1v3h-1z</Geometry>
+    <Geometry x:Key="NortnitePixelCross">M0,0h1v1h-1z M6,0h1v1h-1z M1,1h1v1h-1z M5,1h1v1h-1z M2,2h1v1h-1z M4,2h1v1h-1z M3,3h1v1h-1z M2,4h1v1h-1z M4,4h1v1h-1z M1,5h1v1h-1z M5,5h1v1h-1z M0,6h1v1h-1z M6,6h1v1h-1z</Geometry>
+    <Geometry x:Key="NortnitePixelCircle">M2,0h3v1h-3z M1,1h1v1h-1z M5,1h1v1h-1z M0,2h1v3h-1z M6,2h1v3h-1z M1,5h1v1h-1z M5,5h1v1h-1z M2,6h3v1h-3z</Geometry>
+    <Geometry x:Key="NortnitePixelSquare">M0,0h7v1h-7z M0,6h7v1h-7z M0,1h1v5h-1z M6,1h1v5h-1z</Geometry>
+    <Geometry x:Key="NortnitePixelTriangle">M3,0h1v1h-1z M2,1h1v2h-1z M4,1h1v2h-1z M1,3h1v2h-1z M5,3h1v2h-1z M0,5h1v1h-1z M6,5h1v1h-1z M0,6h7v1h-7z</Geometry>
+
+    <DataTemplate x:Key="NortnitePadGlyphMenu">
+        <Path Data="{StaticResource NortnitePixelMenu}" Fill="{DynamicResource NortnitePadForegroundBrush}"
+              Stretch="Uniform" Width="18" Height="18" VerticalAlignment="Center" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortnitePadGlyphView">
+        <Path Data="{StaticResource NortnitePixelView}" Fill="{DynamicResource NortnitePadForegroundBrush}"
+              Stretch="Uniform" Width="18" Height="18" VerticalAlignment="Center" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortnitePadGlyphCross">
+        <Path Data="{StaticResource NortnitePixelCross}" Fill="{DynamicResource NortnitePadForegroundBrush}"
+              Stretch="Uniform" Width="18" Height="18" VerticalAlignment="Center" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortnitePadGlyphCircle">
+        <Path Data="{StaticResource NortnitePixelCircle}" Fill="{DynamicResource NortnitePadForegroundBrush}"
+              Stretch="Uniform" Width="18" Height="18" VerticalAlignment="Center" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortnitePadGlyphSquare">
+        <Path Data="{StaticResource NortnitePixelSquare}" Fill="{DynamicResource NortnitePadForegroundBrush}"
+              Stretch="Uniform" Width="18" Height="18" VerticalAlignment="Center" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortnitePadGlyphTriangle">
+        <Path Data="{StaticResource NortnitePixelTriangle}" Fill="{DynamicResource NortnitePadForegroundBrush}"
+              Stretch="Uniform" Width="18" Height="18" VerticalAlignment="Center" />
+    </DataTemplate>
+
+    <Style x:Key="NortnitePadKey" TargetType="ContentControl">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Background" Value="{DynamicResource NortnitePadBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource NortnitePadForegroundBrush}" />
+        <Setter Property="MinWidth" Value="36" />
+        <Setter Property="Padding" Value="8,0,8,0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Content" Value="{Binding Tag, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          TextElement.Foreground="{TemplateBinding Foreground}"
+                                          TextElement.FontFamily="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}"
+                                          TextElement.FontSize="{DynamicResource NortniteFontSize}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <!-- Xbox (domyślnie): tekst -->
+            <Trigger Property="Tag" Value="LBRB">
+                <Setter Property="Content" Value="LB RB" />
+            </Trigger>
+            <Trigger Property="Tag" Value="Start">
+                <Setter Property="ContentTemplate" Value="{StaticResource NortnitePadGlyphMenu}" />
+            </Trigger>
+            <Trigger Property="Tag" Value="Back">
+                <Setter Property="ContentTemplate" Value="{StaticResource NortnitePadGlyphView}" />
+            </Trigger>
+            <!-- PlayStation -->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Settings Fullscreen.ButtonPrompts}" Value="PlayStation" />
+                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="A" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="ContentTemplate" Value="{StaticResource NortnitePadGlyphCross}" />
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Settings Fullscreen.ButtonPrompts}" Value="PlayStation" />
+                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="B" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="ContentTemplate" Value="{StaticResource NortnitePadGlyphCircle}" />
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Settings Fullscreen.ButtonPrompts}" Value="PlayStation" />
+                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="X" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="ContentTemplate" Value="{StaticResource NortnitePadGlyphSquare}" />
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Settings Fullscreen.ButtonPrompts}" Value="PlayStation" />
+                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Y" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="ContentTemplate" Value="{StaticResource NortnitePadGlyphTriangle}" />
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Settings Fullscreen.ButtonPrompts}" Value="PlayStation" />
+                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="LB" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Content" Value="L1" />
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Settings Fullscreen.ButtonPrompts}" Value="PlayStation" />
+                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="RB" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Content" Value="R1" />
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Settings Fullscreen.ButtonPrompts}" Value="PlayStation" />
+                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="LBRB" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Content" Value="L1 R1" />
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Przycisk anulowania: B, albo A, gdy włączone jest ustawienie Fullscreen.SwapConfirmCancelButtons -->
+    <Style x:Key="NortnitePadCancel" TargetType="ContentControl" BasedOn="{StaticResource NortnitePadKey}">
+        <Setter Property="Tag" Value="B" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Settings Fullscreen.SwapConfirmCancelButtons}" Value="True">
+                <Setter Property="Tag" Value="A" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- ============================================================
+         Wiersze menu (menu główne, menu gry, menu ustawień…)
+         Ikona w kolumnie po lewej: znak z Tag; przy fokusie zastępuje ją ►.
+         ============================================================ -->
+    <Style x:Key="NortniteMenuIcon" TargetType="TextBlock">
+        <Setter Property="Width" Value="33" />
+        <Setter Property="Margin" Value="0,0,12,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteDimBrush}" />
+        <Setter Property="Text" Value="{Binding Tag, RelativeSource={RelativeSource Self}}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFocused, RelativeSource={RelativeSource AncestorType=ButtonBase}}" Value="True">
+                <Setter Property="Text" Value="►" />
+                <Setter Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <!-- Etykieta pozycji systemowej (uśpij, wyłącz, zamknij…): biała -->
+    <Style x:Key="NortniteMenuLabelSystem" TargetType="TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteBrightBrush}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFocused, RelativeSource={RelativeSource AncestorType=ButtonBase}}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <!-- Etykieta pozycji wyróżnionej (np. usuń z biblioteki): żółta -->
+    <Style x:Key="NortniteMenuLabelAccent" TargetType="TextBlock" BasedOn="{StaticResource NortniteMenuLabelSystem}">
+        <Setter Property="Foreground" Value="{DynamicResource NortniteAccentBrush}" />
+    </Style>
+    <!-- Zwykła etykieta: kolor z przycisku (turkus, czarny przy fokusie) -->
+    <Style x:Key="NortniteMenuLabel" TargetType="TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+    <!-- Znak podmenu po prawej -->
+    <Style x:Key="NortniteMenuSubmenuArrow" TargetType="TextBlock">
+        <Setter Property="Text" Value="►" />
+        <Setter Property="Margin" Value="12,0,0,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="DockPanel.Dock" Value="Right" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteDimBrush}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFocused, RelativeSource={RelativeSource AncestorType=ButtonBase}}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Belka nagłówka okna: turkus, czarny tekst (szablony …HeaderTemplate) -->
+    <Style x:Key="NortniteWindowHeader" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource NortniteBarBrush}" />
+        <Setter Property="Padding" Value="21,15,21,15" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+        <Setter Property="TextElement.FontSize" Value="36" />
+        <Setter Property="TextElement.FontFamily" Value="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}" />
+    </Style>
+
+    <!-- Stopka paneli filtrów i podfiltrów: "B zamknij" (przycisk anulowania) -->
+    <DataTemplate x:Key="NortniteFilterFooter">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="36">
+            <ContentControl Style="{StaticResource NortnitePadCancel}" />
+            <TextBlock Text="{DynamicResource LOCNortniteCloseHint}" Margin="9,0,0,0"
+                       VerticalAlignment="Center" Foreground="{DynamicResource NortniteDimBrush}" />
+        </StackPanel>
+    </DataTemplate>
+
+    <!-- Pozycja legendy: symbol pada + opis na turkusowym polu -->
+    <Style x:Key="NortniteLegendLabel" TargetType="TextBlock" BasedOn="{StaticResource NortniteTextStyle}">
+        <Setter Property="Background" Value="{DynamicResource NortniteBarBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+        <Setter Property="Padding" Value="8,0,8,0" />
+        <Setter Property="Margin" Value="6,0,0,0" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+    </Style>
+
+    <!-- ============================================================
+         Pasek segmentowy (16 segmentów). Wypełnienie jest zaokrąglane
+         do pełnych segmentów. Odstępy wycina maska (OpacityMask) bez koloru:
+         w odstępach prześwituje to, co leży pod paskiem, więc pasek pasuje
+         do każdej palety i tła (np. zaznaczonego wiersza).
+         W maskach liczy się tylko krycie: czarny = widać, przezroczysty = odstęp.
+         MathConverter: nazwy funkcji z wielkiej litery (Round, Max),
+         błąd w wyrażeniu zamyka Playnite.
+         ============================================================ -->
+    <DrawingBrush x:Key="NortniteSegmentMask16" TileMode="Tile" Stretch="Fill"
+                  Viewport="0,0,0.0625,1" ViewportUnits="RelativeToBoundingBox">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="0,0,100,10" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="Black">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="0,0,90,10" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <Style x:Key="NortniteSegmentBar16" TargetType="ProgressBar">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Height" Value="21" />
+        <Setter Property="Minimum" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Grid OpacityMask="{StaticResource NortniteSegmentMask16}">
+                        <Border x:Name="PART_Track" Background="{DynamicResource NortniteDimBrush}" />
+                        <Border x:Name="PART_Indicator" HorizontalAlignment="Left" Background="Transparent" />
+                        <Border HorizontalAlignment="Left" Background="{DynamicResource NortniteAccentBrush}">
+                            <Border.Width>
+                                <MultiBinding Converter="{StaticResource MathConverter}"
+                                              ConverterParameter="Round(x / Max(y, 1) * 16) / 16 * y">
+                                    <Binding ElementName="PART_Indicator" Path="ActualWidth" />
+                                    <Binding ElementName="PART_Track" Path="ActualWidth" />
+                                </MultiBinding>
+                            </Border.Width>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Pasek segmentowy, 30 segmentów (szczegóły gry, ekran uruchamiania) -->
+    <DrawingBrush x:Key="NortniteSegmentMask30" TileMode="Tile" Stretch="Fill"
+                  Viewport="0,0,0.0333333,1" ViewportUnits="RelativeToBoundingBox">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="0,0,100,10" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="Black">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="0,0,88,10" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <Style x:Key="NortniteSegmentBar30" TargetType="ProgressBar">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Height" Value="21" />
+        <Setter Property="Minimum" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Grid OpacityMask="{StaticResource NortniteSegmentMask30}">
+                        <Border x:Name="PART_Track" Background="{DynamicResource NortniteDimBrush}" />
+                        <Border x:Name="PART_Indicator" HorizontalAlignment="Left" Background="Transparent" />
+                        <Border HorizontalAlignment="Left" Background="{DynamicResource NortniteAccentBrush}">
+                            <Border.Width>
+                                <MultiBinding Converter="{StaticResource MathConverter}"
+                                              ConverterParameter="Round(x / Max(y, 1) * 30) / 30 * y">
+                                    <Binding ElementName="PART_Indicator" Path="ActualWidth" />
+                                    <Binding ElementName="PART_Track" Path="ActualWidth" />
+                                </MultiBinding>
+                            </Border.Width>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Wiersz "etykieta …… wartość": Grid z trzema kolumnami.
+         Użycie: <Grid Style="{StaticResource NortniteFactRow}"> label | Line | value </Grid> -->
+    <Style x:Key="NortniteFactRow" TargetType="Grid">
+        <Setter Property="Margin" Value="0,0,0,6" />
+    </Style>
+    <Style x:Key="NortniteFactLabel" TargetType="TextBlock" BasedOn="{StaticResource NortniteTextStyle}">
+        <Setter Property="Grid.Column" Value="0" />
+        <Setter Property="MaxWidth" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}, Converter={StaticResource MathConverter}, ConverterParameter='x * 0.55'}" />
+    </Style>
+    <Style x:Key="NortniteFactValue" TargetType="TextBlock" BasedOn="{StaticResource NortniteTextStyle}">
+        <Setter Property="Grid.Column" Value="2" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteBrightBrush}" />
+        <Setter Property="TextAlignment" Value="Right" />
+        <Setter Property="MaxWidth" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}, Converter={StaticResource MathConverter}, ConverterParameter='x * 0.55'}" />
+    </Style>
+
+    <!-- Pasek nagłówka okna/widoku: turkus, czarny tekst -->
+    <Style x:Key="NortniteHeaderBar" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource NortniteBarBrush}" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+        <Setter Property="TextElement.FontSize" Value="{DynamicResource NortniteFontSizeBar}" />
+    </Style>
+
+    <!-- ============================================================
+         Tekstowy pasek przewijania: ▲, suwak, ▼
+         ============================================================ -->
+    <Style x:Key="NortniteScrollArrow" TargetType="RepeatButton">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Background="Transparent">
+                        <TextBlock Text="{TemplateBinding Content}" HorizontalAlignment="Center"
+                                   Style="{StaticResource TextBlockBaseStyle}"
+                                   FontSize="{DynamicResource NortniteFontSizeSmall}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Tor paska przewijania w stylu DOS: faktura jak znak ░ (szachownica 2×2).
+         Maska bez koloru: kratki w kolorze Dim nakładane na tło Background w szablonie,
+         dzięki temu tor zmienia się razem z paletą. Suwak jednolity jak █ (Foreground). -->
+    <DrawingBrush x:Key="NortniteScrollCheckerMask" TileMode="Tile" Stretch="None"
+                  Viewport="0,0,4,4" ViewportUnits="Absolute"
+                  Viewbox="0,0,4,4" ViewboxUnits="Absolute">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="0,0,4,4" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="Black">
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <RectangleGeometry Rect="0,0,2,2" />
+                            <RectangleGeometry Rect="2,2,2,2" />
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+    <!-- Tło toru z fakturą (szablon wspólny dla pionowego i domyślnego paska przewijania) -->
+    <ControlTemplate x:Key="NortniteScrollTrackFace" TargetType="ContentControl">
+        <Grid>
+            <Border Background="{DynamicResource NortniteBackgroundBrush}" />
+            <Rectangle Fill="{DynamicResource NortniteDimBrush}" OpacityMask="{StaticResource NortniteScrollCheckerMask}" />
+            <ContentPresenter />
+        </Grid>
+    </ControlTemplate>
+
+    <Style x:Key="NortniteScrollThumb" TargetType="Thumb">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Border Background="{DynamicResource NortniteForegroundBrush}" MinHeight="27" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="NortniteTextScrollBar" TargetType="ScrollBar">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Width" Value="21" />
+        <Setter Property="MinWidth" Value="21" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <RepeatButton Grid.Row="0" Content="▲" Style="{StaticResource NortniteScrollArrow}"
+                                      Command="ScrollBar.LineUpCommand" />
+                        <ContentControl Grid.Row="1" Template="{StaticResource NortniteScrollTrackFace}" Focusable="False"
+                                        Width="18" Margin="0,3,0,3" SnapsToDevicePixels="True">
+                            <Track x:Name="PART_Track" IsDirectionReversed="True">
+                                <Track.Thumb>
+                                    <Thumb Style="{StaticResource NortniteScrollThumb}" />
+                                </Track.Thumb>
+                            </Track>
+                        </ContentControl>
+                        <RepeatButton Grid.Row="2" Content="▼" Style="{StaticResource NortniteScrollArrow}"
+                                      Command="ScrollBar.LineDownCommand" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ScrollViewer z tekstowym paskiem po prawej -->
+    <ControlTemplate x:Key="NortniteScrollViewerTemplate" TargetType="ScrollViewer">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ScrollContentPresenter Grid.Column="0" CanContentScroll="{TemplateBinding CanContentScroll}" />
+            <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="1" Margin="9,0,0,0"
+                       Style="{StaticResource NortniteTextScrollBar}"
+                       Orientation="Vertical"
+                       Value="{TemplateBinding VerticalOffset}"
+                       Maximum="{TemplateBinding ScrollableHeight}"
+                       ViewportSize="{TemplateBinding ViewportHeight}"
+                       Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
+        </Grid>
+    </ControlTemplate>
+
+    <!-- Kropkowana linia wypełniająca "etykieta …… wartość" -->
+    <Style x:Key="NortniteDotLeader" TargetType="Line">
+        <Setter Property="X1" Value="0" />
+        <Setter Property="X2" Value="1" />
+        <Setter Property="Stretch" Value="Fill" />
+        <Setter Property="Stroke" Value="{DynamicResource NortniteDimBrush}" />
+        <Setter Property="StrokeThickness" Value="3" />
+        <Setter Property="StrokeDashArray" Value="1 1" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin" Value="12,0,12,9" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+    </Style>
+
+    <!-- ============================================================
+         Czas gry w zwięzłym formacie motywu ("14m", "2h 13m"), wspólny dla listy, INFO,
+         szczegółów i linii HowLongToBeat. Czas gry (sekundy) podaje się w Tag, np.
+         <Run Style="{StaticResource NortnitePlaytimeRun}" Tag="{Binding Playtime, Mode=OneWay}" />.
+         Formaty z tłumaczeń (LOCNortniteTimeHoursFormat / MinutesFormat); zapasowe wartości,
+         bo MathConverter nie może dostać pustego formatu. Pusty Tag daje niewidoczne "h m"
+         (bez wyjątku). Nie podawać czasu jako tekstu: MathConverter rzuca wtedy wyjątek.
+         ============================================================ -->
+    <Style x:Key="NortnitePlaytimeRun" TargetType="Run">
+        <Setter Property="Text">
+            <Setter.Value>
+                <MultiBinding Mode="OneWay" Converter="{StaticResource MathConverter}"
+                              ConverterParameter="x &lt; 3600 ? Format(z, Floor(x / 60)) : Format(y, Floor(x / 3600), Floor(x / 60) - Floor(x / 3600) * 60)">
+                    <Binding Path="Tag" RelativeSource="{RelativeSource Self}" />
+                    <Binding Path="Resources[LOCNortniteTimeHoursFormat]" Source="{x:Static Application.Current}"
+                             TargetNullValue="{}{0}h {1}m" FallbackValue="{}{0}h {1}m" />
+                    <Binding Path="Resources[LOCNortniteTimeMinutesFormat]" Source="{x:Static Application.Current}"
+                             TargetNullValue="{}{0}m" FallbackValue="{}{0}m" />
+                </MultiBinding>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- Lista gier: gra nigdy nieuruchomiona ma "–" (DataContext wiersza to gra) -->
+    <Style x:Key="NortnitePlaytimeRunList" TargetType="Run" BasedOn="{StaticResource NortnitePlaytimeRun}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Playtime}" Value="0">
+                <Setter Property="Text" Value="–" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- ============================================================
+         Panel C:\>MEM (stan instalacji, rozmiar, gatunek, rok wydania), wspólny dla ekranu
+         głównego (pod okładką w INFO) i szczegółów gry. Treść (Content) to gra:
+         <ContentControl Content="{Binding SelectedGame}" ContentTemplate="{StaticResource NortniteMemPanelTemplate}" Focusable="False" />
+         Panel nie przyjmuje fokusu, więc tytuł jest zawsze niepodświetlony.
+         ============================================================ -->
+    <DataTemplate x:Key="NortniteMemPanelTemplate">
+        <HeaderedContentControl Margin="0,30,0,0" Focusable="False"
+                                Style="{StaticResource NortnitePanelInactiveStyle}"
+                                Header="C:\&gt;MEM" Padding="15,24,12,9">
+            <StackPanel>
+                <!-- [■] Zainstalowana  /  [ ] Niezainstalowana: etykieta na całą szerokość; wiersz nigdy się nie chowa -->
+                <Grid Margin="0,0,0,3">
+                    <TextBlock Text="{DynamicResource LOCNortniteMemNotInstalled}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource NortniteFactLabel}">
+                                <Setter Property="MaxWidth" Value="Infinity" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsInstalled}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock Text="{DynamicResource LOCNortniteMemInstalled}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource NortniteFactLabel}">
+                                <Setter Property="MaxWidth" Value="Infinity" />
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsInstalled}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+
+                <!-- Rozmiar …… 33,7 GB. Wiersz nigdy się nie chowa: gra niezainstalowana → BŁĄD (kolor
+                     błędu), zainstalowana bez znanego rozmiaru → "–". Format liczby (jedno miejsce po
+                     przecinku, separator dziesiętny języka) pochodzi z plików tłumaczeń. -->
+                <Grid Margin="0,0,0,3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" MinWidth="24" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource NortniteFactLabel}" Text="{DynamicResource LOCNortniteMemSize}" />
+                    <Line Grid.Column="1" Style="{StaticResource NortniteDotLeader}" />
+                    <TextBlock>
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource NortniteFactValue}">
+                                <Setter Property="Text">
+                                    <Setter.Value>
+                                        <MultiBinding Mode="OneWay" Converter="{StaticResource MathConverter}"
+                                                      ConverterParameter="x &gt;= 1073741824 ? Format(y, Round(x / 107374182.4)) : Format(z, Round(x / 104857.6))">
+                                            <Binding Path="InstallSize" />
+                                            <!-- zapas, gdyby klucza zabrakło: MathConverter nie może dostać pustej wartości -->
+                                            <Binding Path="Resources[LOCNortniteSizeGbFormat]" Source="{x:Static Application.Current}"
+                                                     TargetNullValue="{}{0:0'.'0} GB" FallbackValue="{}{0:0'.'0} GB" />
+                                            <Binding Path="Resources[LOCNortniteSizeMbFormat]" Source="{x:Static Application.Current}"
+                                                     TargetNullValue="{}{0:0'.'0} MB" FallbackValue="{}{0:0'.'0} MB" />
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding InstallSize}" Value="{x:Null}">
+                                        <Setter Property="Text" Value="–" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding InstallSize}" Value="0">
+                                        <Setter Property="Text" Value="–" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsInstalled}" Value="False">
+                                        <Setter Property="Text" Value="{DynamicResource LOCNortniteMemSizeError}" />
+                                        <Setter Property="Foreground" Value="{DynamicResource NortniteErrorBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+
+                <!-- Gatunek …… pierwszy gatunek -->
+                <Grid>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Margin" Value="0,0,0,3" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Genres}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Genres.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" MinWidth="24" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource NortniteFactLabel}" Text="{DynamicResource LOCGenreLabel}" />
+                    <Line Grid.Column="1" Style="{StaticResource NortniteDotLeader}" />
+                    <TextBlock Style="{StaticResource NortniteFactValue}"
+                               Text="{Binding Genres[0].Name, Mode=OneWay, FallbackValue=''}" />
+                </Grid>
+
+                <!-- Wydano …… rok -->
+                <Grid>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Margin" Value="0,0,0,3" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ReleaseYear}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" MinWidth="24" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource NortniteFactLabel}" Text="{DynamicResource LOCNortniteMemReleased}" />
+                    <Line Grid.Column="1" Style="{StaticResource NortniteDotLeader}" />
+                    <TextBlock Style="{StaticResource NortniteFactValue}" Text="{Binding ReleaseYear}" />
+                </Grid>
+            </StackPanel>
+        </HeaderedContentControl>
+    </DataTemplate>
+</ResourceDictionary>

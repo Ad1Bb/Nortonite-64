@@ -1,0 +1,9 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Nortonite 64 · preset Theme Options: pasek HowLongToBeat mierzy fabułę z dodatkami.
+         Wczytywany tylko przez dodatek Theme Options (options.yaml); domyślne wartości
+         tych kluczy są w Constants.xaml. -->
+    <Visibility x:Key="NortniteHltbMainVisibility">Collapsed</Visibility>
+    <Visibility x:Key="NortniteHltbExtraVisibility">Visible</Visibility>
+    <Visibility x:Key="NortniteHltbCompletionistVisibility">Collapsed</Visibility>
+</ResourceDictionary>

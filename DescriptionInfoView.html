@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- Nortonite 64 · krótki opis w ramce README.TXT na ekranie głównym (panel INFO).
+         Każdy wiersz ma dokładnie 30 px (naturalna wysokość linii fontu motywu przy 30 px;
+         HtmlRenderer pomija line-height). Okno opisu w Main.xaml ma wysokość będącą
+         wielokrotnością 30, więc tekst zawsze kończy się pełną linią.
+         - Bez marginesów pionowych: puste akapity (częste w opisach ze Steama) nie dokładają
+           pustych linii, a siatka się nie przesuwa.
+         - Pusta linia z <br> ma w HtmlRenderer wysokość liczoną z rozmiaru fontu samego <br>
+           (przy 30 px wychodzi ok. 28,7). 31,65 px daje dokładnie 30 (zakres działający: 31,6–31,7).
+         - Nagłówki, obrazy i tabele są ukryte (cały opis jest w szczegółach gry), a punkty list
+           to zwykłe wcięte wiersze bez znaczników: na dole nie zostaje sam nagłówek ani punktor. -->
+    <style type="text/css">
+        HTML,BODY,DIV,P,UL,OL,LI,SPAN,A,B,STRONG,I,EM,U,BLOCKQUOTE
+        {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: {font_size}px;
+        }
+
+        HTML,BODY
+        {
+            color: {foreground};
+            font-family: "Nortnite UI", Consolas;
+        }
+
+        a { color: {link_foreground}; text-decoration: none; }
+        b, strong { font-weight: normal; }
+
+        h1, h2, h3, h4, h5, h6, img, table, hr, iframe, video { display: none; }
+
+        ul, ol { list-style-type: none; padding-left: 24px; }
+
+        br { font-size: 31.65px; }
+    </style>
+    <title>Game Description</title>
+</head>
+<body>
+<div>
+{text}
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Nortonite 64 · powiadomienia (makieta 10)
+        Nagłówek (napis + ikona) jest wpisany w kod Playnite; styl nadaje samemu
+        napisowi turkusowe tło. Każde powiadomienie: cienka ramka, etykieta typu
+        [ INFO ] (turkus) albo [ BŁĄD ] (czerwień), pod nią biała treść.
+    -->
+    <Style x:Key="NotificationsMenuBorder" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource NortniteBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="TextElement.FontFamily" Value="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}" />
+        <Setter Property="TextElement.FontSize" Value="33" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Setter Property="BorderThickness" Value="3,0,3,0" />
+        <Setter Property="Padding" Value="9,0,9,0" />
+    </Style>
+
+    <Style x:Key="NotificationsMenuHeaderText" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBaseStyle}">
+        <Setter Property="FontSize" Value="36" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource NortniteBarBrush}" />
+        <Setter Property="Padding" Value="18,6,18,6" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Margin" Value="0,0,18,0" />
+    </Style>
+
+    <Style x:Key="NotificationsMenuDismissButton" TargetType="ButtonEx" BasedOn="{StaticResource {x:Type ButtonEx}}">
+        <Setter Property="Margin" Value="15,0,15,24" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+
+    <Style x:Key="NotificationsMenuItemButton" TargetType="ButtonEx">
+        <Style.Resources>
+            <!-- Treść powiadomienia Playnite wstawia jako TextBlock z DynamicResource TextBlockBaseStyle:
+                 tutaj ten klucz daje biały tekst. -->
+            <Style x:Key="TextBlockBaseStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="{DynamicResource NortniteFontSize}" />
+                <Setter Property="FontFamily" Value="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}" />
+                <Setter Property="Foreground" Value="{DynamicResource NortniteBrightBrush}" />
+                <Setter Property="LineHeight" Value="36" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsFocused, RelativeSource={RelativeSource AncestorType=ButtonBase}}" Value="True">
+                        <Setter Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Style.Resources>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Margin" Value="15,6,15,6" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ButtonEx">
+                    <Grid>
+                        <Border x:Name="Bd" Background="Transparent" BorderThickness="2"
+                                BorderBrush="{DynamicResource NortniteForegroundBrush}" Padding="18,12,18,15">
+                            <StackPanel TextElement.FontFamily="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}"
+                                        TextElement.FontSize="{DynamicResource NortniteFontSize}">
+                                <TextBlock x:Name="InfoLabel" Margin="0,0,0,9"
+                                           Foreground="{DynamicResource NortniteForegroundBrush}">
+                                    <Run Text="[ " /><Run Text="{DynamicResource LOCNortniteNotificationInfo}" /><Run Text=" ]" />
+                                </TextBlock>
+                                <TextBlock x:Name="ErrorLabel" Margin="0,0,0,9" Visibility="Collapsed"
+                                           Foreground="{DynamicResource NortniteErrorBrush}">
+                                    <Run Text="[ " /><Run Text="{DynamicResource LOCNortniteNotificationError}" /><Run Text=" ]" />
+                                </TextBlock>
+                                <ContentPresenter />
+                            </StackPanel>
+                        </Border>
+                        <Border x:Name="FocusRing" Margin="-4.5" BorderThickness="3"
+                                BorderBrush="{DynamicResource NortniteAccentBrush}" Visibility="Collapsed" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Type}" Value="Error">
+                            <Setter TargetName="InfoLabel" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="ErrorLabel" Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource NortniteBarBrush}" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource NortniteBarBrush}" />
+                            <Setter TargetName="InfoLabel" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <!-- kolor Error na tle Bar bywa nieczytelny (np. BIOS), więc przy fokusie jak reszta tekstu -->
+                            <Setter TargetName="ErrorLabel" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

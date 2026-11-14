@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Nortonite 64: theme strings, German. Keys missing here fall back to en_US.xaml. -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Decorative path: <DriveRoot><PRESET NAME>> start <game> -->
+    <sys:String x:Key="LOCNortniteDriveRoot">C:\SPIELE\</sys:String>
+    <sys:String x:Key="LOCNortniteFilesCount" xml:space="preserve"> Datei(en)</sys:String>
+    <sys:String x:Key="LOCNortniteSelectHint">Auswahl</sys:String>
+
+    <!-- Main view -->
+    <sys:String x:Key="LOCNortniteMenu">Menü</sys:String>
+    <sys:String x:Key="LOCNortniteUpdate">Update</sys:String>
+    <sys:String x:Key="LOCNortniteInfo">INFO</sys:String>
+    <sys:String x:Key="LOCNortniteColumnTime">Zeit</sys:String>
+    <sys:String x:Key="LOCNortniteScores">Community / Kritiker</sys:String>
+    <sys:String x:Key="LOCNortnitePreset">Preset</sys:String>
+    <!-- Buttons under the game info and their pad hints. Keep them SHORT: the button row
+         is 666 px wide and must fit on one line in every language, also with "Install"
+         (about 22 Latin characters for the longer of Play/Install + Details + Options). -->
+    <sys:String x:Key="LOCNortniteButtonPlay">Spielen</sys:String>
+    <sys:String x:Key="LOCNortniteButtonInstall">Installieren</sys:String>
+    <sys:String x:Key="LOCNortniteButtonDetails">Info</sys:String>
+    <sys:String x:Key="LOCNortniteButtonOptions">Extras</sys:String>
+
+    <!-- HowLongToBeat -->
+    <sys:String x:Key="LOCNortniteHltbShort">HLTB</sys:String>
+    <sys:String x:Key="LOCNortniteHltbLong">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCNortniteHltbMain">Story</sys:String>
+    <sys:String x:Key="LOCNortniteHltbMainLong">Hauptstory</sys:String>
+    <sys:String x:Key="LOCNortniteHltbExtra">+ Extras</sys:String>
+    <sys:String x:Key="LOCNortniteHltbExtraLong">Story + Extras</sys:String>
+    <sys:String x:Key="LOCNortniteHltbCompletionist">100%</sys:String>
+    <!-- Pasek oceny zamiast HowLongToBeat: krótka etykieta w panelu INFO, długa w szczegółach i opcjach -->
+    <sys:String x:Key="LOCNortniteScoreCommunity">Spieler</sys:String>
+    <sys:String x:Key="LOCNortniteScoreCritic">Kritiker</sys:String>
+    <sys:String x:Key="LOCNortniteScoreCommunityLong">Spielerwertung</sys:String>
+    <sys:String x:Key="LOCNortniteScoreCriticLong">Kritikerwertung</sys:String>
+
+    <!-- Game details, game menu, launch screen -->
+    <sys:String x:Key="LOCNortniteGameDetailsTitle">SPIELDETAILS</sys:String>
+    <sys:String x:Key="LOCNortniteGameMenuTitle">SPIELMENÜ</sys:String>
+    <sys:String x:Key="LOCNortniteMainMenuTitle">Hauptmenü</sys:String>
+    <sys:String x:Key="LOCNortniteLaunchingTitle">SPIELSTART</sys:String>
+    <sys:String x:Key="LOCNortniteLoadingProgram">Programm wird geladen…</sys:String>
+    <sys:String x:Key="LOCNortniteConventionalMemory">Konventioneller Speicher</sys:String>
+    <sys:String x:Key="LOCNortniteDrivers">Treiber</sys:String>
+    <sys:String x:Key="LOCNortniteStatusOk">OK</sys:String>
+    <sys:String x:Key="LOCNortniteNavigate">Navigation</sys:String>
+    <sys:String x:Key="LOCNortniteCloseHint">schließen</sys:String>
+    <sys:String x:Key="LOCNortniteFiltersTitle">FILTER</sys:String>
+    <sys:String x:Key="LOCNortniteAdditionalFiltersTitle">WEITERE FILTER</sys:String>
+    <sys:String x:Key="LOCNortniteNotificationInfo">INFO</sys:String>
+    <sys:String x:Key="LOCNortniteNotificationError">FEHLER</sys:String>
+    <sys:String x:Key="LOCNortniteSettingsTitle">EINSTELLUNGEN</sys:String>
+    <!-- Theme options (Theme Options extension, options.yaml) -->
+    <sys:String x:Key="LOCNortniteOptPalette">Farbpalette</sys:String>
+    <sys:String x:Key="LOCNortnitePaletteNorton">NORTON</sys:String>
+    <sys:String x:Key="LOCNortnitePaletteBios">BIOS</sys:String>
+    <sys:String x:Key="LOCNortnitePaletteMsDos">MS-DOS</sys:String>
+    <sys:String x:Key="LOCNortnitePaletteSynthwave">SYNTHWAVE</sys:String>
+    <sys:String x:Key="LOCNortnitePaletteOutrun">OUTRUN</sys:String>
+    <sys:String x:Key="LOCNortnitePaletteVaporwave">VAPORWAVE</sys:String>
+    <sys:String x:Key="LOCNortnitePaletteSunset">SUNSET</sys:String>
+    <sys:String x:Key="LOCNortnitePaletteArizona">ARIZONA</sys:String>
+    <sys:String x:Key="LOCNortniteOptListSize">Größe der Spieleliste</sys:String>
+    <sys:String x:Key="LOCNortniteOptListSizeCompact">Kompakt</sys:String>
+    <sys:String x:Key="LOCNortniteOptListSizeNormal">Normal</sys:String>
+    <sys:String x:Key="LOCNortniteOptListSizeLarge">Groß</sys:String>
+    <sys:String x:Key="LOCNortniteOptListColumn">Zweite Listenspalte</sys:String>
+    <sys:String x:Key="LOCNortniteOptHltbTarget">HowLongToBeat-Balken misst</sys:String>
+    <sys:String x:Key="LOCNortniteOptHltbTargetMain">Hauptstory</sys:String>
+    <sys:String x:Key="LOCNortniteOptHltbTargetExtra">Story + Extras</sys:String>
+    <sys:String x:Key="LOCNortniteOptHltbTargetCompletionist">Komplettierung (100%)</sys:String>
+    <sys:String x:Key="LOCNortniteOptInfoBar">Leiste unter den Spieldaten</sys:String>
+    <sys:String x:Key="LOCNortniteOptLaunchScreen">Spielstart-Bildschirm</sys:String>
+    <sys:String x:Key="LOCNortniteOptShow">Anzeigen</sys:String>
+    <sys:String x:Key="LOCNortniteOptHide">Ausblenden</sys:String>
+    <sys:String x:Key="LOCNortniteOptCmdPath">Pfad in der Befehlszeile</sys:String>
+    <sys:String x:Key="LOCNortniteOptCmdPathInstall">Installationsordner des Spiels</sys:String>
+    <sys:String x:Key="LOCNortniteOptCmdPathPreset">Preset-Pfad</sys:String>
+    <sys:String x:Key="LOCNortniteOptCursor">Cursor der Befehlszeile</sys:String>
+    <sys:String x:Key="LOCNortniteOptCursorBlinking">Blinkend</sys:String>
+    <sys:String x:Key="LOCNortniteOptCursorSteady">Dauerhaft</sys:String>
+    <!-- C:\>MEM panel under the cover -->
+    <sys:String x:Key="LOCNortniteMemInstalled">[■] Installiert</sys:String>
+    <sys:String x:Key="LOCNortniteMemNotInstalled">[ ] Nicht installiert</sys:String>
+    <sys:String x:Key="LOCNortniteMemSize">Größe</sys:String>
+    <sys:String x:Key="LOCNortniteMemSizeError">FEHLER</sys:String>
+    <sys:String x:Key="LOCNortniteMemReleased">Erschienen</sys:String>
+    <!-- Size with one decimal place: the number is in tenths of the unit,
+         ',' is this language's decimal separator (e.g. 337 → 33,7) -->
+    <sys:String x:Key="LOCNortniteSizeGbFormat">{0:0&apos;,&apos;0} GB</sys:String>
+    <sys:String x:Key="LOCNortniteSizeMbFormat">{0:0&apos;,&apos;0} MB</sys:String>
+    <!-- Play time, compact (game list column is 120 px): {0} = hours, {1} = minutes.
+         Keep it as short as "999h 59m"; under one hour only minutes are shown. -->
+    <sys:String x:Key="LOCNortniteTimeHoursFormat">{0}h {1}m</sys:String>
+    <sys:String x:Key="LOCNortniteTimeMinutesFormat">{0}m</sys:String>
+</ResourceDictionary>

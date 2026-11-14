@@ -1,0 +1,76 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    mc:Ignorable="d">
+
+    <!-- Nortonite 64: zawartość wiersza listy gier.
+         Kolumny: nazwa | biblioteka albo platforma (albo nic) | czas gry.
+         Szerokości kolumn muszą się zgadzać z nagłówkiem w Views/Main.xaml. -->
+    <Style x:Key="ListGameItemTemplate" TargetType="{x:Type GameListItem}">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GameListItem}">
+                    <Grid d:DataContext="{x:Static DesignMainViewModel.DesignSelectedGameIntance}">
+                        <!-- Szerokości kolumn: wspólne zasoby z Constants.xaml (NortniteListCol…).
+                             Druga kolumna ma szerokość Auto: jej teksty mają stałą szerokość i odstęp
+                             jako margines, więc gdy oba są ukryte, kolumna znika razem z odstępem. -->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="{DynamicResource NortniteListColGap}" />
+                            <ColumnDefinition Width="{DynamicResource NortniteListColTime}" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock x:Name="TextName" Grid.Column="0"
+                                   Style="{StaticResource NortniteListTextStyle}"
+                                   Foreground="{DynamicResource NortniteBrightBrush}"
+                                   Text="{Binding DisplayName}" />
+
+                        <!-- Druga kolumna: biblioteka (Steam, GOG, …; gry dodane ręcznie: "Playnite")
+                             albo platforma; widać tę wybraną w opcjach motywu (zasoby
+                             NortniteListLibraryVisibility / NortniteListPlatformVisibility) -->
+                        <TextBlock x:Name="TextLibrary" Grid.Column="1" Margin="12,0,0,0"
+                                   Width="{DynamicResource NortniteListColPlatformWidth}"
+                                   Visibility="{DynamicResource NortniteListLibraryVisibility}"
+                                   Style="{StaticResource NortniteListTextStyle}"
+                                   Text="{Binding Library}" />
+                        <TextBlock x:Name="TextPlatform" Grid.Column="1" Margin="12,0,0,0"
+                                   Width="{DynamicResource NortniteListColPlatformWidth}"
+                                   Visibility="{DynamicResource NortniteListPlatformVisibility}"
+                                   Style="{StaticResource NortniteListTextStyle}"
+                                   Text="{Binding Platforms, Converter={StaticResource ListToStringConverter}, ConverterParameter=', '}" />
+
+                        <!-- Czas gry w zwięzłym formacie motywu ("14m", "2h 13m"), wspólny styl z Constants.xaml,
+                             bo PlayTimeToStringConverter daje w części języków długie teksty ("14 minutes",
+                             "12 小时  30 分钟"), które wąska kolumna ucina. Gra nigdy nieuruchomiona: "–". -->
+                        <TextBlock x:Name="TextTime" Grid.Column="3" TextAlignment="Right"
+                                   Style="{StaticResource NortniteListTextStyle}">
+                            <Run Style="{StaticResource NortnitePlaytimeRunList}" Tag="{Binding Playtime, Mode=OneWay}" />
+                        </TextBlock>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <!-- Gra nigdy nieuruchomiona: nazwa turkusowa -->
+                        <DataTrigger Binding="{Binding Playtime}" Value="0">
+                            <Setter TargetName="TextName" Property="Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+                        </DataTrigger>
+                        <!-- Wiersz zaznaczony: czarny tekst na turkusowym tle -->
+                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                            <Setter TargetName="TextName" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="TextLibrary" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="TextPlatform" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="TextTime" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsFocused, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                            <Setter TargetName="TextName" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="TextLibrary" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="TextPlatform" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="TextTime" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

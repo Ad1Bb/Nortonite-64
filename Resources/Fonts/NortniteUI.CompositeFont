@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Nortonite 64: font interfejsu złożony z kilku plików.
+  WPF nie przechodzi do kolejnej mapy, gdy w pierwszej brakuje znaku (bierze go wtedy
+  z fontu systemowego, np. Segoe UI), dlatego każda mapa ma rozłączny zakres Unicode
+  i font, który ma w nim komplet znaków.
+  Znaki spoza map (np. chiński, japoński, koreański) przechodzą na font systemowy.
+-->
+<FontFamily xmlns="http://schemas.microsoft.com/winfx/2006/xaml/composite-font"
+            xmlns:sys="clr-namespace:System;assembly=mscorlib"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            Baseline="0.8"
+            LineSpacing="1.0">
+  <FontFamily.FamilyNames>
+    <sys:String x:Key="en-US">Nortnite UI</sys:String>
+  </FontFamily.FamilyNames>
+  <FontFamily.FamilyMaps>
+    <!-- Łacina (podstawowa, Latin-1, Extended-A/B) i interpunkcja: VT323 -->
+    <FontFamilyMap Unicode="0000-02FF" Target="./VT323-Regular.ttf#VT323" />
+    <FontFamilyMap Unicode="2000-206F" Target="./VT323-Regular.ttf#VT323" />
+    <FontFamilyMap Unicode="20A0-20CF" Target="./VT323-Regular.ttf#VT323" />
+    <!-- Grecki i cyrylica: Consolas (systemowy, monospace), skala 0.8 = wysokość wersalików VT323.
+         Wcześniej Pixelify Sans, ale nie ma on m.in. О, П, І, Δ, Ω, ς: WPF brał je z Segoe UI
+         w innym rozmiarze i krój mieszał się w jednym słowie (np. "ПОИСК"). -->
+    <FontFamilyMap Unicode="0370-03FF" Target="Consolas" Scale="0.8" />
+    <FontFamilyMap Unicode="0400-052F" Target="Consolas" Scale="0.8" />
+    <!-- Strzałki, ramki, kształty (▲ ▼ ► ◄ ■ ↑ ↓): Consolas -->
+    <FontFamilyMap Unicode="2070-209F" Target="Consolas" Scale="0.875" />
+    <FontFamilyMap Unicode="20D0-2BFF" Target="Consolas" Scale="0.875" />
+  </FontFamily.FamilyMaps>
+</FontFamily>

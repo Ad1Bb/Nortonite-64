@@ -1,0 +1,137 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Nortonite 64 · menu gry (makieta 05)
+        Okno na środku ekranu; listę pozycji i ich kolejność ustala Playnite.
+        Pozycje z podmenu mają ► po prawej, "Usuń z biblioteki" ma kolor akcentu.
+    -->
+    <Style x:Key="GameMenuButton" TargetType="ButtonEx">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Padding" Value="15,9,15,9" />
+        <Setter Property="MinHeight" Value="60" />
+        <Setter Property="FontSize" Value="33" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template" Value="{DynamicResource NortniteRowButtonTemplate}" />
+        <Setter Property="Margin" Value="15,1.5,15,1.5" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="GameMenuBorder" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource NortniteBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="BorderThickness" Value="3" />
+        <Setter Property="TextElement.FontFamily" Value="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}" />
+        <Setter Property="TextElement.FontSize" Value="33" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Setter Property="Width" Value="570" />
+        <Setter Property="Padding" Value="0,0,0,18" />
+    </Style>
+
+    <Style x:Key="GameMenuHeaderText" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBaseStyle}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="FontSize" Value="36" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+    </Style>
+
+    <!-- Nagłówek: nazwa gry po lewej, MENU GRY po prawej -->
+    <DataTemplate x:Key="GameMenuHeaderTemplate">
+        <Border Style="{StaticResource NortniteWindowHeader}" Margin="0,0,0,15">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Right" Text="{DynamicResource LOCNortniteGameMenuTitle}"
+                           FontSize="27" VerticalAlignment="Center" Margin="18,0,0,0" />
+                <TextBlock Text="{Binding Name}" Style="{StaticResource GameMenuHeaderText}" />
+            </DockPanel>
+        </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="GameMenuPlayButtonTemplate">
+        <DockPanel>
+            <TextBlock Style="{StaticResource NortniteMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource NortniteMenuLabel}" Text="{Binding}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="GameMenuInstallButtonTemplate">
+        <DockPanel>
+            <TextBlock Style="{StaticResource NortniteMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource NortniteMenuLabel}" Text="{Binding}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="GameMenuFavoriesButtonTemplate">
+        <DockPanel>
+            <TextBlock Style="{StaticResource NortniteMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource NortniteMenuLabel}" Text="{Binding}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="GameMenuVisibilityButtonTemplate">
+        <DockPanel>
+            <TextBlock Style="{StaticResource NortniteMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource NortniteMenuLabel}" Text="{Binding}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="GameMenuHdrButtonTemplate">
+        <DockPanel>
+            <TextBlock Style="{StaticResource NortniteMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource NortniteMenuLabel}" Text="{Binding}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="GameMenuRemoveButtonTemplate">
+        <DockPanel>
+            <TextBlock Style="{StaticResource NortniteMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource NortniteMenuLabelAccent}" Text="{Binding}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="GameMenuUninstallButtonTemplate">
+        <DockPanel>
+            <TextBlock Style="{StaticResource NortniteMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource NortniteMenuLabel}" Text="{Binding}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="GameMenuCustomActionButtonTemplate">
+        <DockPanel>
+            <TextBlock Style="{StaticResource NortniteMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource NortniteMenuLabel}" Text="{Binding}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="GameMenuCompletionStatusTemplate">
+        <DockPanel>
+            <TextBlock Style="{StaticResource NortniteMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource NortniteMenuLabel}" Text="{Binding}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="GameMenuSetFieldsTemplate">
+        <DockPanel>
+            <TextBlock Style="{StaticResource NortniteMenuSubmenuArrow}" />
+            <TextBlock Style="{StaticResource NortniteMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource NortniteMenuLabel}" Text="{Binding}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="GameMenuExtensionsTemplate">
+        <DockPanel>
+            <TextBlock Style="{StaticResource NortniteMenuSubmenuArrow}" />
+            <TextBlock Style="{StaticResource NortniteMenuIcon}" Tag="" />
+            <TextBlock Style="{StaticResource NortniteMenuLabel}" Text="{Binding}" />
+        </DockPanel>
+    </DataTemplate>
+</ResourceDictionary>

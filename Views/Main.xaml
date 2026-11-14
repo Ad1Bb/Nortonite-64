@@ -1,0 +1,1033 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:b="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors"
+                    xmlns:bc="clr-namespace:Microsoft.Xaml.Behaviors.Core;assembly=Microsoft.Xaml.Behaviors"
+                    xmlns:html="clr-namespace:TheArtOfDev.HtmlRenderer.WPF;assembly=HtmlRenderer.WPF"
+                    mc:Ignorable="d">
+
+    <!--
+        Nortonite 64 · widok główny (makieta 01)
+        Wiersze: belka menu 45 | presety 51 | panele 27+861 | wiersz poleceń 15+39 | belka pada 42  = 1080
+        Kolumny paneli: lista 480* | 12 | INFO 776*  (proporcje makiety 1280×720)
+        MathConverter: nazwy funkcji z wielkiej litery (Round, Max); błąd w wyrażeniu zamyka Playnite.
+    -->
+    <Style TargetType="{x:Type Main}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Main}">
+                    <Grid x:Name="PART_MainHost"
+                          d:DesignWidth="{StaticResource DesignWidth}"
+                          d:DesignHeight="{StaticResource DesignHeight}"
+                          d:DataContext="{x:Static DesignMainViewModel.DesignIntance}"
+                          TextElement.FontFamily="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}"
+                          TextElement.FontSize="{DynamicResource NortniteFontSize}"
+                          TextElement.Foreground="{DynamicResource NortniteForegroundBrush}"
+                          TextOptions.TextFormattingMode="Ideal">
+                        <Grid.Resources>
+                            <!-- Przycisk belki menu: czarny tekst na turkusie; fokus: odwrócenie + żółta obwódka -->
+                            <Style x:Key="NortniteMenuBarButton" TargetType="ButtonEx">
+                                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                                <Setter Property="FontSize" Value="{DynamicResource NortniteFontSizeBar}" />
+                                <Setter Property="Padding" Value="15,0,15,0" />
+                                <Setter Property="Margin" Value="0,0,9,0" />
+                                <Setter Property="Height" Value="45" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ButtonEx">
+                                            <Grid>
+                                                <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                                        Padding="{TemplateBinding Padding}">
+                                                    <ContentPresenter x:Name="Cp" VerticalAlignment="Center"
+                                                                      TextElement.Foreground="{TemplateBinding Foreground}"
+                                                                      TextElement.FontSize="{TemplateBinding FontSize}" />
+                                                </Border>
+                                                <Border x:Name="FocusRing" BorderThickness="3"
+                                                        BorderBrush="{DynamicResource NortniteAccentBrush}"
+                                                        Visibility="Collapsed" />
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsFocused" Value="True">
+                                                    <Setter TargetName="Bd" Property="Background" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                                                    <Setter Property="Foreground" Value="{DynamicResource NortniteBarBrush}" />
+                                                    <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+
+                            <Style x:Key="BarText" TargetType="TextBlock" BasedOn="{StaticResource NortniteTextStyle}">
+                                <Setter Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                                <Setter Property="FontSize" Value="{DynamicResource NortniteFontSizeBar}" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+
+                            <Style x:Key="ColumnHeader" TargetType="TextBlock" BasedOn="{StaticResource NortniteListTextStyle}">
+                                <Setter Property="Foreground" Value="{DynamicResource NortniteAccentBrush}" />
+                            </Style>
+
+                            <!-- Wiersz danych "etykieta …… wartość" -->
+                            <Style x:Key="FactLabel" TargetType="TextBlock" BasedOn="{StaticResource NortniteTextStyle}">
+                                <Setter Property="MaxWidth" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=StackPanel}, Converter={StaticResource MathConverter}, ConverterParameter='x * 0.48'}" />
+                            </Style>
+                            <Style x:Key="FactValue" TargetType="TextBlock" BasedOn="{StaticResource NortniteTextStyle}">
+                                <Setter Property="Foreground" Value="{DynamicResource NortniteBrightBrush}" />
+                                <Setter Property="TextAlignment" Value="Right" />
+                                <Setter Property="MaxWidth" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=StackPanel}, Converter={StaticResource MathConverter}, ConverterParameter='x * 0.48'}" />
+                            </Style>
+
+                            <Style x:Key="CmdText" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBaseStyle}">
+                                <Setter Property="Foreground" Value="{DynamicResource NortniteCommandForegroundBrush}" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                            </Style>
+
+                            <!-- Migający kursor blokowy (cykl 1 s) -->
+                            <Style x:Key="BlinkCursor" TargetType="Rectangle">
+                                <Setter Property="Width" Value="16.5" />
+                                <Setter Property="Height" Value="25.5" />
+                                <Setter Property="Margin" Value="3,0,0,0" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="Fill" Value="{DynamicResource NortniteCommandForegroundBrush}" />
+                                <!-- Animacja działa tylko, gdy kursor jest widoczny (przy kursorze stałym stoi),
+                                     i odświeża się 4 razy na sekundę zamiast z częstotliwością ekranu:
+                                     każda działająca animacja WPF wymusza ciągłe odświeżanie okna. -->
+                                <Style.Triggers>
+                                    <Trigger Property="IsVisible" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard x:Name="CursorBlinkAnim">
+                                                <Storyboard RepeatBehavior="Forever" Timeline.DesiredFrameRate="4">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Duration="0:0:1">
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <StopStoryboard BeginStoryboardName="CursorBlinkAnim" />
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+
+                            <!-- Kursor wiersza poleceń: migający albo stały (preset Theme Options "Kursor w wierszu poleceń").
+                                 Dwa prostokąty w jednym miejscu: migający (styl BlinkCursor, widoczność ustawiona
+                                 na samym elemencie) i stały; który widać, decydują zasoby Visibility z Constants.xaml
+                                 (domyślnie migający), podmieniane przez Options\CursorSteady.xaml. Ukryty migający
+                                 stoi (animacja tylko przy IsVisible). Nie robić stylu pochodnego od BlinkCursor:
+                                 StopStoryboard po nazwie z wyzwalacza stylu bazowego rzuca wtedy wyjątek. -->
+                            <Style x:Key="CmdCursorSteady" TargetType="Rectangle">
+                                <Setter Property="Width" Value="16.5" />
+                                <Setter Property="Height" Value="25.5" />
+                                <Setter Property="Margin" Value="3,0,0,0" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="Fill" Value="{DynamicResource NortniteCommandForegroundBrush}" />
+                                <Setter Property="Visibility" Value="{DynamicResource NortniteCursorSteadyVisibility}" />
+                            </Style>
+
+                            <Style x:Key="LegendCell" TargetType="DockPanel">
+                                <Setter Property="Margin" Value="0,3,9,3" />
+                                <Setter Property="LastChildFill" Value="True" />
+                            </Style>
+                        </Grid.Resources>
+
+                        <Grid x:Name="PART_ViewHost" Background="{DynamicResource NortniteBackgroundBrush}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="45" />
+                                <RowDefinition Height="51" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="42" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Tło z obrazem gry jest wyłączone w tym motywie (płaskie wypełnienia) -->
+                            <FadeImage x:Name="PART_ImageBackground" Grid.RowSpan="5" Visibility="Collapsed" />
+
+                            <!-- ===================== 1. Belka menu ===================== -->
+                            <Grid Grid.Row="0" Background="{DynamicResource NortniteBarBrush}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="12,0,0,0">
+                                    <ButtonEx x:Name="PART_ButtonMainMenu"
+                                              Style="{StaticResource NortniteMenuBarButton}"
+                                              Content="{DynamicResource LOCNortniteMenu}" />
+                                    <ButtonEx x:Name="PART_ButtonFilter"
+                                              Style="{StaticResource NortniteMenuBarButton}"
+                                              Content="{DynamicResource LOCFilters}" />
+                                    <ButtonEx x:Name="PART_ButtonSearch"
+                                              Style="{StaticResource NortniteMenuBarButton}"
+                                              Content="{DynamicResource LOCSearchLabel}" />
+                                    <ButtonEx x:Name="PART_ButtonNotifications"
+                                              Style="{StaticResource NortniteMenuBarButton}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{DynamicResource LOCNotifications}" />
+                                            <TextBlock Text=" •">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Foreground" Value="{DynamicResource NortniteBackgroundBrush}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsFocused, RelativeSource={RelativeSource AncestorType=ButtonBase}}" Value="True">
+                                                                <Setter Property="Foreground" Value="{DynamicResource NortniteAccentBrush}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Api Notifications.Count}" Value="0">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </ButtonEx>
+                                    <ButtonEx x:Name="PART_ButtonProgramUpdate"
+                                              Style="{StaticResource NortniteMenuBarButton}"
+                                              Content="{DynamicResource LOCNortniteUpdate}" />
+                                </StackPanel>
+
+                                <!-- Postęp zadań w tle (np. aktualizacja biblioteki) -->
+                                <StackPanel x:Name="PART_ElemProgressIndicator" Grid.Column="2"
+                                            Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,24,0">
+                                    <TextBlock x:Name="PART_TextProgressTooltip" Style="{StaticResource BarText}"
+                                               MaxWidth="600" />
+                                    <Rectangle Width="16.5" Height="25.5" Margin="6,0,0,0"
+                                               Fill="{DynamicResource NortniteBarForegroundBrush}"
+                                               Style="{StaticResource BlinkCursor}" />
+                                </StackPanel>
+
+                                <!-- Bateria: tekstowy wskaźnik, widoczny tylko na urządzeniach z baterią -->
+                                <ContentControl x:Name="PART_ElemBatteryStatus" Grid.Column="3" Focusable="False"
+                                                VerticalAlignment="Center" Margin="0,0,9,0">
+                                    <ContentControl.Style>
+                                        <Style TargetType="ContentControl">
+                                            <Setter Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                                            <Setter Property="FontSize" Value="{DynamicResource NortniteFontSizeBar}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PowerStatus.Charge}" Value="Critical">
+                                                    <Setter Property="Content" Value="[■   ]" />
+                                                    <Setter Property="Foreground" Value="{DynamicResource NortniteErrorBrush}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding PowerStatus.Charge}" Value="Low">
+                                                    <Setter Property="Content" Value="[■■  ]" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding PowerStatus.Charge}" Value="Medium">
+                                                    <Setter Property="Content" Value="[■■■ ]" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding PowerStatus.Charge}" Value="High">
+                                                    <Setter Property="Content" Value="[■■■■]" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding PowerStatus.IsCharging}" Value="True">
+                                                    <Setter Property="Content" Value="[++++]" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ContentControl.Style>
+                                </ContentControl>
+
+                                <TextBlock x:Name="PART_TextBatteryPercentage" Grid.Column="4"
+                                           Style="{StaticResource BarText}" Margin="0,0,18,0" />
+
+                                <TextBlock x:Name="PART_TextClock" Grid.Column="5"
+                                           Style="{StaticResource BarText}" Margin="0,0,21,0" />
+                            </Grid>
+
+                            <!-- ===================== 2. Rząd presetów ===================== -->
+                            <Border Grid.Row="1" BorderBrush="{DynamicResource NortniteDimBrush}"
+                                    BorderThickness="0,0,0,3" Padding="21,0,21,0">
+                                <FilterPresetSelector x:Name="PART_FilterPresetSelector" VerticalAlignment="Center" />
+                            </Border>
+
+                            <!-- ===================== 3. Panele ===================== -->
+                            <Grid Grid.Row="2" Margin="12,27,12,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="480*" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="776*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Lewy panel: lista gier -->
+                                <HeaderedContentControl Grid.Column="0" Style="{StaticResource NortnitePanelStyle}">
+                                    <!-- Tytuł jako osobny TextBlock dziedziczy kolor po panelu (Foreground), a nie
+                                         po polu tytułu, więc kolor tekstu na tle Bar jest ustawiony wprost -->
+                                    <HeaderedContentControl.Header>
+                                        <TextBlock TextTrimming="CharacterEllipsis" Foreground="{DynamicResource NortniteBarForegroundBrush}">
+                                            <Run Text="{DynamicResource LOCNortniteDriveRoot}" /><Run Text="{Binding ActiveFilterPreset.Name, Mode=OneWay, Converter={StaticResource StringToUpperCaseConverter}, FallbackValue='*.*', TargetNullValue='*.*'}" />
+                                        </TextBlock>
+                                    </HeaderedContentControl.Header>
+
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Nagłówek kolumn (szerokości: zasoby NortniteListCol… z Constants.xaml) -->
+                                        <Border Grid.Row="0" BorderBrush="{DynamicResource NortniteDimBrush}"
+                                                BorderThickness="0,0,0,3" Padding="12,0,12,9" Margin="0,0,30,0">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="{DynamicResource NortniteListColGap}" />
+                                                    <ColumnDefinition Width="{DynamicResource NortniteListColTime}" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Style="{StaticResource ColumnHeader}"
+                                                           Text="{DynamicResource LOCGameNameTitle}" />
+                                                <!-- Druga kolumna jak w wierszach (ListGameItemTemplate.xaml): Biblioteka albo Platforma -->
+                                                <TextBlock Grid.Column="1" Style="{StaticResource ColumnHeader}" Margin="12,0,0,0"
+                                                           Width="{DynamicResource NortniteListColPlatformWidth}"
+                                                           Visibility="{DynamicResource NortniteListLibraryVisibility}"
+                                                           Text="{DynamicResource LOCLibrary}" />
+                                                <TextBlock Grid.Column="1" Style="{StaticResource ColumnHeader}" Margin="12,0,0,0"
+                                                           Width="{DynamicResource NortniteListColPlatformWidth}"
+                                                           Visibility="{DynamicResource NortniteListPlatformVisibility}"
+                                                           Text="{DynamicResource LOCPlatformTitle}" />
+                                                <TextBlock Grid.Column="3" Style="{StaticResource ColumnHeader}"
+                                                           TextAlignment="Right"
+                                                           Text="{DynamicResource LOCNortniteColumnTime}" />
+                                            </Grid>
+                                        </Border>
+
+                                        <Grid Grid.Row="1" Margin="0,9,0,9">
+                                            <!-- Lista gier: własny panel wirtualizujący zamiast FullscreenTilePanel.
+                                                 Panel z IsItemsHost w szablonie ma pierwszeństwo przed ItemsPanel
+                                                 ustawianym z kodu Playnite. -->
+                                            <ListBoxEx x:Name="PART_ListGameItems"
+                                                       Background="Transparent" BorderThickness="0"
+                                                       KeyboardNavigation.DirectionalNavigation="Once"
+                                                       ScrollViewer.CanContentScroll="True"
+                                                       VirtualizingPanel.IsVirtualizing="True"
+                                                       VirtualizingPanel.VirtualizationMode="Recycling"
+                                                       VirtualizingPanel.ScrollUnit="Item">
+                                                <ListBoxEx.Template>
+                                                    <ControlTemplate TargetType="ListBoxEx">
+                                                        <ScrollViewer x:Name="ListScroll"
+                                                                      Template="{StaticResource NortniteScrollViewerTemplate}"
+                                                                      Focusable="False"
+                                                                      CanContentScroll="True"
+                                                                      HorizontalScrollBarVisibility="Disabled"
+                                                                      VerticalScrollBarVisibility="Visible">
+                                                            <b:Interaction.Triggers>
+                                                                <!-- Po zmianie presetu lista wraca na górę -->
+                                                                <bc:PropertyChangedTrigger Binding="{Binding ActiveFilterPreset}">
+                                                                    <bc:CallMethodAction MethodName="ScrollToTop" />
+                                                                </bc:PropertyChangedTrigger>
+                                                            </b:Interaction.Triggers>
+                                                            <!-- ScrollViewer przycina treść do swoich krawędzi, a obwódka fokusu
+                                                                 wiersza wystaje 3 px w bok i 1,5 px w pionie (ListGameItemStyle):
+                                                                 margines panelu ją mieści (bez niego górna krawędź pierwszego
+                                                                 wiersza i boki były ucięte). Wcięcie tekstu wiersza jest o 3 mniejsze
+                                                                 (NortniteListRowPadding), więc kolumny dalej równają się z nagłówkiem. -->
+                                                            <VirtualizingStackPanel IsItemsHost="True" Orientation="Vertical"
+                                                                                    Margin="3,1.5,3,1.5" />
+                                                        </ScrollViewer>
+                                                    </ControlTemplate>
+                                                </ListBoxEx.Template>
+                                            </ListBoxEx>
+
+                                            <TextBlock Text="{DynamicResource LOCNoGamesFound}"
+                                                       TextWrapping="Wrap" TextAlignment="Center"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                       Margin="24,0,54,0">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBaseStyle}">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Items.Count, ElementName=PART_ListGameItems}" Value="0">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Grid>
+
+                                        <!-- Stopka w stylu DIR: "214 plik(ów)" + podpowiedź -->
+                                        <Border Grid.Row="2" BorderBrush="{DynamicResource NortniteDimBrush}"
+                                                BorderThickness="0,3,0,0" Padding="12,9,12,0">
+                                            <DockPanel>
+                                                <TextBlock DockPanel.Dock="Right" Style="{StaticResource NortniteTextStyle}">
+                                                    <Run Text="↑↓ " /><Run Text="{DynamicResource LOCNortniteSelectHint}" />
+                                                </TextBlock>
+                                                <TextBlock Style="{StaticResource NortniteTextStyle}"
+                                                           Foreground="{DynamicResource NortniteBrightBrush}">
+                                                    <Run Text="{Binding Items.Count, ElementName=PART_ListGameItems, Mode=OneWay}" /><Run Text="{DynamicResource LOCNortniteFilesCount}" />
+                                                </TextBlock>
+                                            </DockPanel>
+                                        </Border>
+                                    </Grid>
+                                </HeaderedContentControl>
+
+                                <!-- Panel filtrów i podfiltrów: wysuwa się w miejscu listy (makieta 03) -->
+                                <Filters x:Name="PART_ElemFilters" Grid.Column="0" Focusable="False" />
+                                <FiltersAdditional x:Name="PART_ElemFiltersAdditional" Grid.Column="0" Focusable="False" />
+                                <ContentControl x:Name="PART_ContentFilterItems" Grid.Column="0" Focusable="False" />
+
+                                <!-- Prawy panel: INFO -->
+                                <HeaderedContentControl Grid.Column="2" Style="{StaticResource NortnitePanelStyle}"
+                                                        Header="{DynamicResource LOCNortniteInfo}"
+                                                        Padding="27,27,27,18">
+                                    <Grid>
+                                        <Grid.Style>
+                                            <Style TargetType="Grid">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding SelectedGame}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Hidden" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Grid.Style>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="33" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0" Width="390" VerticalAlignment="Top">
+                                        <!-- Okładka w oryginalnej jakości -->
+                                        <Border Width="390" Height="585"
+                                                BorderBrush="{DynamicResource NortniteForegroundBrush}" BorderThickness="3"
+                                                Background="{DynamicResource NortniteBackgroundBrush}">
+                                            <Image RenderOptions.BitmapScalingMode="Fant" Stretch="Uniform">
+                                                <Image.Source>
+                                                    <PriorityBinding>
+                                                        <Binding Path="SelectedGame.CoverImageObject" IsAsync="True"
+                                                                 Converter="{StaticResource NullToDependencyPropertyUnsetConverter}" />
+                                                        <Binding Path="SelectedGame.DefaultCoverImageObject"
+                                                                 Converter="{StaticResource NullToDependencyPropertyUnsetConverter}" />
+                                                    </PriorityBinding>
+                                                </Image.Source>
+                                            </Image>
+                                        </Border>
+
+                                        <!-- C:\&gt;MEM: wspólny szablon NortniteMemPanelTemplate z Constants.xaml (ten sam co w szczegółach gry) -->
+                                        <ContentControl Content="{Binding SelectedGame}" ContentTemplate="{StaticResource NortniteMemPanelTemplate}"
+                                                        Focusable="False" IsTabStop="False" />
+                                        </StackPanel>
+
+                                        <Grid Grid.Column="2">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Tytuł: stałe pole na dwie linie (2 × LineHeight 43), tytuł
+                                                 wyśrodkowany w pionie, więc lista danych zawsze stoi na tej
+                                                 samej wysokości; dłuższe tytuły ucina wielokropek -->
+                                            <Grid Grid.Row="0" Height="86" Margin="0,0,0,12">
+                                                <TextBlock Style="{StaticResource NortniteTitleTextStyle}"
+                                                           VerticalAlignment="Center" MaxHeight="86"
+                                                           Text="{Binding SelectedGame.DisplayName}" />
+                                            </Grid>
+
+                                            <!-- Lista danych; puste pola się chowają -->
+                                            <StackPanel Grid.Row="1">
+                                                <!-- Kolejność: platforma, producent, czas gry, oceny, stopień ukończenia
+                                                     ("Ostatnio uruchomiono" jest tylko w szczegółach gry) -->
+                                                <Grid>
+                                                    <Grid.Style>
+                                                        <Style TargetType="Grid">
+                                                            <Setter Property="Margin" Value="0,0,0,4.5" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding SelectedGame.Platforms.Count}" Value="0">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Grid.Style>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" MinWidth="24" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Style="{StaticResource FactLabel}" Text="{DynamicResource LOCPlatformTitle}" />
+                                                    <Line Grid.Column="1" Style="{StaticResource NortniteDotLeader}" />
+                                                    <TextBlock Grid.Column="2" Style="{StaticResource FactValue}"
+                                                               Text="{Binding SelectedGame.Platforms, Converter={StaticResource ListToStringConverter}, ConverterParameter=', '}" />
+                                                </Grid>
+
+                                                <!-- Producent -->
+                                                <Grid>
+                                                    <Grid.Style>
+                                                        <Style TargetType="Grid">
+                                                            <Setter Property="Margin" Value="0,0,0,4.5" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding SelectedGame.Developers.Count}" Value="0">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Grid.Style>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" MinWidth="24" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Style="{StaticResource FactLabel}" Text="{DynamicResource LOCDeveloperLabel}" />
+                                                    <Line Grid.Column="1" Style="{StaticResource NortniteDotLeader}" />
+                                                    <TextBlock Grid.Column="2" Style="{StaticResource FactValue}"
+                                                               Text="{Binding SelectedGame.Developers, Converter={StaticResource ListToStringConverter}, ConverterParameter=', '}" />
+                                                </Grid>
+                                                <!-- Czas gry -->
+                                                <Grid>
+                                                    <Grid.Style>
+                                                        <Style TargetType="Grid">
+                                                            <Setter Property="Margin" Value="0,0,0,4.5" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding SelectedGame.Playtime}" Value="0">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Grid.Style>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" MinWidth="24" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Style="{StaticResource FactLabel}" Text="{DynamicResource LOCTimePlayed}" />
+                                                    <Line Grid.Column="1" Style="{StaticResource NortniteDotLeader}" />
+                                                    <!-- Czas gry: zwięzły format motywu (wspólny styl NortnitePlaytimeRun z Constants.xaml) -->
+                                                    <TextBlock Grid.Column="2" Style="{StaticResource FactValue}">
+                                                        <Run Style="{StaticResource NortnitePlaytimeRun}" Tag="{Binding SelectedGame.Playtime, Mode=OneWay}" />
+                                                    </TextBlock>
+                                                </Grid>
+
+                                                <!-- Oceny: społeczność / krytycy w jednej linii ("85 / 78");
+                                                     brak jednej oceny to "–", brak obu chowa wiersz -->
+                                                <Grid>
+                                                    <Grid.Style>
+                                                        <Style TargetType="Grid">
+                                                            <Setter Property="Margin" Value="0,0,0,4.5" />
+                                                            <Style.Triggers>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding SelectedGame.CommunityScore}" Value="{x:Null}" />
+                                                                        <Condition Binding="{Binding SelectedGame.CriticScore}" Value="{x:Null}" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </MultiDataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Grid.Style>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" MinWidth="24" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Style="{StaticResource FactLabel}" Text="{DynamicResource LOCNortniteScores}" />
+                                                    <Line Grid.Column="1" Style="{StaticResource NortniteDotLeader}" />
+                                                    <TextBlock Grid.Column="2" Style="{StaticResource FactValue}">
+                                                        <Run Text="{Binding SelectedGame.CommunityScore, Mode=OneWay, TargetNullValue='–', FallbackValue='–'}" /><Run Text=" / " /><Run Text="{Binding SelectedGame.CriticScore, Mode=OneWay, TargetNullValue='–', FallbackValue='–'}" />
+                                                    </TextBlock>
+                                                </Grid>
+
+                                                <!-- Status ukończenia -->
+                                                <Grid>
+                                                    <Grid.Style>
+                                                        <Style TargetType="Grid">
+                                                            <Setter Property="Margin" Value="0,0,0,4.5" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding SelectedGame.CompletionStatus.Name}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding SelectedGame.CompletionStatus.Name}" Value="">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Grid.Style>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" MinWidth="24" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Style="{StaticResource FactLabel}" Text="{DynamicResource LOCCompletionStatus}" />
+                                                    <Line Grid.Column="1" Style="{StaticResource NortniteDotLeader}" />
+                                                    <TextBlock Grid.Column="2" Style="{StaticResource FactValue}"
+                                                               Text="{Binding SelectedGame.CompletionStatus.Name}" />
+                                                </Grid>
+                                            </StackPanel>
+
+                                            <!-- Pasek pod danymi gry: HowLongToBeat, ocena graczy albo ocena krytyków
+                                                 (opcja motywu "Pasek pod danymi gry", zasób NortniteBarSource). Przy braku
+                                                 danych wchodzi zastępstwo (styl NortniteBarModeStyle w Constants.xaml);
+                                                 gdy nie ma czego pokazać, sekcja znika razem z linią. -->
+                                            <Grid Grid.Row="2">
+                                            <!-- Etap 1: wybór z opcji; HowLongToBeat bez dodatku lub danych → HltbMissing
+                                                 (rozszerzenia PluginStatus/PluginSettings działają tylko w szablonie widoku) -->
+                                            <TextBlock x:Name="InfoBarSource" Visibility="Collapsed"
+                                                       Tag="{DynamicResource NortniteBarSource}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text" Value="{Binding Tag, RelativeSource={RelativeSource Self}}" />
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Hltb" />
+                                                                    <Condition Binding="{PluginStatus Plugin=playnite-howlongtobeat-plugin, Status=Installed}" Value="False" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="Text" Value="HltbMissing" />
+                                                            </MultiDataTrigger>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Hltb" />
+                                                                    <Condition Binding="{PluginSettings Plugin=HowLongToBeat, Path=HasData, FallbackValue=False}" Value="False" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="Text" Value="HltbMissing" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                            <!-- Etap 2: zastępstwo przy braku ocen (styl w Constants.xaml); Text = co widać -->
+                                            <TextBlock x:Name="InfoBarMode" Style="{StaticResource NortniteBarModeStyle}"
+                                                       Tag="{Binding Text, ElementName=InfoBarSource}"
+                                                       DataContext="{Binding SelectedGame}" />
+                                            <Border BorderBrush="{DynamicResource NortniteDimBrush}"
+                                                    BorderThickness="0,3,0,0" Padding="0,12,0,0" Margin="0,9,0,0">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Text, ElementName=InfoBarMode}" Value="None">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <StackPanel>
+                                                <!-- HowLongToBeat: pasek, czas gry · procent i wiersz czasów -->
+                                                <StackPanel>
+                                                    <StackPanel.Style>
+                                                        <Style TargetType="StackPanel">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Text, ElementName=InfoBarMode}" Value="Hltb">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </StackPanel.Style>
+                                                    <!-- Pasek i procent dla trzech celów (fabuła / + dodatki / 100%), nałożone na siebie;
+                                                         widać ten wybrany w opcjach motywu (zasoby NortniteHltb…Visibility w Constants.xaml) -->
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Column="0" Style="{StaticResource NortniteTextStyle}"
+                                                                   Foreground="{DynamicResource NortniteAccentBrush}"
+                                                                   Text="{DynamicResource LOCNortniteHltbShort}" Margin="0,0,15,0" />
+                                                        <ProgressBar x:Name="HltbBarInfo" Grid.Column="1" Style="{StaticResource NortniteSegmentBar16}"
+                                                                     VerticalAlignment="Center" Visibility="{DynamicResource NortniteHltbMainVisibility}"
+                                                                     Maximum="{PluginSettings Plugin=HowLongToBeat, Path=MainStory, FallbackValue=1}"
+                                                                     Value="{Binding SelectedGame.Playtime, Mode=OneWay}" />
+                                                        <ProgressBar x:Name="HltbBarInfoExtra" Grid.Column="1" Style="{StaticResource NortniteSegmentBar16}"
+                                                                     VerticalAlignment="Center" Visibility="{DynamicResource NortniteHltbExtraVisibility}"
+                                                                     Maximum="{PluginSettings Plugin=HowLongToBeat, Path=MainExtra, FallbackValue=1}"
+                                                                     Value="{Binding SelectedGame.Playtime, Mode=OneWay}" />
+                                                        <ProgressBar x:Name="HltbBarInfoCompletionist" Grid.Column="1" Style="{StaticResource NortniteSegmentBar16}"
+                                                                     VerticalAlignment="Center" Visibility="{DynamicResource NortniteHltbCompletionistVisibility}"
+                                                                     Maximum="{PluginSettings Plugin=HowLongToBeat, Path=Completionist, FallbackValue=1}"
+                                                                     Value="{Binding SelectedGame.Playtime, Mode=OneWay}" />
+                                                        <!-- czas gry · procent wybranego celu (czasy HLTB są w wierszu niżej) -->
+                                                        <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="15,0,0,0">
+                                                        <TextBlock Style="{StaticResource NortniteTextStyle}"
+                                                                   Foreground="{DynamicResource NortniteAccentBrush}">
+                                                            <Run Style="{StaticResource NortnitePlaytimeRun}" Tag="{Binding SelectedGame.Playtime, Mode=OneWay}" /><Run Text=" · " />
+                                                        </TextBlock>
+                                                        <Grid>
+                                                            <TextBlock Style="{StaticResource NortniteTextStyle}" Foreground="{DynamicResource NortniteAccentBrush}"
+                                                                       Visibility="{DynamicResource NortniteHltbMainVisibility}">
+                                                                <Run>
+                                                                    <Run.Text>
+                                                                        <MultiBinding Mode="OneWay" Converter="{StaticResource MathConverter}"
+                                                                                      ConverterParameter="Min(Round(x / Max(y, 1) * 100), 100)">
+                                                                            <Binding Path="SelectedGame.Playtime" />
+                                                                            <Binding ElementName="HltbBarInfo" Path="Maximum" />
+                                                                        </MultiBinding>
+                                                                    </Run.Text>
+                                                                </Run><Run Text="%" />
+                                                            </TextBlock>
+                                                            <TextBlock Style="{StaticResource NortniteTextStyle}" Foreground="{DynamicResource NortniteAccentBrush}"
+                                                                       Visibility="{DynamicResource NortniteHltbExtraVisibility}">
+                                                                <Run>
+                                                                    <Run.Text>
+                                                                        <MultiBinding Mode="OneWay" Converter="{StaticResource MathConverter}"
+                                                                                      ConverterParameter="Min(Round(x / Max(y, 1) * 100), 100)">
+                                                                            <Binding Path="SelectedGame.Playtime" />
+                                                                            <Binding ElementName="HltbBarInfoExtra" Path="Maximum" />
+                                                                        </MultiBinding>
+                                                                    </Run.Text>
+                                                                </Run><Run Text="%" />
+                                                            </TextBlock>
+                                                            <TextBlock Style="{StaticResource NortniteTextStyle}" Foreground="{DynamicResource NortniteAccentBrush}"
+                                                                       Visibility="{DynamicResource NortniteHltbCompletionistVisibility}">
+                                                                <Run>
+                                                                    <Run.Text>
+                                                                        <MultiBinding Mode="OneWay" Converter="{StaticResource MathConverter}"
+                                                                                      ConverterParameter="Min(Round(x / Max(y, 1) * 100), 100)">
+                                                                            <Binding Path="SelectedGame.Playtime" />
+                                                                            <Binding ElementName="HltbBarInfoCompletionist" Path="Maximum" />
+                                                                        </MultiBinding>
+                                                                    </Run.Text>
+                                                                </Run><Run Text="%" />
+                                                            </TextBlock>
+                                                        </Grid>
+                                                        </StackPanel>
+                                                    </Grid>
+
+                                                    <!-- Wiersz czasów HLTB; etykieta celu paska w kolorze akcentu -->
+                                                    <Grid Margin="0,7.5,0,0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Column="0" Style="{StaticResource NortniteHltbTimeText}" Tag="{Binding ElementName=HltbBarInfo}"
+                                                                   Visibility="{PluginSettings Plugin=HowLongToBeat, Path=ShowMainTime, FallbackValue=Collapsed, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                            <Run Text="{DynamicResource LOCNortniteHltbMain}" /><Run Text=" " /><Run Foreground="{DynamicResource NortniteBrightBrush}" Text="{PluginSettings Plugin=HowLongToBeat, Path=MainStoryFormat, Mode=OneWay, FallbackValue='-'}" />
+                                                        </TextBlock>
+                                                        <TextBlock Grid.Column="2" Style="{StaticResource NortniteHltbTimeText}" Tag="{Binding ElementName=HltbBarInfoExtra}"
+                                                                   Visibility="{PluginSettings Plugin=HowLongToBeat, Path=ShowExtraTime, FallbackValue=Collapsed, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                            <Run Text="{DynamicResource LOCNortniteHltbExtra}" /><Run Text=" " /><Run Foreground="{DynamicResource NortniteBrightBrush}" Text="{PluginSettings Plugin=HowLongToBeat, Path=MainExtraFormat, Mode=OneWay, FallbackValue='-'}" />
+                                                        </TextBlock>
+                                                        <TextBlock Grid.Column="4" Style="{StaticResource NortniteHltbTimeText}" Tag="{Binding ElementName=HltbBarInfoCompletionist}"
+                                                                   Visibility="{PluginSettings Plugin=HowLongToBeat, Path=ShowCompletionistTime, FallbackValue=Collapsed, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                            <Run Text="{DynamicResource LOCNortniteHltbCompletionist}" /><Run Text=" " /><Run Foreground="{DynamicResource NortniteBrightBrush}" Text="{PluginSettings Plugin=HowLongToBeat, Path=CompletionistFormat, Mode=OneWay, FallbackValue='-'}" />
+                                                        </TextBlock>
+                                                    </Grid>
+                                                </StackPanel>
+
+                                                <!-- Ocena graczy: pasek 0–100 i "87 / 100", bez wiersza czasów -->
+                                                <Grid>
+                                                    <Grid.Style>
+                                                        <Style TargetType="Grid">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Text, ElementName=InfoBarMode}" Value="Community">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Grid.Style>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Style="{StaticResource NortniteTextStyle}"
+                                                               Foreground="{DynamicResource NortniteAccentBrush}"
+                                                               Text="{DynamicResource LOCNortniteScoreCommunity}" Margin="0,0,15,0" />
+                                                    <ProgressBar Grid.Column="1" Style="{StaticResource NortniteSegmentBar16}"
+                                                                 VerticalAlignment="Center" Maximum="100"
+                                                                 Value="{Binding SelectedGame.CommunityScore, Mode=OneWay, TargetNullValue=0, FallbackValue=0}" />
+                                                    <TextBlock Grid.Column="2" Style="{StaticResource NortniteTextStyle}"
+                                                               Foreground="{DynamicResource NortniteAccentBrush}" Margin="15,0,0,0">
+                                                        <Run Text="{Binding SelectedGame.CommunityScore, Mode=OneWay, TargetNullValue='–', FallbackValue='–'}" /><Run Text=" / 100" />
+                                                    </TextBlock>
+                                                </Grid>
+
+                                                <!-- Ocena krytyków: jak wyżej -->
+                                                <Grid>
+                                                    <Grid.Style>
+                                                        <Style TargetType="Grid">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Text, ElementName=InfoBarMode}" Value="Critic">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Grid.Style>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Style="{StaticResource NortniteTextStyle}"
+                                                               Foreground="{DynamicResource NortniteAccentBrush}"
+                                                               Text="{DynamicResource LOCNortniteScoreCritic}" Margin="0,0,15,0" />
+                                                    <ProgressBar Grid.Column="1" Style="{StaticResource NortniteSegmentBar16}"
+                                                                 VerticalAlignment="Center" Maximum="100"
+                                                                 Value="{Binding SelectedGame.CriticScore, Mode=OneWay, TargetNullValue=0, FallbackValue=0}" />
+                                                    <TextBlock Grid.Column="2" Style="{StaticResource NortniteTextStyle}"
+                                                               Foreground="{DynamicResource NortniteAccentBrush}" Margin="15,0,0,0">
+                                                        <Run Text="{Binding SelectedGame.CriticScore, Mode=OneWay, TargetNullValue='–', FallbackValue='–'}" /><Run Text=" / 100" />
+                                                    </TextBlock>
+                                                </Grid>
+                                                </StackPanel>
+                                            </Border>
+                                            </Grid>
+
+                                            <!-- README.TXT: krótki opis w ramce jak C:\>MEM, na całą szerokość kolumny,
+                                                 między HowLongToBeat a przyciskami. Ramka nie przyjmuje fokusu (tytuł zawsze
+                                                 niepodświetlony) i znika, gdy gra nie ma opisu. Okno opisu ma wysokość będącą
+                                                 wielokrotnością wiersza (30, siatka z DescriptionInfoView.html), więc tekst
+                                                 kończy się pełną linią. -->
+                                            <Grid Grid.Row="3">
+                                                <Grid.Resources>
+                                                    <!-- Opis tylko do czytania: bez fokusu, żeby ruch padem w prawo
+                                                         z listy gier trafiał na [ GRAJ ], a nie na tekst opisu -->
+                                                    <Style TargetType="{x:Type html:HtmlPanel}">
+                                                        <Setter Property="Focusable" Value="False" />
+                                                        <Setter Property="IsTabStop" Value="False" />
+                                                    </Style>
+                                                </Grid.Resources>
+                                                <!-- Ukryty podajnik fontu: przekazuje font z folderu motywu
+                                                     do NortniteHtmlFontRegistration (opis w Constants.xaml).
+                                                     Stoi przed opisem, żeby font był zarejestrowany przed renderem. -->
+                                                <ListBox Visibility="Collapsed" Focusable="False" IsTabStop="False"
+                                                         SelectedValuePath="FontFamily" SelectedIndex="0"
+                                                         SelectedValue="{Binding Source={StaticResource NortniteHtmlFontRegistration}, Path=MethodParameters[0], BindsDirectlyToSource=True, Mode=OneWayToSource}">
+                                                    <TextBlock FontFamily="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}" />
+                                                </ListBox>
+                                                <HeaderedContentControl Margin="0,30,0,18" Focusable="False"
+                                                                        Header="README.TXT" Padding="15,24,12,9">
+                                                    <HeaderedContentControl.Style>
+                                                        <Style TargetType="HeaderedContentControl" BasedOn="{StaticResource NortnitePanelInactiveStyle}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding SelectedGame.Description}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding SelectedGame.Description}" Value="">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </HeaderedContentControl.Style>
+                                                    <Grid x:Name="InfoReadmeArea">
+                                                        <Border VerticalAlignment="Top" ClipToBounds="True"
+                                                                Height="{Binding ActualHeight, ElementName=InfoReadmeArea, Converter={StaticResource MathConverter}, ConverterParameter='Floor(x / 30) * 30'}">
+                                                            <HtmlTextView VerticalAlignment="Top"
+                                                                          HtmlText="{Binding SelectedGame.Description}"
+                                                                          TemplatePath="{ThemeFile 'DescriptionInfoView.html'}"
+                                                                          HtmlFontSize="30"
+                                                                          HtmlForeground="{DynamicResource NortniteForegroundColor}"
+                                                                          LinkForeground="{DynamicResource NortniteAccentColor}"
+                                                                          PartialLoadEnabled="False" />
+                                                        </Border>
+                                                    </Grid>
+                                                </HeaderedContentControl>
+                                            </Grid>
+
+                                            <!-- Przyciski: GRAJ albo INSTALUJ (zależnie od instalacji), SZCZEGÓŁY, OPCJE.
+                                                 Krótkie teksty z kluczy motywu LOCNortniteButton… (nie z Playnite): rząd ma
+                                                 666 px i we wszystkich językach musi się zmieścić w jednej linii także z INSTALUJ.
+                                                 Miejsce na cień (15 w prawo i w dół) należy do każdego przycisku,
+                                                 więc rząd nie wchodzi na dolną ramkę panelu; opis nad nim (wiersz *)
+                                                 oddaje tyle miejsca, ile rząd potrzebuje. Lewy margines 9 mieści
+                                                 obwódkę fokusu (7 poza licem) wewnątrz panelu. -->
+                                            <WrapPanel Grid.Row="4" Orientation="Horizontal" Margin="9,0,0,6">
+                                                <ButtonEx x:Name="PART_ButtonPlay" Style="{StaticResource NortniteBracketButton}"
+                                                          Content="{DynamicResource LOCNortniteButtonPlay}" />
+                                                <ButtonEx x:Name="PART_ButtonInstall" Style="{StaticResource NortniteBracketButton}"
+                                                          Content="{DynamicResource LOCNortniteButtonInstall}" />
+                                                <ButtonEx x:Name="PART_ButtonDetails" Style="{StaticResource NortniteBracketButton}"
+                                                          Content="{DynamicResource LOCNortniteButtonDetails}" />
+                                                <ButtonEx x:Name="PART_ButtonGameOptions" Style="{StaticResource NortniteBracketButton}"
+                                                          Content="{DynamicResource LOCNortniteButtonOptions}" />
+                                            </WrapPanel>
+                                        </Grid>
+                                    </Grid>
+                                </HeaderedContentControl>
+                            </Grid>
+
+                            <!-- ===================== 4. Wiersz poleceń ===================== -->
+                            <Border Grid.Row="3" Height="39" Margin="0,15,0,0" Padding="18,0,18,0"
+                                    Background="{DynamicResource NortniteCommandBackgroundBrush}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Zwykły tryb: <folder instalacji gry>> start Gra█
+                                         Gra niezainstalowana albo bez folderu: C:\GRY\PRESET> start Gra█ -->
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                        <StackPanel.Style>
+                                            <Style TargetType="StackPanel">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSearchActive}" Value="True">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <!-- Preset Theme Options "Ścieżka w wierszu poleceń": prawdziwa ścieżka (domyślnie,
+                                             z zapasem na ścieżkę presetu) albo zawsze ścieżka presetu. Zasoby Visibility
+                                             w Constants.xaml, podmieniane przez Options\CmdPresetPath.xaml. -->
+                                        <StackPanel Orientation="Horizontal" Visibility="{DynamicResource NortniteCmdRealPathVisibility}">
+                                        <!-- Ścieżka z presetu (zapas) -->
+                                        <TextBlock MaxWidth="720">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock" BasedOn="{StaticResource CmdText}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding SelectedGame.IsInstalled}" Value="True">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding SelectedGame.InstallDirectory}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding SelectedGame.InstallDirectory}" Value="">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                            <Run Text="{DynamicResource LOCNortniteDriveRoot}" /><Run Text="{Binding ActiveFilterPreset.Name, Mode=OneWay, Converter={StaticResource StringToUpperCaseConverter}, FallbackValue='*.*', TargetNullValue='*.*'}" /><Run Text="&gt;" />
+                                        </TextBlock>
+                                        <!-- Prawdziwy folder instalacji zaznaczonej gry -->
+                                        <TextBlock MaxWidth="720">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock" BasedOn="{StaticResource CmdText}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding SelectedGame.IsInstalled}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding SelectedGame.InstallDirectory}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding SelectedGame.InstallDirectory}" Value="">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                            <Run Text="{Binding SelectedGame.InstallDirectory, Mode=OneWay}" /><Run Text="&gt;" />
+                                        </TextBlock>
+                                        </StackPanel>
+                                        <!-- Zawsze ścieżka z presetu -->
+                                        <TextBlock MaxWidth="720" Style="{StaticResource CmdText}" Visibility="{DynamicResource NortniteCmdPresetOnlyVisibility}">
+                                            <Run Text="{DynamicResource LOCNortniteDriveRoot}" /><Run Text="{Binding ActiveFilterPreset.Name, Mode=OneWay, Converter={StaticResource StringToUpperCaseConverter}, FallbackValue='*.*', TargetNullValue='*.*'}" /><Run Text="&gt;" />
+                                        </TextBlock>
+                                        <TextBlock Style="{StaticResource CmdText}" MaxWidth="600"
+                                                   Visibility="{Binding SelectedGame, Converter={StaticResource NullToVisibilityConverter}}">
+                                            <Run Text=" start " /><Run Text="{Binding SelectedGame.DisplayName, Mode=OneWay}" />
+                                        </TextBlock>
+                                        <Grid>
+                                            <Rectangle Style="{StaticResource BlinkCursor}" Visibility="{DynamicResource NortniteCursorBlinkVisibility}" />
+                                            <Rectangle Style="{StaticResource CmdCursorSteady}" />
+                                        </Grid>
+                                    </StackPanel>
+
+                                    <!-- Wyszukiwanie: zamiast polecenia wpisana fraza -->
+                                    <StackPanel x:Name="PART_ElemSearchActive" Grid.Column="0" Orientation="Horizontal">
+                                        <TextBlock Style="{StaticResource CmdText}" MaxWidth="1400">
+                                            <Run Text="{DynamicResource LOCNortniteDriveRoot}" /><Run Text="*.*&gt; " /><Run Text="{Binding AppSettings.Fullscreen.FilterSettings.Name, Mode=OneWay}" />
+                                        </TextBlock>
+                                        <Grid>
+                                            <Rectangle Style="{StaticResource BlinkCursor}" Visibility="{DynamicResource NortniteCursorBlinkVisibility}" />
+                                            <Rectangle Style="{StaticResource CmdCursorSteady}" />
+                                        </Grid>
+                                    </StackPanel>
+
+                                    <TextBlock x:Name="PART_ElemExtraFilterActive" Grid.Column="1"
+                                               Style="{StaticResource CmdText}"
+                                               Text="{DynamicResource LOCGameListExtraFiltered}" />
+                                </Grid>
+                            </Border>
+
+                            <!-- ===================== 5. Belka przycisków pada ===================== -->
+                            <UniformGrid Grid.Row="4" Rows="1" Columns="7"
+                                         Background="{DynamicResource NortniteCommandBackgroundBrush}">
+                                <!-- X: uruchom (albo szczegóły przy zamianie akcji) -->
+                                <DockPanel Style="{StaticResource LegendCell}" Margin="6,3,9,3">
+                                    <ContentControl Tag="X" Style="{StaticResource NortnitePadKey}" />
+                                    <TextBlock>
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource NortniteLegendLabel}">
+                                                <Setter Property="Text" Value="{DynamicResource LOCNortniteButtonPlay}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Settings Fullscreen.SwapStartDetailsAction}" Value="True">
+                                                        <Setter Property="Text" Value="{DynamicResource LOCNortniteButtonDetails}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DockPanel>
+                                <!-- Przycisk potwierdzania (A albo B): szczegóły (albo uruchom przy zamianie) -->
+                                <DockPanel Style="{StaticResource LegendCell}">
+                                    <ContentControl>
+                                        <ContentControl.Style>
+                                            <Style TargetType="ContentControl" BasedOn="{StaticResource NortnitePadKey}">
+                                                <Setter Property="Tag" Value="A" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Settings Fullscreen.SwapConfirmCancelButtons}" Value="True">
+                                                        <Setter Property="Tag" Value="B" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ContentControl.Style>
+                                    </ContentControl>
+                                    <TextBlock>
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource NortniteLegendLabel}">
+                                                <Setter Property="Text" Value="{DynamicResource LOCNortniteButtonDetails}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Settings Fullscreen.SwapStartDetailsAction}" Value="True">
+                                                        <Setter Property="Text" Value="{DynamicResource LOCNortniteButtonPlay}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DockPanel>
+                                <DockPanel Style="{StaticResource LegendCell}">
+                                    <ContentControl Tag="Y" Style="{StaticResource NortnitePadKey}" />
+                                    <TextBlock Style="{StaticResource NortniteLegendLabel}" Text="{DynamicResource LOCSearchLabel}" />
+                                </DockPanel>
+                                <DockPanel Style="{StaticResource LegendCell}">
+                                    <ContentControl Tag="LBRB" Style="{StaticResource NortnitePadKey}" />
+                                    <TextBlock Style="{StaticResource NortniteLegendLabel}" Text="{DynamicResource LOCNortnitePreset}" />
+                                </DockPanel>
+                                <DockPanel Style="{StaticResource LegendCell}">
+                                    <ContentControl Tag="R3" Style="{StaticResource NortnitePadKey}" />
+                                    <TextBlock Style="{StaticResource NortniteLegendLabel}" Text="{DynamicResource LOCFilters}" />
+                                </DockPanel>
+                                <DockPanel Style="{StaticResource LegendCell}">
+                                    <ContentControl Tag="Start" Style="{StaticResource NortnitePadKey}" />
+                                    <TextBlock Style="{StaticResource NortniteLegendLabel}" Text="{DynamicResource LOCNortniteButtonOptions}" />
+                                </DockPanel>
+                                <DockPanel Style="{StaticResource LegendCell}" Margin="0,3,6,3">
+                                    <ContentControl Tag="Back" Style="{StaticResource NortnitePadKey}" />
+                                    <TextBlock Style="{StaticResource NortniteLegendLabel}" Text="{DynamicResource LOCNortniteMenu}" />
+                                </DockPanel>
+                            </UniformGrid>
+                        </Grid>
+
+                        <GameDetails x:Name="PART_ElemGameDetails"
+                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+                        <GameStatus x:Name="PART_ElemGameStatus"
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

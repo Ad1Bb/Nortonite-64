@@ -1,0 +1,42 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Nortonite 64: lista podfiltru (np. biblioteka, platforma). Zajmuje miejsce lewego panelu.
+         Pozycje [■] tworzy Playnite ze stylem FilterItemtSelectionStyle. -->
+    <Style TargetType="{x:Type FilterStringListSelection}">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type FilterStringListSelection}">
+                    <HeaderedContentControl Style="{StaticResource NortnitePanelStyle}" Tag="Overlay"
+                                            Header="{Binding Title, Converter={StaticResource StringToUpperCaseConverter}}"
+                                            Padding="21,27,18,15"
+                                            TextElement.FontFamily="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}"
+                                            TextElement.FontSize="{DynamicResource NortniteFontSize}"
+                                            TextElement.Foreground="{DynamicResource NortniteForegroundBrush}">
+                        <DockPanel x:Name="PART_MenuHost">
+                            <!-- ◄ Nazwa filtru -->
+                            <ButtonEx x:Name="PART_ButtonBack" DockPanel.Dock="Top" Margin="3,3,3,6"
+                                      Style="{StaticResource NortniteRowButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="◄ " />
+                                    <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                            </ButtonEx>
+                            <ButtonEx x:Name="PART_ButtonClear" DockPanel.Dock="Top"
+                                      Content="{DynamicResource LOCClearLabel}"
+                                      HorizontalAlignment="Left" Margin="9,6,6,12" />
+                            <Border DockPanel.Dock="Top" Height="3" Margin="0,0,0,9"
+                                    Background="{DynamicResource NortniteBarBrush}" />
+                            <ContentControl DockPanel.Dock="Bottom" Focusable="False" Margin="0,12,6,0"
+                                            ContentTemplate="{StaticResource NortniteFilterFooter}" />
+                            <ItemsControlEx x:Name="PART_ItemsHost" Margin="3,0,0,0"
+                                            Focusable="False"
+                                            KeyboardNavigation.DirectionalNavigation="Once" />
+                        </DockPanel>
+                    </HeaderedContentControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

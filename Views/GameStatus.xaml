@@ -1,0 +1,271 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    mc:Ignorable="d">
+
+    <!-- Przyciski akcji tworzone przez Playnite w PART_PanelActionButtons (np. [ Zamknij ]) -->
+    <Style x:Key="ButtonGameStatusAction" TargetType="ButtonEx">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Background" Value="{DynamicResource NortniteBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Template" Value="{DynamicResource NortniteBracketButtonTemplate}" />
+        <Setter Property="FontSize" Value="36" />
+        <Setter Property="MinHeight" Value="66" />
+        <Setter Property="Padding" Value="33,0,33,0" />
+        <Setter Property="Margin" Value="6,0,18,6" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--
+        Nortonite 64 · uruchamianie gry (makieta 11)
+        DataContext: GameStatusViewModel (Game = wybrana gra).
+        Linie stanu i pasek to dekoracja, bez prawdziwego postępu.
+    -->
+    <Style TargetType="{x:Type GameStatus}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GameStatus}">
+                    <!-- Opacity: NortniteGameStatusOpacity z Constants.xaml (0 = niewidoczny, na stałe;
+                         wyłączony preset Theme Options "Ekran uruchamiania gry" w options.yaml) -->
+                    <Grid x:Name="PART_ViewHost"
+                          Opacity="{DynamicResource NortniteGameStatusOpacity}"
+                          Background="{DynamicResource NortniteBackgroundBrush}"
+                          d:DesignWidth="{StaticResource DesignWidth}"
+                          d:DesignHeight="{StaticResource DesignHeight}"
+                          KeyboardNavigation.DirectionalNavigation="Contained"
+                          KeyboardNavigation.TabNavigation="Cycle"
+                          KeyboardNavigation.ControlTabNavigation="Cycle"
+                          TextElement.FontFamily="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}"
+                          TextElement.FontSize="34.5"
+                          TextElement.Foreground="{DynamicResource NortniteForegroundBrush}"
+                          TextOptions.TextFormattingMode="Ideal">
+                        <Grid.Resources>
+                            <!-- 28 segmentów: maska bez koloru (czarny = segment, przezroczysty = odstęp) -->
+                            <DrawingBrush x:Key="SegmentMask28" TileMode="Tile" Stretch="Fill"
+                                          Viewport="0,0,0.0357143,1" ViewportUnits="RelativeToBoundingBox">
+                                <DrawingBrush.Drawing>
+                                    <DrawingGroup>
+                                        <GeometryDrawing Brush="Transparent">
+                                            <GeometryDrawing.Geometry>
+                                                <RectangleGeometry Rect="0,0,100,10" />
+                                            </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                        <GeometryDrawing Brush="Black">
+                                            <GeometryDrawing.Geometry>
+                                                <RectangleGeometry Rect="0,0,90,10" />
+                                            </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                    </DrawingGroup>
+                                </DrawingBrush.Drawing>
+                            </DrawingBrush>
+
+                            <Style x:Key="StatusLine" TargetType="Grid">
+                                <Setter Property="Margin" Value="0,0,0,12" />
+                                <Setter Property="MaxWidth" Value="840" />
+                                <Setter Property="HorizontalAlignment" Value="Left" />
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="45" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="42" />
+                        </Grid.RowDefinitions>
+
+                        <!-- ===== Belka: URUCHAMIANIE + zegar ===== -->
+                        <Border Grid.Row="0" Style="{StaticResource NortniteHeaderBar}" Padding="36,0,36,0">
+                            <DockPanel VerticalAlignment="Center">
+                                <TextBlock DockPanel.Dock="Right"
+                                           Text="{Binding DataContext.CurrentTime.Time, RelativeSource={RelativeSource AncestorType=Main}}"
+                                           Visibility="{Settings Fullscreen.ShowClock}" />
+                                <TextBlock Text="{DynamicResource LOCNortniteLaunchingTitle}" TextTrimming="CharacterEllipsis" />
+                            </DockPanel>
+                        </Border>
+
+                        <!-- ===== Panel ładowania ===== -->
+                        <HeaderedContentControl Grid.Row="1" Width="1290"
+                                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                Style="{StaticResource NortnitePanelStyle}"
+                                                Padding="45,45,45,39"
+                                                Header="{Binding Game.DisplayName, Converter={StaticResource StringToUpperCaseConverter}}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="45" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Okładka -->
+                                <Border Grid.Column="0" Width="270" Height="405" VerticalAlignment="Top"
+                                        BorderBrush="{DynamicResource NortniteForegroundBrush}" BorderThickness="3"
+                                        Background="{DynamicResource NortniteBackgroundBrush}">
+                                    <Image Name="PART_ImageCover" Stretch="Uniform"
+                                           RenderOptions.BitmapScalingMode="Fant" />
+                                </Border>
+
+                                <DockPanel Grid.Column="2" LastChildFill="False">
+                                    <!-- C:\GRY\PRESET> start Gra -->
+                                    <TextBlock DockPanel.Dock="Top" Margin="0,0,0,12"
+                                               Foreground="{DynamicResource NortniteForegroundBrush}"
+                                               TextTrimming="CharacterEllipsis">
+                                        <Run Text="{DynamicResource LOCNortniteDriveRoot}" /><Run Text="{Binding DataContext.ActiveFilterPreset.Name, RelativeSource={RelativeSource AncestorType=Main}, Mode=OneWay, Converter={StaticResource StringToUpperCaseConverter}, FallbackValue='*.*', TargetNullValue='*.*'}" /><Run Text="&gt; start " /><Run Text="{Binding Game.DisplayName, Mode=OneWay}" />
+                                    </TextBlock>
+
+                                    <TextBlock DockPanel.Dock="Top" Margin="0,0,0,12"
+                                               Foreground="{DynamicResource NortniteBrightBrush}"
+                                               Text="{DynamicResource LOCNortniteLoadingProgram}"
+                                               TextTrimming="CharacterEllipsis" />
+
+                                    <!-- Ozdobne linie stanu: "etykieta ........ OK" -->
+                                    <Grid DockPanel.Dock="Top" Style="{StaticResource StatusLine}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{DynamicResource LOCNortniteConventionalMemory}" Margin="0,0,12,0" />
+                                        <TextBlock Grid.Column="1" ClipToBounds="True" TextWrapping="NoWrap"
+                                                   Text="................................................................................................................" />
+                                        <TextBlock Grid.Column="2" Text="{DynamicResource LOCNortniteStatusOk}" Margin="12,0,0,0" />
+                                    </Grid>
+                                    <Grid DockPanel.Dock="Top" Style="{StaticResource StatusLine}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{DynamicResource LOCNortniteDrivers}" Margin="0,0,12,0" />
+                                        <TextBlock Grid.Column="1" ClipToBounds="True" TextWrapping="NoWrap"
+                                                   Text="................................................................................................................" />
+                                        <TextBlock Grid.Column="2" Text="{DynamicResource LOCNortniteStatusOk}" Margin="12,0,0,0" />
+                                    </Grid>
+
+                                    <!-- Segmentowy pasek z ciągłą animacją (dekoracja) -->
+                                    <Grid DockPanel.Dock="Top" Height="27" Margin="0,15,0,0"
+                                          Background="{DynamicResource NortniteDimBrush}"
+                                          OpacityMask="{StaticResource SegmentMask28}">
+                                        <!-- Pasek kręci się tylko, gdy ekran uruchamiania jest widoczny (IsVisible paska) i nie jest
+                                             ukryty opcją motywu (przezroczystość PART_ViewHost = 1); inaczej działałby w tle przez
+                                             całą grę. 10 klatek/s = jeden segment na klatkę (krok 0,1 s). Warunki są w stylu paska,
+                                             nie w ControlTemplate.Triggers: MultiTrigger z SourceName i IsVisible rzuca w WPF
+                                             NullReferenceException przy budowaniu szablonu. -->
+                                        <Border x:Name="LoadFill" Background="{DynamicResource NortniteAccentBrush}"
+                                                HorizontalAlignment="Stretch" RenderTransformOrigin="0,0.5">
+                                            <Border.RenderTransform>
+                                                <ScaleTransform ScaleX="0" />
+                                            </Border.RenderTransform>
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding IsVisible, RelativeSource={RelativeSource Self}}" Value="True" />
+                                                                <Condition Binding="{Binding Opacity, ElementName=PART_ViewHost}" Value="1" />
+                                                            </MultiDataTrigger.Conditions>
+                                                            <MultiDataTrigger.EnterActions>
+                                                                <BeginStoryboard x:Name="LoadAnim">
+                                                                    <Storyboard RepeatBehavior="Forever" Timeline.DesiredFrameRate="10">
+                                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                                                       Duration="0:0:3.6">
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:0.0" Value="0" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:0.1" Value="0.0357143" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:0.2" Value="0.0714286" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:0.3" Value="0.1071429" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:0.4" Value="0.1428571" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:0.5" Value="0.1785714" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:0.6" Value="0.2142857" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:0.7" Value="0.25" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:0.8" Value="0.2857143" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:0.9" Value="0.3214286" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:1.0" Value="0.3571429" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:1.1" Value="0.3928571" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:1.2" Value="0.4285714" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:1.3" Value="0.4642857" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:1.4" Value="0.5" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:1.5" Value="0.5357143" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:1.6" Value="0.5714286" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:1.7" Value="0.6071429" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:1.8" Value="0.6428571" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:1.9" Value="0.6785714" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:2.0" Value="0.7142857" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:2.1" Value="0.75" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:2.2" Value="0.7857143" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:2.3" Value="0.8214286" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:2.4" Value="0.8571429" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:2.5" Value="0.8928571" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:2.6" Value="0.9285714" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:2.7" Value="0.9642857" />
+                                                                            <DiscreteDoubleKeyFrame KeyTime="0:0:2.8" Value="1" />
+                                                                        </DoubleAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </MultiDataTrigger.EnterActions>
+                                                            <MultiDataTrigger.ExitActions>
+                                                                <StopStoryboard BeginStoryboardName="LoadAnim" />
+                                                            </MultiDataTrigger.ExitActions>
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+
+                                    </Grid>
+
+                                    <!-- Status z Playnite -->
+                                    <TextBlock Name="PART_TextStatus" DockPanel.Dock="Top" Margin="0,21,0,0"
+                                               FontSize="39" TextWrapping="Wrap"
+                                               Foreground="{DynamicResource NortniteAccentBrush}" />
+
+                                    <!-- Przyciski akcji tworzone przez Playnite -->
+                                    <StackPanel Name="PART_PanelActionButtons" DockPanel.Dock="Bottom"
+                                                Orientation="Horizontal" Margin="0,36,0,0" />
+                                </DockPanel>
+                            </Grid>
+                        </HeaderedContentControl>
+
+                        <!-- ===== Belka pada ===== -->
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" Background="{DynamicResource NortniteCommandBackgroundBrush}">
+                            <DockPanel Width="330" Margin="9,3,9,3">
+                                <ContentControl>
+                                    <ContentControl.Style>
+                                        <Style TargetType="ContentControl" BasedOn="{StaticResource NortnitePadKey}">
+                                            <Setter Property="Tag" Value="A" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Settings Fullscreen.SwapConfirmCancelButtons}" Value="True">
+                                                    <Setter Property="Tag" Value="B" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ContentControl.Style>
+                                </ContentControl>
+                                <TextBlock Style="{StaticResource NortniteLegendLabel}" Text="{DynamicResource LOCSelect}" />
+                            </DockPanel>
+                            <DockPanel Width="330" Margin="0,3,9,3">
+                                <ContentControl>
+                                    <ContentControl.Style>
+                                        <Style TargetType="ContentControl" BasedOn="{StaticResource NortnitePadKey}">
+                                            <Setter Property="Tag" Value="B" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Settings Fullscreen.SwapConfirmCancelButtons}" Value="True">
+                                                    <Setter Property="Tag" Value="A" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ContentControl.Style>
+                                </ContentControl>
+                                <TextBlock Style="{StaticResource NortniteLegendLabel}" Text="{DynamicResource LOCBackLabel}" />
+                            </DockPanel>
+                        </StackPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

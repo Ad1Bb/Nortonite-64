@@ -1,0 +1,173 @@
+# Nortonite 64 · opcje motywu dla dodatku Theme Options (Artem Shpynov, Jono).
+# Bez dodatku motyw działa na wartościach domyślnych z Constants.xaml i widoków.
+# Teksty: LocKey wskazuje klucz z Localization/*.xaml; Name/Title to zapas po angielsku.
+
+Presets:
+    # Palety kolorów: każda nadpisuje role z Constants.xaml (kolory, pędzle i klucze
+    # motywu domyślnego). Domyślna (NORTON) to wartości z Constants.xaml.
+    NortnitePalette:
+        Name: Color palette
+        LocKey: LOCNortniteOptPalette
+        Presets:
+            Default:
+                Name: NORTON
+                LocKey: LOCNortnitePaletteNorton
+            Bios:
+                Name: BIOS
+                LocKey: LOCNortnitePaletteBios
+                Files:
+                    - Options\PaletteBios.xaml
+            MsDos:
+                Name: MS-DOS
+                LocKey: LOCNortnitePaletteMsDos
+                Files:
+                    - Options\PaletteMsDos.xaml
+            Synthwave:
+                Name: SYNTHWAVE
+                LocKey: LOCNortnitePaletteSynthwave
+                Files:
+                    - Options\PaletteSynthwave.xaml
+            Outrun:
+                Name: OUTRUN
+                LocKey: LOCNortnitePaletteOutrun
+                Files:
+                    - Options\PaletteOutrun.xaml
+            Vaporwave:
+                Name: VAPORWAVE
+                LocKey: LOCNortnitePaletteVaporwave
+                Files:
+                    - Options\PaletteVaporwave.xaml
+            Sunset:
+                Name: SUNSET
+                LocKey: LOCNortnitePaletteSunset
+                Files:
+                    - Options\PaletteSunset.xaml
+            Arizona:
+                Name: ARIZONA
+                LocKey: LOCNortnitePaletteArizona
+                Files:
+                    - Options\PaletteArizona.xaml
+    # Wielkość listy gier: wysokość wiersza, font i szerokości kolumn (domyślne w Constants.xaml)
+    NortniteListSize:
+        Name: Game list size
+        LocKey: LOCNortniteOptListSize
+        Presets:
+            Default:
+                Name: Normal
+                LocKey: LOCNortniteOptListSizeNormal
+            Compact:
+                Name: Compact
+                LocKey: LOCNortniteOptListSizeCompact
+                Files:
+                    - Options\ListSizeCompact.xaml
+            Large:
+                Name: Large
+                LocKey: LOCNortniteOptListSizeLarge
+                Files:
+                    - Options\ListSizeLarge.xaml
+    # Druga kolumna listy gier: biblioteka (domyślnie), platforma albo nic
+    NortniteListColumn:
+        Name: Second list column
+        LocKey: LOCNortniteOptListColumn
+        Presets:
+            Default:
+                Name: Library
+                LocKey: LOCLibrary
+            Platform:
+                Name: Platform
+                LocKey: LOCPlatformTitle
+                Files:
+                    - Options\ListColumnPlatform.xaml
+            Hidden:
+                Name: Hide
+                LocKey: LOCNortniteOptHide
+                Files:
+                    - Options\ListColumnHidden.xaml
+    # Pasek pod danymi gry (panel INFO i szczegóły). Przy braku danych wybranego źródła
+    # wchodzi zastępstwo: HLTB → ocena graczy → ocena krytyków (styl NortniteBarModeStyle
+    # w Constants.xaml); gdy nie ma żadnych danych, sekcja znika.
+    NortniteInfoBar:
+        Name: Bar below game info
+        LocKey: LOCNortniteOptInfoBar
+        Presets:
+            Default:
+                Name: HowLongToBeat
+                LocKey: LOCNortniteHltbLong
+            Community:
+                Name: Player score
+                LocKey: LOCNortniteScoreCommunityLong
+                Files:
+                    - Options\BarCommunity.xaml
+            Critic:
+                Name: Critic score
+                LocKey: LOCNortniteScoreCriticLong
+                Files:
+                    - Options\BarCritic.xaml
+            Hidden:
+                Name: Hide
+                LocKey: LOCNortniteOptHide
+                Files:
+                    - Options\BarHidden.xaml
+    NortniteHltbTarget:
+        Name: HowLongToBeat bar measures
+        LocKey: LOCNortniteOptHltbTarget
+        Presets:
+            Default:
+                Name: Main story
+                LocKey: LOCNortniteOptHltbTargetMain
+            MainExtra:
+                Name: Main + extras
+                LocKey: LOCNortniteOptHltbTargetExtra
+                Files:
+                    - Options\HltbTargetExtra.xaml
+            Completionist:
+                Name: Completionist
+                LocKey: LOCNortniteOptHltbTargetCompletionist
+                Files:
+                    - Options\HltbTargetCompletionist.xaml
+
+    # Opcje tak/nie są presetami, a nie zmiennymi (Variables): Theme Options 0.33 nie zapisuje
+    # powrotu ostatniej zmienionej zmiennej do wartości domyślnej, a presety tego błędu nie mają.
+    NortniteCmdPath:
+        Name: Command line path
+        LocKey: LOCNortniteOptCmdPath
+        Presets:
+            Default:
+                Name: Game install folder
+                LocKey: LOCNortniteOptCmdPathInstall
+            PresetPath:
+                Name: Preset path
+                LocKey: LOCNortniteOptCmdPathPreset
+                Files:
+                    - Options\CmdPresetPath.xaml
+    NortniteCursor:
+        Name: Command line cursor
+        LocKey: LOCNortniteOptCursor
+        Presets:
+            Default:
+                Name: Blinking
+                LocKey: LOCNortniteOptCursorBlinking
+            Steady:
+                Name: Steady
+                LocKey: LOCNortniteOptCursorSteady
+                Files:
+                    - Options\CursorSteady.xaml
+
+    # WYŁĄCZONE (2026-11-14): ekran uruchamiania gry jest na stałe ukryty i nie ma go w opcjach.
+    # Playnite zawsze pokazuje ten ekran; motyw czyni go tylko przezroczystym
+    # (NortniteGameStatusOpacity = 0 w Constants.xaml, używane w Views/GameStatus.xaml).
+    # Żeby przywrócić wybór Ukryj/Pokazuj, wystarczy odkomentować blok poniżej: plik
+    # Options\LaunchScreenOn.xaml i teksty LOCNortniteOptLaunchScreen/OptShow/OptHide
+    # we wszystkich tłumaczeniach zostały na miejscu.
+    # NortniteLaunchScreen:
+    #     Name: Game launch screen
+    #     LocKey: LOCNortniteOptLaunchScreen
+    #     Presets:
+    #         Default:
+    #             Name: Hide
+    #             LocKey: LOCNortniteOptHide
+    #         Shown:
+    #             Name: Show
+    #             LocKey: LOCNortniteOptShow
+    #             Files:
+    #                 - Options\LaunchScreenOn.xaml

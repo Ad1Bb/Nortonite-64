@@ -1,0 +1,11 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!-- Nortonite 64 · preset Theme Options: lista gier duża (do oglądania z daleka, np. na telewizorze).
+         Wczytywany tylko przez dodatek Theme Options (options.yaml); wartości domyślne są w Constants.xaml. -->
+    <sys:Double x:Key="NortniteListRowHeight">57</sys:Double>
+    <sys:Double x:Key="NortniteListFontSize">40.5</sys:Double>
+    <!-- 12 znaków ("PC (Windows)") i najdłuższy czas ("999г 59хв") przy tym foncie -->
+    <sys:Double x:Key="NortniteListColPlatformWidth">196</sys:Double>
+    <GridLength x:Key="NortniteListColTime">154</GridLength>
+</ResourceDictionary>

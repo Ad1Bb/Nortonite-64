@@ -1,0 +1,154 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Nortonite 64: domyślny przycisk "[ treść ]" (okna dialogowe, panel filtrów,
+         powiadomienia). Wygląd jak w Norton Commanderze: lico Background w ramce 2 px Foreground
+         i twardy cień ButtonShadow w prawo i w dół. Przesunięcie cienia to zasób
+         NortniteButtonShadowSize w Constants.xaml; opis układu przy
+         NortniteBracketButtonTemplate tamże.
+         Fokus: tło FocusFill, tekst FocusForeground, obwódka Accent 4 px od lica, cień zostaje.
+         Wciśnięty: lico w miejscu cienia, cień schowany. -->
+    <Style TargetType="Button">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource NortniteBackgroundBrush}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Padding" Value="15,3,15,3" />
+        <Setter Property="MinHeight" Value="51" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="FontSize" Value="{DynamicResource NortniteFontSize}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Border x:Name="Shadow" Background="{DynamicResource NortniteButtonShadowBrush}">
+                            <Border.RenderTransform>
+                                <TranslateTransform X="{DynamicResource NortniteButtonShadowSize}" Y="{DynamicResource NortniteButtonShadowSize}" />
+                            </Border.RenderTransform>
+                        </Border>
+                        <Rectangle x:Name="OuterSpacer" Grid.Column="1" Grid.Row="1"
+                                   Width="{DynamicResource NortniteButtonShadowSize}" Height="{DynamicResource NortniteButtonShadowSize}" />
+                        <Grid x:Name="Mover">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Rectangle x:Name="InnerSpacer" Visibility="Collapsed"
+                                   Width="{DynamicResource NortniteButtonShadowSize}" Height="{DynamicResource NortniteButtonShadowSize}" />
+                        <Grid x:Name="Face" Grid.Column="1" Grid.Row="1"
+                              MinWidth="{TemplateBinding MinWidth}" MinHeight="{TemplateBinding MinHeight}">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Padding="{TemplateBinding Padding}">
+                                <DockPanel x:Name="Inner"
+                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                           TextElement.Foreground="{TemplateBinding Foreground}"
+                                           TextElement.FontSize="{TemplateBinding FontSize}"
+                                           TextElement.FontFamily="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}">
+                                    <TextBlock DockPanel.Dock="Left" Text="[ " VerticalAlignment="Center" />
+                                    <TextBlock DockPanel.Dock="Right" Text=" ]" VerticalAlignment="Center" />
+                                    <ContentPresenter VerticalAlignment="Center" RecognizesAccessKey="True" />
+                                </DockPanel>
+                            </Border>
+                            <Border x:Name="FocusRing" Margin="-7"
+                                    BorderBrush="{DynamicResource NortniteAccentBrush}"
+                                    BorderThickness="3" Visibility="Collapsed" />
+                        </Grid>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource NortniteFocusFillBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource NortniteFocusForegroundBrush}" />
+                            <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="InnerSpacer" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="OuterSpacer" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="Shadow" Property="Visibility" Value="Hidden" />
+                        </Trigger>
+                        <!-- Pad (i Enter) wywołuje akcję od razu, bez stanu IsPressed, więc wciśnięcie
+                             pokazuje krótki błysk na zdarzeniu Click. Animacja nie opóźnia akcji. -->
+                        <EventTrigger RoutedEvent="ButtonBase.Click">
+                            <BeginStoryboard>
+                                <Storyboard FillBehavior="Stop" Duration="0:0:0.15">
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerSpacer" Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OuterSpacer" Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Shadow" Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ButtonEx" BasedOn="{StaticResource {x:Type Button}}">
+    </Style>
+
+    <Style x:Key="LoadMoreButton" BasedOn="{StaticResource {x:Type Button}}" TargetType="ButtonEx">
+        <Setter Property="Margin" Value="0,6,0,6" />
+    </Style>
+
+    <!-- Wiersz menu/listy bez nawiasów. Fokus: odwrócenie + żółta obwódka.
+         Używany przez menu i nawigację w panelach. -->
+    <Style x:Key="NortniteRowButton" TargetType="ButtonEx">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Padding" Value="18,6,18,6" />
+        <Setter Property="MinHeight" Value="51" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="{DynamicResource NortniteFontSize}" />
+        <!-- Szablon w Constants.xaml (DynamicResource, patrz uwaga tam) -->
+        <Setter Property="Template" Value="{DynamicResource NortniteRowButtonTemplate}" />
+        <!-- Wyzwalacz stylu (nie szablonu), żeby style pochodne mogły go nadpisać -->
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Pozycja menu w oknach (menu główne, menu gry, narzędzia, rozszerzenia…) -->
+    <Style x:Key="NortniteMenuItemButton" TargetType="ButtonEx" BasedOn="{StaticResource NortniteRowButton}">
+        <Setter Property="Padding" Value="15,9,15,9" />
+        <Setter Property="MinHeight" Value="60" />
+        <Setter Property="Margin" Value="0,1.5,0,1.5" />
+        <Setter Property="FontSize" Value="33" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
+</ResourceDictionary>

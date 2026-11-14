@@ -1,0 +1,163 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Nortonite 64 · wpisywanie tekstu i klawiatura ekranowa (makieta 06)
+        To samo okno służy do każdego wpisywania tekstu, więc prefiks jest neutralny: C:\>
+        Układ klawiatury ustala Playnite.
+    -->
+
+    <!-- Klawisz. Znakowe (bez Command): ramka Dim, znak Bright; przy fokusie odwrócenie (Bar).
+         Funkcyjne (z Command): ramka Foreground; ich napisy mają w Playnite stały styl
+         (kolor Accent), więc przy fokusie tło zostaje (Background, na którym Accent jest
+         czytelny w każdej palecie), a ramka klawisza i obwódka dostają kolor Accent. -->
+    <Style x:Key="TextInputButton" TargetType="ButtonEx">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteBrightBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="Margin" Value="3" />
+        <Setter Property="MinWidth" Value="78" />
+        <Setter Property="MinHeight" Value="69" />
+        <Setter Property="Padding" Value="9,3,9,3" />
+        <Setter Property="FontSize" Value="36" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ButtonEx">
+                    <Grid>
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="3"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter x:Name="Cp"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              TextElement.Foreground="{TemplateBinding Foreground}"
+                                              TextElement.FontSize="{TemplateBinding FontSize}"
+                                              TextElement.FontFamily="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}" />
+                        </Border>
+                        <Border x:Name="FocusRing" Margin="-4.5" BorderThickness="3"
+                                BorderBrush="{DynamicResource NortniteAccentBrush}" Visibility="Collapsed" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Command" Value="{x:Null}">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource NortniteDimBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource NortniteAccentBrush}" />
+                            <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+                            <Setter Property="Panel.ZIndex" Value="10" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFocused" Value="True" />
+                                <Condition Property="Command" Value="{x:Null}" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource NortniteBarBrush}" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource NortniteBarBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                        </MultiTrigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource NortniteBarBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="TextInputCheckbox" TargetType="CheckBoxEx" BasedOn="{StaticResource {x:Type CheckBoxEx}}">
+        <Setter Property="Margin" Value="0,3,0,3" />
+    </Style>
+
+    <!-- Pole tekstowe jako wiersz poleceń: C:\> tekst█ -->
+    <Style x:Key="TextInputTextbox" TargetType="TextBox">
+        <Setter Property="Margin" Value="0,0,0,33" />
+        <Setter Property="FontSize" Value="42" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteCommandForegroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource NortniteCommandBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="CaretBrush" Value="Transparent" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource NortniteBarBrush}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Margin="2"
+                                Padding="21,12,21,12">
+                            <DockPanel>
+                                <!-- Znak zachęty w kolorze wiersza poleceń (jak na ekranie głównym): kolor
+                                     tekstu podstawowego bywa ciemny na ciemnym tle wiersza (BIOS) -->
+                                <TextBlock DockPanel.Dock="Left" Text="C:\&gt;" Margin="0,0,15,0"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource NortniteCommandForegroundBrush}" />
+                                <Grid ClipToBounds="True">
+                                    <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center"
+                                                  HorizontalScrollBarVisibility="Hidden"
+                                                  VerticalScrollBarVisibility="Disabled" />
+                                    <!-- Kursor blokowy za tekstem (lustrzany, niewidoczny tekst + blok) -->
+                                    <StackPanel Orientation="Horizontal" IsHitTestVisible="False"
+                                                VerticalAlignment="Center" Margin="2,0,0,0">
+                                        <TextBlock Text="{TemplateBinding Text}" Foreground="Transparent" />
+                                        <Rectangle Width="21" Height="36" VerticalAlignment="Center"
+                                                   Fill="{DynamicResource NortniteCommandForegroundBrush}">
+                                            <Rectangle.Triggers>
+                                                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                                    <BeginStoryboard>
+                                                        <!-- 4 klatki/s wystarczą do migania co 0,5 s (mniej pracy procesora) -->
+                                                        <Storyboard RepeatBehavior="Forever" Timeline.DesiredFrameRate="4">
+                                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Duration="0:0:1">
+                                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1" />
+                                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
+                                                            </DoubleAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Rectangle.Triggers>
+                                        </Rectangle>
+                                    </StackPanel>
+                                </Grid>
+                            </DockPanel>
+                        </Border>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Opcje pod polem tekstowym (zwykle ukryte): bez ramki, gdy lista opcji jest zwinięta -->
+    <Style x:Key="TextInputOptionsBorder" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource NortniteBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="BorderThickness" Value="3" />
+        <Setter Property="TextElement.FontFamily" Value="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}" />
+        <Setter Property="TextElement.FontSize" Value="33" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Child.Visibility, RelativeSource={RelativeSource Self}}" Value="Collapsed">
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Background" Value="Transparent" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TextInputKeysBorder" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource NortniteBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="BorderThickness" Value="3" />
+        <Setter Property="TextElement.FontFamily" Value="{Binding Path=Resources[NortniteFontHolder].Text, Source={x:Static Application.Current}, TargetNullValue=Consolas, FallbackValue=Consolas}" />
+        <Setter Property="TextElement.FontSize" Value="33" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Setter Property="Padding" Value="18" />
+    </Style>
+</ResourceDictionary>

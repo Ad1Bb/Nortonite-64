@@ -1,0 +1,8 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!-- Nortonite 64 · preset Theme Options: pasek pod danymi gry = ocena krytyków.
+         Wczytywany tylko przez dodatek Theme Options (options.yaml); domyślna wartość (Hltb)
+         i zastępstwo przy braku danych są w Constants.xaml (NortniteBarSource, NortniteBarModeStyle). -->
+    <sys:String x:Key="NortniteBarSource">Critic</sys:String>
+</ResourceDictionary>
