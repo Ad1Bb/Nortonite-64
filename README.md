@@ -8,8 +8,9 @@ Nortonite 64 is a fullscreen theme for Playnite that takes its look from the two
 
 ## Highlights
 
+- **Performance first.** Nortonite 64 weighs about 200 KB. It wont slowdown your PC, it wont make it stutter and hitch. The whole theme is about 200 KB of plain XAML, with no DLLs and no background work. Playnite themes keep getting bigger. This one goes the other way. The way software was made in the 1990s.
 - **Two panels, one glance.** Games on the left like a directory listing. Cover, key facts, progress and description on the right.
-- **A command line that follows you.** `D:\Games\Celeste> start Celeste`, with a blinking block cursor. Start a search and the prompt shows what you type.
+- **A command line that follows you.** `D:\Games\Hades> start Hades`, with a blinking block cursor. Start a search and the prompt shows what you type.
 - **8 colour palettes**, from classic Norton blue to Synthwave and a dark Arizona desert. Switch them on the fly, every one checked for contrast.
 - **Progress at a glance.** A segmented bar driven by HowLongToBeat, with player or critic score as a fallback.
 - **One look everywhere.** Menus, filters, settings, on-screen keyboard, dialogs and notifications all match.
@@ -61,7 +62,7 @@ Three optional extensions. Theme Options and HowLongToBeat are in Playnite's off
 |---|---|---|---|
 | [Theme Options](https://github.com/ashpynov/ThemeOptions) | Artem Shpynov, Jono | The settings page for palettes and other theme options | The theme runs on its defaults: NORTON palette, HowLongToBeat bar and so on |
 | [HowLongToBeat](https://github.com/Lacro59/playnite-howlongtobeat-plugin) | Lacro59 | Completion progress and HLTB times | The bar shows the player or critic score instead, and disappears without a gap when there is no score |
-| [Splash Addon Plus](https://github.com/Ad1Bb/Playnite-Splash-Addon-Plus) | Ad1Bb (fork of Splash Addon by Artzox) | A loading screen with the game's background and logo, which fades out once the game window appears | The game starts straight from the library, because Nortonite 64 keeps Playnite's own launch screen invisible |
+| [Splash Addon Plus](https://github.com/Ad1Bb/Playnite-Splash-Addon-Plus) | Ad1Bb | A loading screen with the game's background and logo, which fades out once the game window appears | The game starts straight from the library, because Nortonite 64 keeps Playnite's own launch screen invisible |
 
 Nortonite 64 never breaks or leaves an empty space when an extension is missing.
 
@@ -111,8 +112,6 @@ These come from Playnite itself, not from the theme:
 
 - **Launch screen.** Playnite always shows its game launch screen. Nortonite 64 keeps it invisible, so a game starts straight from your library.
 - **Pop-up windows** (menus, settings, message boxes) get a single 3 px frame instead of a double one, because Playnite exposes only a single border for them.
-- **Start in game details.** Playnite does not bind the Start button in the game details view, so the game menu opens from the library only.
-- **Filter presets.** Cycling presets with LB / RB has no "no preset" step. Use **Clear filters** in the filter panel to show everything again.
 
 ## License
 
