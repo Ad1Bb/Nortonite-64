@@ -8,7 +8,7 @@ Nortonite 64 is a fullscreen theme for Playnite that takes its look from the two
 
 ## Highlights
 
-- **Performance first.** Nortonite 64 weighs about 200 KB. It wont slowdown your PC, it wont make it stutter and hitch. The whole theme is about 200 KB of plain XAML, with no DLLs and no background work. Playnite themes keep getting bigger. This one goes the other way. The way software was made in the 1990s.
+- **Performance first.** Nortonite 64 weighs about 200 KB of plain XAML, with no DLLs and no background work. It won't slowdown your PC, it won't make it stutter and hitch. Playnite themes keep getting bigger. This one goes the other way. The way software was made in the 1990s.
 - **Two panels, one glance.** Games on the left like a directory listing. Cover, key facts, progress and description on the right.
 - **A command line that follows you.** `D:\Games\Hades> start Hades`, with a blinking block cursor. Start a search and the prompt shows what you type.
 - **8 colour palettes**, from classic Norton blue to Synthwave and a dark Arizona desert. Switch them on the fly, every one checked for contrast.
