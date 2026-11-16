@@ -1,8 +1,0 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <!-- Nortonite 64 · preset Theme Options: druga kolumna listy gier ukryta (nazwa gry dostaje jej miejsce).
-         Wczytywany tylko przez dodatek Theme Options (options.yaml); wartości domyślne są w Constants.xaml. -->
-    <Visibility x:Key="NortniteListLibraryVisibility">Collapsed</Visibility>
-    <Visibility x:Key="NortniteListPlatformVisibility">Collapsed</Visibility>
-</ResourceDictionary>

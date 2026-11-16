@@ -91,24 +91,18 @@
     <sys:Double x:Key="NortniteFontSizeSmall">22.5</sys:Double>
     <sys:Double x:Key="NortniteFontSizeTitle">33</sys:Double>
     <!-- Lista gier, wielkość "Normalna" (opcja motywu "Wielkość listy gier"; presety
-         Options\ListSize*.xaml podmieniają te cztery zasoby: wiersz, font i szerokości kolumn). -->
+         Options\ListSize*.xaml podmieniają wiersz i font, a szerokości kolumn liczą się z fontu). -->
     <sys:Double x:Key="NortniteListRowHeight">45</sys:Double>
     <sys:Double x:Key="NortniteListFontSize">31.5</sys:Double>
 
-    <!-- Kolumny listy gier: Nazwa (*) │ Biblioteka albo Platforma │ Czas.
-         Jedno źródło szerokości dla nagłówka (Views/Main.xaml)
-         i wierszy (DerivedStyles/ListGameItemTemplate.xaml). -->
-    <GridLength x:Key="NortniteListColGap">12</GridLength>
-    <!-- Druga kolumna: 12 znaków ("PC (Windows)", "Amazon Games", 151 px). Leży w kolumnie Auto
-         z odstępem 12 jako marginesem, więc po ukryciu (opcja "Druga kolumna listy") znika
-         razem z odstępem, a nazwa gry dostaje to miejsce. -->
-    <sys:Double x:Key="NortniteListColPlatformWidth">153</sys:Double>
-    <!-- Czas: mieści najdłuższy zwięzły zapis we wszystkich językach (np. "999г 59хв", 117 px) -->
-    <GridLength x:Key="NortniteListColTime">120</GridLength>
-    <!-- Druga kolumna: co pokazuje (opcja "Druga kolumna listy", presety Options\ListColumn*.xaml).
-         Domyślnie biblioteka (Steam, GOG, …; gry dodane ręcznie: "Playnite"). -->
-    <Visibility x:Key="NortniteListLibraryVisibility">Visible</Visibility>
-    <Visibility x:Key="NortniteListPlatformVisibility">Collapsed</Visibility>
+    <!-- Kolumny listy gier: Nazwa (*) │ druga kolumna │ trzecia kolumna.
+         Co pokazuje druga i trzecia kolumna, wybiera się w opcjach motywu ("Druga kolumna listy",
+         "Trzecia kolumna listy"; presety Options\ListColumn2_*.xaml i ListColumn3_*.xaml podmieniają
+         te zasoby). Wartości: Library, Platform, Genre, Developer, Year, Added, LastPlayed, Time,
+         Size, Status, Community, Critic, None. Szablony komórek i nagłówków są na końcu pliku
+         (NortniteListCell…). Domyślnie jak w makiecie: biblioteka i czas gry. -->
+    <sys:String x:Key="NortniteListColumn2">Library</sys:String>
+    <sys:String x:Key="NortniteListColumn3">Time</sys:String>
     <!-- Wcięcie kolumn: 12 od krawędzi listy z lewej i z prawej, w wierszu i w nagłówku
          (Views/Main.xaml). Wiersze leżą w panelu z marginesem 3 na obwódkę fokusu,
          więc ich własne wcięcie (ListGameItemStyle, Padding) to 9. -->
@@ -1165,4 +1159,258 @@
             </StackPanel>
         </HeaderedContentControl>
     </DataTemplate>
+    <!-- ============================================================
+         Lista gier: druga i trzecia kolumna do wyboru (opcje motywu)
+         Komórka i nagłówek to ContentControl ze stylem NortniteListCellStyle / NortniteListHeaderStyle
+         i Tag = DynamicResource NortniteListColumn2 albo NortniteListColumn3. Styl wybiera szablon
+         (powstaje tylko ten jeden, więc wiersz jest tak samo lekki jak z jedną stałą kolumną)
+         i szerokość: liczba znaków razy font listy (MathConverter na FontSize), więc działa w każdej
+         wielkości listy. Odstęp 12 jest marginesem komórki: ukryta kolumna (None) znika razem z nim.
+         Treść komórki dziedziczy kolor z komórki (zaznaczony wiersz ustawia Foreground komórki).
+         ============================================================ -->
+    <Style x:Key="NortniteListCellText" TargetType="TextBlock" BasedOn="{StaticResource NortniteListTextStyle}">
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" />
+    </Style>
+    <DataTemplate x:Key="NortniteListCell_Library">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{Binding Library}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListHeader_Library">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{DynamicResource LOCNortniteColumnLibrary}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListCell_Platform">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{Binding Platforms, Converter={StaticResource ListToStringConverter}, ConverterParameter=', '}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListHeader_Platform">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{DynamicResource LOCNortniteColumnPlatform}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListCell_Genre">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{Binding Genres, Converter={StaticResource ListToStringConverter}, ConverterParameter=', '}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListHeader_Genre">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{DynamicResource LOCNortniteColumnGenre}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListCell_Developer">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{Binding Developers, Converter={StaticResource ListToStringConverter}, ConverterParameter=', '}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListHeader_Developer">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{DynamicResource LOCNortniteColumnDeveloper}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListCell_Year">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{Binding ReleaseYear, TargetNullValue='–', FallbackValue='–'}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListHeader_Year">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{DynamicResource LOCNortniteColumnYear}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListCell_Added">
+        <TextBlock>
+            <TextBlock.Style>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource NortniteListCellText}">
+                    <!-- data w krótkim formacie Windows (np. 16.11.2026), brak daty: "–" -->
+                    <Setter Property="Text" Value="{Binding Added, Converter={StaticResource NullableDateToStringConverter}}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Added}" Value="{x:Null}">
+                            <Setter Property="Text" Value="–" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListHeader_Added">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{DynamicResource LOCNortniteColumnAdded}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListCell_LastPlayed">
+        <TextBlock>
+            <TextBlock.Style>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource NortniteListCellText}">
+                    <!-- data w krótkim formacie Windows (np. 16.11.2026), brak daty: "–" -->
+                    <Setter Property="Text" Value="{Binding LastActivity, Converter={StaticResource NullableDateToStringConverter}}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding LastActivity}" Value="{x:Null}">
+                            <Setter Property="Text" Value="–" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListHeader_LastPlayed">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{DynamicResource LOCNortniteColumnLastPlayed}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListCell_Time">
+        <TextBlock Style="{StaticResource NortniteListCellText}"><Run Style="{StaticResource NortnitePlaytimeRunList}" Tag="{Binding Playtime, Mode=OneWay}" /></TextBlock>
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListHeader_Time">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{DynamicResource LOCNortniteColumnTime}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListCell_Size">
+        <TextBlock>
+            <TextBlock.Style>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource NortniteListCellText}">
+                    <!-- jak w panelu C:\>MEM: jedno miejsce po przecinku, separator języka; brak rozmiaru
+                         albo gra niezainstalowana: "–" -->
+                    <Setter Property="Text">
+                        <Setter.Value>
+                            <MultiBinding Mode="OneWay" Converter="{StaticResource MathConverter}"
+                                          ConverterParameter="x &gt;= 1073741824 ? Format(y, Round(x / 107374182.4)) : Format(z, Round(x / 104857.6))">
+                                <Binding Path="InstallSize" />
+                                <Binding Path="Resources[LOCNortniteSizeGbFormat]" Source="{x:Static Application.Current}"
+                                         TargetNullValue="{}{0:0'.'0} GB" FallbackValue="{}{0:0'.'0} GB" />
+                                <Binding Path="Resources[LOCNortniteSizeMbFormat]" Source="{x:Static Application.Current}"
+                                         TargetNullValue="{}{0:0'.'0} MB" FallbackValue="{}{0:0'.'0} MB" />
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding InstallSize}" Value="{x:Null}"><Setter Property="Text" Value="–" /></DataTrigger>
+                        <DataTrigger Binding="{Binding InstallSize}" Value="0"><Setter Property="Text" Value="–" /></DataTrigger>
+                        <DataTrigger Binding="{Binding IsInstalled}" Value="False"><Setter Property="Text" Value="–" /></DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListHeader_Size">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{DynamicResource LOCNortniteMemSize}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListCell_Status">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{Binding CompletionStatus.Name, TargetNullValue='–', FallbackValue='–'}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListHeader_Status">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{DynamicResource LOCNortniteColumnStatus}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListCell_Community">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{Binding CommunityScore, TargetNullValue='–', FallbackValue='–'}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListHeader_Community">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{DynamicResource LOCNortniteScoreCommunity}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListCell_Critic">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{Binding CriticScore, TargetNullValue='–', FallbackValue='–'}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NortniteListHeader_Critic">
+        <TextBlock Style="{StaticResource NortniteListCellText}" Text="{DynamicResource LOCNortniteScoreCritic}" />
+    </DataTemplate>
+    <Style x:Key="NortniteListCellStyle" TargetType="ContentControl">
+        <!-- Domyślny szablon ContentControl pomija HorizontalContentAlignment, a trzecia kolumna
+             ma być wyrównana do prawej -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Margin" Value="12,0,0,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="{DynamicResource NortniteListFontSize}" />
+        <Setter Property="Foreground" Value="{DynamicResource NortniteForegroundBrush}" />
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Library">
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListCell_Library}" />
+                <Setter Property="Width" Value="{Binding FontSize, RelativeSource={RelativeSource Self}, Converter={StaticResource MathConverter}, ConverterParameter='Round(x * 4.45)'}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Platform">
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListCell_Platform}" />
+                <Setter Property="Width" Value="{Binding FontSize, RelativeSource={RelativeSource Self}, Converter={StaticResource MathConverter}, ConverterParameter='Round(x * 4.86)'}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Genre">
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListCell_Genre}" />
+                <Setter Property="Width" Value="{Binding FontSize, RelativeSource={RelativeSource Self}, Converter={StaticResource MathConverter}, ConverterParameter='Round(x * 4.86)'}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Developer">
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListCell_Developer}" />
+                <Setter Property="Width" Value="{Binding FontSize, RelativeSource={RelativeSource Self}, Converter={StaticResource MathConverter}, ConverterParameter='Round(x * 4.86)'}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Year">
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListCell_Year}" />
+                <Setter Property="Width" Value="{Binding FontSize, RelativeSource={RelativeSource Self}, Converter={StaticResource MathConverter}, ConverterParameter='Round(x * 2.45)'}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Added">
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListCell_Added}" />
+                <Setter Property="Width" Value="{Binding FontSize, RelativeSource={RelativeSource Self}, Converter={StaticResource MathConverter}, ConverterParameter='Round(x * 4.45)'}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="LastPlayed">
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListCell_LastPlayed}" />
+                <Setter Property="Width" Value="{Binding FontSize, RelativeSource={RelativeSource Self}, Converter={StaticResource MathConverter}, ConverterParameter='Round(x * 4.45)'}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Time">
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListCell_Time}" />
+                <Setter Property="Width" Value="{Binding FontSize, RelativeSource={RelativeSource Self}, Converter={StaticResource MathConverter}, ConverterParameter='Round(x * 3.81)'}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Size">
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListCell_Size}" />
+                <Setter Property="Width" Value="{Binding FontSize, RelativeSource={RelativeSource Self}, Converter={StaticResource MathConverter}, ConverterParameter='Round(x * 3.81)'}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Status">
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListCell_Status}" />
+                <Setter Property="Width" Value="{Binding FontSize, RelativeSource={RelativeSource Self}, Converter={StaticResource MathConverter}, ConverterParameter='Round(x * 4.86)'}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Community">
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListCell_Community}" />
+                <Setter Property="Width" Value="{Binding FontSize, RelativeSource={RelativeSource Self}, Converter={StaticResource MathConverter}, ConverterParameter='Round(x * 3.81)'}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Critic">
+                <Setter Property="Visibility" Value="Visible" />
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListCell_Critic}" />
+                <Setter Property="Width" Value="{Binding FontSize, RelativeSource={RelativeSource Self}, Converter={StaticResource MathConverter}, ConverterParameter='Round(x * 3.81)'}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <!-- Nagłówek: ta sama szerokość i widoczność, tekst z kluczy motywu w kolorze akcentu -->
+    <Style x:Key="NortniteListHeaderStyle" TargetType="ContentControl" BasedOn="{StaticResource NortniteListCellStyle}">
+        <Setter Property="Foreground" Value="{DynamicResource NortniteAccentBrush}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Library">
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListHeader_Library}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Platform">
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListHeader_Platform}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Genre">
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListHeader_Genre}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Developer">
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListHeader_Developer}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Year">
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListHeader_Year}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Added">
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListHeader_Added}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="LastPlayed">
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListHeader_LastPlayed}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Time">
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListHeader_Time}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Size">
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListHeader_Size}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Status">
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListHeader_Status}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Community">
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListHeader_Community}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="Critic">
+                <Setter Property="ContentTemplate" Value="{StaticResource NortniteListHeader_Critic}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

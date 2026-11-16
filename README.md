@@ -90,11 +90,21 @@ With the Theme Options extension installed, these settings appear next to the ac
 |---|---|---|
 | Color palette | NORTON, BIOS, MS-DOS, SYNTHWAVE, OUTRUN, VAPORWAVE, SUNSET, ARIZONA | NORTON |
 | Game list size | Compact, Normal, Large (for a TV across the room) | Normal |
-| Second list column | Library, Platform, Hide | Library |
+| Second list column | Library, Platform, Genre, Developer, Release year, Added, Last played, Time played, Install size, Completion status, Player score, Critic score, Hide | Library |
+| Third list column | The same choices as the second column | Time played |
 | Bar below game info | HowLongToBeat, Player score, Critic score, Hide | HowLongToBeat |
 | HowLongToBeat bar measures | Main story, Main + extras, Completionist | Main story |
 | Command line path | Game install folder, Preset path | Game install folder |
 | Command line cursor | Blinking, Steady | Blinking |
+
+The game list is yours to arrange. Pick what the second and third columns show, or hide them to give long titles the full width. The column headers follow your choice, and the column widths follow the list size.
+
+<table>
+  <tr>
+    <td align="center"><b>Second list column</b><br><img src="docs/screenshots/options-second-column.png" height="340" alt="Second list column choices"></td>
+    <td align="center"><b>Third list column</b><br><img src="docs/screenshots/options-third-column.png" height="340" alt="Third list column choices"></td>
+  </tr>
+</table>
 
 The bar never shows an empty frame. Without HowLongToBeat data it falls back to the player score, then to the critic score. A chosen score that is missing is replaced by the other one, and with no data at all the bar disappears.
 

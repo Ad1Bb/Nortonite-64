@@ -13,6 +13,14 @@
     <sys:String x:Key="LOCNortniteMenu">Меню</sys:String>
     <sys:String x:Key="LOCNortniteUpdate">Обновление</sys:String>
     <sys:String x:Key="LOCNortniteInfo">ИНФО</sys:String>
+    <sys:String x:Key="LOCNortniteColumnLibrary">Библиотека</sys:String>
+    <sys:String x:Key="LOCNortniteColumnPlatform">Платформа</sys:String>
+    <sys:String x:Key="LOCNortniteColumnGenre">Жанр</sys:String>
+    <sys:String x:Key="LOCNortniteColumnDeveloper">Студия</sys:String>
+    <sys:String x:Key="LOCNortniteColumnYear">Год</sys:String>
+    <sys:String x:Key="LOCNortniteColumnAdded">Добавлено</sys:String>
+    <sys:String x:Key="LOCNortniteColumnLastPlayed">Запуск</sys:String>
+    <sys:String x:Key="LOCNortniteColumnStatus">Статус</sys:String>
     <sys:String x:Key="LOCNortniteColumnTime">Время</sys:String>
     <sys:String x:Key="LOCNortniteScores">Игроки / критики</sys:String>
     <sys:String x:Key="LOCNortnitePreset">Пресет</sys:String>
@@ -69,6 +77,7 @@
     <sys:String x:Key="LOCNortniteOptListSizeNormal">Обычный</sys:String>
     <sys:String x:Key="LOCNortniteOptListSizeLarge">Крупный</sys:String>
     <sys:String x:Key="LOCNortniteOptListColumn">Вторая колонка списка</sys:String>
+    <sys:String x:Key="LOCNortniteOptListColumn3">Третья колонка списка</sys:String>
     <sys:String x:Key="LOCNortniteOptHltbTarget">Полоса HowLongToBeat показывает</sys:String>
     <sys:String x:Key="LOCNortniteOptHltbTargetMain">Основной сюжет</sys:String>
     <sys:String x:Key="LOCNortniteOptHltbTargetExtra">Сюжет + доп. задания</sys:String>

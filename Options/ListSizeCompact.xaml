@@ -2,10 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <!-- Nortonite 64 · preset Theme Options: lista gier kompaktowa (więcej wierszy na ekranie).
-         Wczytywany tylko przez dodatek Theme Options (options.yaml); wartości domyślne są w Constants.xaml. -->
+         Wczytywany tylko przez dodatek Theme Options (options.yaml); wartości domyślne są w Constants.xaml.
+         Szerokości kolumn liczą się z fontu (NortniteListCellStyle w Constants.xaml). -->
     <sys:Double x:Key="NortniteListRowHeight">36</sys:Double>
     <sys:Double x:Key="NortniteListFontSize">25.5</sys:Double>
-    <!-- 12 znaków ("PC (Windows)") i najdłuższy czas ("999г 59хв") przy tym foncie -->
-    <sys:Double x:Key="NortniteListColPlatformWidth">124</sys:Double>
-    <GridLength x:Key="NortniteListColTime">99</GridLength>
 </ResourceDictionary>

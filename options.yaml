@@ -65,24 +65,142 @@ Presets:
                 LocKey: LOCNortniteOptListSizeLarge
                 Files:
                     - Options\ListSizeLarge.xaml
-    # Druga kolumna listy gier: biblioteka (domyślnie), platforma albo nic
+    # Druga i trzecia kolumna listy gier: co pokazują (domyślnie biblioteka i czas gry, jak w makiecie).
+    # Szablony komórek są w Constants.xaml (NortniteListCellStyle); presety ustawiają tylko nazwę trybu.
     NortniteListColumn:
         Name: Second list column
         LocKey: LOCNortniteOptListColumn
         Presets:
             Default:
                 Name: Library
-                LocKey: LOCLibrary
+                LocKey: LOCNortniteColumnLibrary
             Platform:
                 Name: Platform
-                LocKey: LOCPlatformTitle
+                LocKey: LOCNortniteColumnPlatform
                 Files:
-                    - Options\ListColumnPlatform.xaml
+                    - Options\ListColumn2_Platform.xaml
+            Genre:
+                Name: Genre
+                LocKey: LOCNortniteColumnGenre
+                Files:
+                    - Options\ListColumn2_Genre.xaml
+            Developer:
+                Name: Developer
+                LocKey: LOCNortniteColumnDeveloper
+                Files:
+                    - Options\ListColumn2_Developer.xaml
+            Year:
+                Name: Release year
+                LocKey: LOCNortniteColumnYear
+                Files:
+                    - Options\ListColumn2_Year.xaml
+            Added:
+                Name: Added
+                LocKey: LOCNortniteColumnAdded
+                Files:
+                    - Options\ListColumn2_Added.xaml
+            LastPlayed:
+                Name: Last played
+                LocKey: LOCNortniteColumnLastPlayed
+                Files:
+                    - Options\ListColumn2_LastPlayed.xaml
+            Time:
+                Name: Time played
+                LocKey: LOCNortniteColumnTime
+                Files:
+                    - Options\ListColumn2_Time.xaml
+            Size:
+                Name: Install size
+                LocKey: LOCNortniteMemSize
+                Files:
+                    - Options\ListColumn2_Size.xaml
+            Status:
+                Name: Completion status
+                LocKey: LOCNortniteColumnStatus
+                Files:
+                    - Options\ListColumn2_Status.xaml
+            Community:
+                Name: Player score
+                LocKey: LOCNortniteScoreCommunityLong
+                Files:
+                    - Options\ListColumn2_Community.xaml
+            Critic:
+                Name: Critic score
+                LocKey: LOCNortniteScoreCriticLong
+                Files:
+                    - Options\ListColumn2_Critic.xaml
             Hidden:
                 Name: Hide
                 LocKey: LOCNortniteOptHide
                 Files:
-                    - Options\ListColumnHidden.xaml
+                    - Options\ListColumn2_Hidden.xaml
+    NortniteListColumn3:
+        Name: Third list column
+        LocKey: LOCNortniteOptListColumn3
+        Presets:
+            Default:
+                Name: Time played
+                LocKey: LOCNortniteColumnTime
+            Library:
+                Name: Library
+                LocKey: LOCNortniteColumnLibrary
+                Files:
+                    - Options\ListColumn3_Library.xaml
+            Platform:
+                Name: Platform
+                LocKey: LOCNortniteColumnPlatform
+                Files:
+                    - Options\ListColumn3_Platform.xaml
+            Genre:
+                Name: Genre
+                LocKey: LOCNortniteColumnGenre
+                Files:
+                    - Options\ListColumn3_Genre.xaml
+            Developer:
+                Name: Developer
+                LocKey: LOCNortniteColumnDeveloper
+                Files:
+                    - Options\ListColumn3_Developer.xaml
+            Year:
+                Name: Release year
+                LocKey: LOCNortniteColumnYear
+                Files:
+                    - Options\ListColumn3_Year.xaml
+            Added:
+                Name: Added
+                LocKey: LOCNortniteColumnAdded
+                Files:
+                    - Options\ListColumn3_Added.xaml
+            LastPlayed:
+                Name: Last played
+                LocKey: LOCNortniteColumnLastPlayed
+                Files:
+                    - Options\ListColumn3_LastPlayed.xaml
+            Size:
+                Name: Install size
+                LocKey: LOCNortniteMemSize
+                Files:
+                    - Options\ListColumn3_Size.xaml
+            Status:
+                Name: Completion status
+                LocKey: LOCNortniteColumnStatus
+                Files:
+                    - Options\ListColumn3_Status.xaml
+            Community:
+                Name: Player score
+                LocKey: LOCNortniteScoreCommunityLong
+                Files:
+                    - Options\ListColumn3_Community.xaml
+            Critic:
+                Name: Critic score
+                LocKey: LOCNortniteScoreCriticLong
+                Files:
+                    - Options\ListColumn3_Critic.xaml
+            Hidden:
+                Name: Hide
+                LocKey: LOCNortniteOptHide
+                Files:
+                    - Options\ListColumn3_Hidden.xaml
     # Pasek pod danymi gry (panel INFO i szczegóły). Przy braku danych wybranego źródła
     # wchodzi zastępstwo: HLTB → ocena graczy → ocena krytyków (styl NortniteBarModeStyle
     # w Constants.xaml); gdy nie ma żadnych danych, sekcja znika.

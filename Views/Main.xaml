@@ -277,30 +277,26 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <!-- Nagłówek kolumn (szerokości: zasoby NortniteListCol… z Constants.xaml) -->
+                                        <!-- Nagłówek kolumn: te same komórki co w wierszach (ListGameItemTemplate.xaml),
+                                             styl NortniteListHeaderStyle (tekst z kluczy motywu, kolor akcentu) -->
                                         <Border Grid.Row="0" BorderBrush="{DynamicResource NortniteDimBrush}"
                                                 BorderThickness="0,0,0,3" Padding="12,0,12,9" Margin="0,0,30,0">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="{DynamicResource NortniteListColGap}" />
-                                                    <ColumnDefinition Width="{DynamicResource NortniteListColTime}" />
+                                                    <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Grid.Column="0" Style="{StaticResource ColumnHeader}"
                                                            Text="{DynamicResource LOCGameNameTitle}" />
-                                                <!-- Druga kolumna jak w wierszach (ListGameItemTemplate.xaml): Biblioteka albo Platforma -->
-                                                <TextBlock Grid.Column="1" Style="{StaticResource ColumnHeader}" Margin="12,0,0,0"
-                                                           Width="{DynamicResource NortniteListColPlatformWidth}"
-                                                           Visibility="{DynamicResource NortniteListLibraryVisibility}"
-                                                           Text="{DynamicResource LOCLibrary}" />
-                                                <TextBlock Grid.Column="1" Style="{StaticResource ColumnHeader}" Margin="12,0,0,0"
-                                                           Width="{DynamicResource NortniteListColPlatformWidth}"
-                                                           Visibility="{DynamicResource NortniteListPlatformVisibility}"
-                                                           Text="{DynamicResource LOCPlatformTitle}" />
-                                                <TextBlock Grid.Column="3" Style="{StaticResource ColumnHeader}"
-                                                           TextAlignment="Right"
-                                                           Text="{DynamicResource LOCNortniteColumnTime}" />
+                                                <ContentControl Grid.Column="1" Content="-"
+                                                                Style="{StaticResource NortniteListHeaderStyle}"
+                                                                Tag="{DynamicResource NortniteListColumn2}"
+                                                                HorizontalContentAlignment="Left" />
+                                                <ContentControl Grid.Column="2" Content="-"
+                                                                Style="{StaticResource NortniteListHeaderStyle}"
+                                                                Tag="{DynamicResource NortniteListColumn3}"
+                                                                HorizontalContentAlignment="Right" />
                                             </Grid>
                                         </Border>
 

@@ -100,7 +100,12 @@
                         <Trigger Property="IsFocused" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource NortniteBarBrush}" />
                             <Setter TargetName="Inner" Property="TextElement.Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
-                            <Setter TargetName="TrackBg" Property="Background" Value="{DynamicResource NortniteBackgroundBrush}" />
+                            <!-- Na belce: wypełnione segmenty w kolorze tekstu belki, puste w tym samym
+                                 kolorze z kryciem 35% (zawsze pośrodku między belką a wypełnieniem).
+                                 Wcześniej puste miały kolor tła, a w MS-DOS tło i tekst belki są
+                                 tak samo czarne, więc wartości suwaka nie było widać. -->
+                            <Setter TargetName="TrackBg" Property="Background" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="TrackBg" Property="Opacity" Value="0.35" />
                             <Setter TargetName="TrackFill" Property="Background" Value="{DynamicResource NortniteBarForegroundBrush}" />
                             <Setter TargetName="FocusRing" Property="Visibility" Value="Visible" />
                         </Trigger>

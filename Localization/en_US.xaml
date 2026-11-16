@@ -13,6 +13,14 @@
     <sys:String x:Key="LOCNortniteMenu">Menu</sys:String>
     <sys:String x:Key="LOCNortniteUpdate">Update</sys:String>
     <sys:String x:Key="LOCNortniteInfo">INFO</sys:String>
+    <sys:String x:Key="LOCNortniteColumnLibrary">Library</sys:String>
+    <sys:String x:Key="LOCNortniteColumnPlatform">Platform</sys:String>
+    <sys:String x:Key="LOCNortniteColumnGenre">Genre</sys:String>
+    <sys:String x:Key="LOCNortniteColumnDeveloper">Developer</sys:String>
+    <sys:String x:Key="LOCNortniteColumnYear">Year</sys:String>
+    <sys:String x:Key="LOCNortniteColumnAdded">Added</sys:String>
+    <sys:String x:Key="LOCNortniteColumnLastPlayed">Last played</sys:String>
+    <sys:String x:Key="LOCNortniteColumnStatus">Status</sys:String>
     <sys:String x:Key="LOCNortniteColumnTime">Time</sys:String>
     <sys:String x:Key="LOCNortniteScores">Community / critics</sys:String>
     <sys:String x:Key="LOCNortnitePreset">Preset</sys:String>
@@ -69,6 +77,7 @@
     <sys:String x:Key="LOCNortniteOptListSizeNormal">Normal</sys:String>
     <sys:String x:Key="LOCNortniteOptListSizeLarge">Large</sys:String>
     <sys:String x:Key="LOCNortniteOptListColumn">Second list column</sys:String>
+    <sys:String x:Key="LOCNortniteOptListColumn3">Third list column</sys:String>
     <sys:String x:Key="LOCNortniteOptHltbTarget">HowLongToBeat bar measures</sys:String>
     <sys:String x:Key="LOCNortniteOptHltbTargetMain">Main story</sys:String>
     <sys:String x:Key="LOCNortniteOptHltbTargetExtra">Main + extras</sys:String>

@@ -13,6 +13,14 @@
     <sys:String x:Key="LOCNortniteMenu">Menu</sys:String>
     <sys:String x:Key="LOCNortniteUpdate">Aktualizacja</sys:String>
     <sys:String x:Key="LOCNortniteInfo">INFO</sys:String>
+    <sys:String x:Key="LOCNortniteColumnLibrary">Biblioteka</sys:String>
+    <sys:String x:Key="LOCNortniteColumnPlatform">Platforma</sys:String>
+    <sys:String x:Key="LOCNortniteColumnGenre">Gatunek</sys:String>
+    <sys:String x:Key="LOCNortniteColumnDeveloper">Producent</sys:String>
+    <sys:String x:Key="LOCNortniteColumnYear">Rok</sys:String>
+    <sys:String x:Key="LOCNortniteColumnAdded">Dodano</sys:String>
+    <sys:String x:Key="LOCNortniteColumnLastPlayed">Grano</sys:String>
+    <sys:String x:Key="LOCNortniteColumnStatus">Status</sys:String>
     <sys:String x:Key="LOCNortniteColumnTime">Czas</sys:String>
     <sys:String x:Key="LOCNortniteScores">Ocena społ. / kryt.</sys:String>
     <sys:String x:Key="LOCNortnitePreset">Preset</sys:String>
@@ -68,6 +76,7 @@
     <sys:String x:Key="LOCNortniteOptListSizeNormal">Normalna</sys:String>
     <sys:String x:Key="LOCNortniteOptListSizeLarge">Duża</sys:String>
     <sys:String x:Key="LOCNortniteOptListColumn">Druga kolumna listy</sys:String>
+    <sys:String x:Key="LOCNortniteOptListColumn3">Trzecia kolumna listy</sys:String>
     <sys:String x:Key="LOCNortniteOptHltbTarget">Pasek HowLongToBeat mierzy</sys:String>
     <sys:String x:Key="LOCNortniteOptHltbTargetMain">Fabułę</sys:String>
     <sys:String x:Key="LOCNortniteOptHltbTargetExtra">Fabułę z dodatkami</sys:String>

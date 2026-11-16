@@ -5,7 +5,7 @@
                     mc:Ignorable="d">
 
     <!-- Nortonite 64: zawartość wiersza listy gier.
-         Kolumny: nazwa | biblioteka albo platforma (albo nic) | czas gry.
+         Kolumny: nazwa | druga kolumna | trzecia kolumna (do wyboru w opcjach motywu).
          Szerokości kolumn muszą się zgadzać z nagłówkiem w Views/Main.xaml. -->
     <Style x:Key="ListGameItemTemplate" TargetType="{x:Type GameListItem}">
         <Setter Property="Focusable" Value="False" />
@@ -13,14 +13,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GameListItem}">
                     <Grid d:DataContext="{x:Static DesignMainViewModel.DesignSelectedGameIntance}">
-                        <!-- Szerokości kolumn: wspólne zasoby z Constants.xaml (NortniteListCol…).
-                             Druga kolumna ma szerokość Auto: jej teksty mają stałą szerokość i odstęp
-                             jako margines, więc gdy oba są ukryte, kolumna znika razem z odstępem. -->
+                        <!-- Kolumny: nazwa (*) │ druga │ trzecia. Druga i trzecia to komórki do wyboru w opcjach
+                             motywu (Tag = NortniteListColumn2 / NortniteListColumn3, styl NortniteListCellStyle
+                             w Constants.xaml): komórka ma własną szerokość i odstęp 12 jako margines, a ukryta
+                             znika razem z odstępem. Trzecia kolumna jest wyrównana do prawej. -->
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="{DynamicResource NortniteListColGap}" />
-                            <ColumnDefinition Width="{DynamicResource NortniteListColTime}" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock x:Name="TextName" Grid.Column="0"
@@ -28,27 +28,14 @@
                                    Foreground="{DynamicResource NortniteBrightBrush}"
                                    Text="{Binding DisplayName}" />
 
-                        <!-- Druga kolumna: biblioteka (Steam, GOG, …; gry dodane ręcznie: "Playnite")
-                             albo platforma; widać tę wybraną w opcjach motywu (zasoby
-                             NortniteListLibraryVisibility / NortniteListPlatformVisibility) -->
-                        <TextBlock x:Name="TextLibrary" Grid.Column="1" Margin="12,0,0,0"
-                                   Width="{DynamicResource NortniteListColPlatformWidth}"
-                                   Visibility="{DynamicResource NortniteListLibraryVisibility}"
-                                   Style="{StaticResource NortniteListTextStyle}"
-                                   Text="{Binding Library}" />
-                        <TextBlock x:Name="TextPlatform" Grid.Column="1" Margin="12,0,0,0"
-                                   Width="{DynamicResource NortniteListColPlatformWidth}"
-                                   Visibility="{DynamicResource NortniteListPlatformVisibility}"
-                                   Style="{StaticResource NortniteListTextStyle}"
-                                   Text="{Binding Platforms, Converter={StaticResource ListToStringConverter}, ConverterParameter=', '}" />
-
-                        <!-- Czas gry w zwięzłym formacie motywu ("14m", "2h 13m"), wspólny styl z Constants.xaml,
-                             bo PlayTimeToStringConverter daje w części języków długie teksty ("14 minutes",
-                             "12 小时  30 分钟"), które wąska kolumna ucina. Gra nigdy nieuruchomiona: "–". -->
-                        <TextBlock x:Name="TextTime" Grid.Column="3" TextAlignment="Right"
-                                   Style="{StaticResource NortniteListTextStyle}">
-                            <Run Style="{StaticResource NortnitePlaytimeRunList}" Tag="{Binding Playtime, Mode=OneWay}" />
-                        </TextBlock>
+                        <ContentControl x:Name="Column2" Grid.Column="1" Content="{Binding}"
+                                        Style="{StaticResource NortniteListCellStyle}"
+                                        Tag="{DynamicResource NortniteListColumn2}"
+                                        HorizontalContentAlignment="Left" />
+                        <ContentControl x:Name="Column3" Grid.Column="2" Content="{Binding}"
+                                        Style="{StaticResource NortniteListCellStyle}"
+                                        Tag="{DynamicResource NortniteListColumn3}"
+                                        HorizontalContentAlignment="Right" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <!-- Gra nigdy nieuruchomiona: nazwa turkusowa -->
@@ -58,15 +45,13 @@
                         <!-- Wiersz zaznaczony: czarny tekst na turkusowym tle -->
                         <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
                             <Setter TargetName="TextName" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
-                            <Setter TargetName="TextLibrary" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
-                            <Setter TargetName="TextPlatform" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
-                            <Setter TargetName="TextTime" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="Column2" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="Column3" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsFocused, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
                             <Setter TargetName="TextName" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
-                            <Setter TargetName="TextLibrary" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
-                            <Setter TargetName="TextPlatform" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
-                            <Setter TargetName="TextTime" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="Column2" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
+                            <Setter TargetName="Column3" Property="Foreground" Value="{DynamicResource NortniteBarForegroundBrush}" />
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
