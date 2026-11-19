@@ -62,7 +62,7 @@ Three optional extensions. Theme Options and HowLongToBeat are in Playnite's off
 |---|---|---|---|
 | [Theme Options](https://github.com/ashpynov/ThemeOptions) | Artem Shpynov, Jono | The settings page for palettes and other theme options | The theme runs on its defaults: NORTON palette, HowLongToBeat bar and so on |
 | [HowLongToBeat](https://github.com/Lacro59/playnite-howlongtobeat-plugin) | Lacro59 | Completion progress and HLTB times | The bar shows the player or critic score instead, and disappears without a gap when there is no score |
-| [Splash Addon Plus](https://github.com/Ad1Bb/Playnite-Splash-Addon-Plus) | Ad1Bb | A loading screen with the game's background and logo, which fades out once the game window appears | The game starts straight from the library, because Nortonite 64 keeps Playnite's own launch screen invisible |
+| [Splash Plus](https://github.com/Ad1Bb/Splash-Plus) | Ad1Bb | A loading screen with the game's background and logo, which fades out once the game window appears | The game starts straight from the library, because Nortonite 64 keeps Playnite's own launch screen invisible |
 
 Nortonite 64 never breaks or leaves an empty space when an extension is missing.
 
